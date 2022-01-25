@@ -1,15 +1,18 @@
 const fs = require('fs')
 const path = require('path')
+const got = require('got')
 const CsvReadableStream = require('csv-reader')
 const AutoDetectDecoderStream = require('autodetect-decoder-stream')
+
+const SHEET_URI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2_P-mrFZt2bSBuM_U2BuJR1FeRsKp0oxcFL7RcFheCUO1K86Liq9E3vu83FpkjHdrqjy-PWUBtFzc/pub?single=true&output=csv'
 
 async function parseLogs () {
   const councilorMap = {}
 
-  async function parseOneLog (filename) {
+  async function parseOneLog (sheetId) {
     await new Promise((resolve, reject) => {
-      fs
-        .createReadStream(path.join(__dirname, `../../data/${filename}.csv`))
+      const endpoint = `${SHEET_URI}&gid=${sheetId}`
+      got.stream(endpoint)
         .pipe(new AutoDetectDecoderStream())
         .pipe(new CsvReadableStream({ asObject: true }))
         .on('data', (data) => {
@@ -41,8 +44,16 @@ async function parseLogs () {
     })
   }
 
-  await parseOneLog('質詢-定一')
-  await parseOneLog('質詢-定二')
+  const sheetList = [
+    '1909562558', // 定一
+    '1969300134', // 定二
+    '67860742', // 定三
+    '394033064' // 定四
+  ]
+
+  for (const sheetId of sheetList) {
+    await parseOneLog(sheetId)
+  }
 
   const councilorList = Object.values(councilorMap).map((councilor) => {
     return {
