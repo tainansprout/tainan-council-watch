@@ -13,6 +13,8 @@
           .flex.justify-between.f6
             .gray {{prettyDate(say)}}
             .gray {{pages(say)}}
+      .mv4.gray.bt.b--gray.pt3
+        | 最後更新時間：{{buildTime}}
 </template>
 <script>
 import dayjs from 'dayjs'
@@ -45,6 +47,9 @@ export default {
           sayList: officeMap[office]
         }
       })
+    },
+    buildTime () {
+      return dayjs.unix(process.env.buildTime).format('YYYY-MM-DD HH:mm:ss')
     }
   },
   methods: {

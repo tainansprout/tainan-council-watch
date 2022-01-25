@@ -9,8 +9,12 @@
           :to="`/councilors/${name}`"
         )
           | {{name}}
+    .mv4.gray.bt.b--gray.pt3
+      | 最後更新時間：{{buildTime}}
 </template>
 <script>
+import dayjs from 'dayjs'
+
 export default {
   name: 'IndexPage',
   async asyncData ({ $content, params, redirect }) {
@@ -29,6 +33,9 @@ export default {
           councilors: councilors.map(c => c.name)
         }
       })
+    },
+    buildTime () {
+      return dayjs.unix(process.env.buildTime).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }

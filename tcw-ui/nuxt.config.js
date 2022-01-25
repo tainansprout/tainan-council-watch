@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -56,6 +58,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  env: {
+    buildTime: dayjs().unix()
   },
 
   router: {
