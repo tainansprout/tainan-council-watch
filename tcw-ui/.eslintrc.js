@@ -17,5 +17,13 @@ module.exports = {
   // add your custom rules here
   rules: {
     'no-console': ['error', { allow: ['warn', 'error'] }]
-  }
+  },
+  overrides: [
+    {
+      files: ['pages/**/*.vue', 'layouts/*.vue'],
+      rules: {
+        'vue/multi-word-component-names': 'off'
+      }
+    }
+  ]
 }
