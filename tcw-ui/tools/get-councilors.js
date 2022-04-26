@@ -9,6 +9,12 @@ const PATH_BASE = path.join(__dirname, '../content/', `${NTH}`)
 
 const councilorsInArea = {}
 
+function prettyName (name) {
+  return name
+    .replace(/\(.*\)/g, '')
+    .replace(/([a-z])([^ a-zA-Z])/g, '$1 $2')
+}
+
 function dumpAreaInfo (error, res, done) {
   if (error) {
     console.error('Fail on get area', error)
@@ -35,7 +41,8 @@ function dumpAreaInfo (error, res, done) {
     const pageLink = `${SITE_BASE}/${pageUri}`
     const id = pageUri.replace(/.*mainid=([a-zA-Z0-9]+)-.*/, '$1')
     // 林宜瑾 (109年2月1日辭職)
-    const name = ele.find('.title').text().replace(/\(.*\)/g, '')
+    const name = prettyName(ele.find('.title').text())
+    const abbr = name.replace(/[a-zA-Z‧． ]/g, '')
     const party = ele.find('p.mb-10').text()
 
     // url(warehouse/56CC6C3B-1814-482B-92C8-D21AD0106264/153F6768-2BCB-467A-AAFF-A935010DC2F7.jpg)
@@ -45,6 +52,7 @@ function dumpAreaInfo (error, res, done) {
     councilorsInArea[areaTitle].councilors.push({
       id: `${name}-${id}`,
       name,
+      abbr,
       party,
       bgUrl,
       pageLink
