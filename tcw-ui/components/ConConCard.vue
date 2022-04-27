@@ -23,6 +23,10 @@ export default {
     isMin: {
       type: Boolean,
       default: false
+    },
+    round: {
+      type: String,
+      required: true
     }
   },
   computed: {
@@ -41,7 +45,7 @@ export default {
       return {
         name: 'round-議員-councilor',
         params: {
-          round: this.$route.params.round,
+          round: this.round,
           councilor: person.id
         }
       }

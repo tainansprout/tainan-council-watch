@@ -1,7 +1,7 @@
 <template lang="pug">
   .ccl
     .ccl__ccc(v-for="cons in consList" :key="cons")
-      con-con-card(:data="map[cons]")
+      con-con-card(:data="map[cons]" :round="round")
 </template>
 <script>
 import { CONSTITUENCY_LIST } from '~/libs/defs'
@@ -9,6 +9,10 @@ export default {
   props: {
     map: {
       type: Object,
+      required: true
+    },
+    round: {
+      type: String,
       required: true
     }
   },

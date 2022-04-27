@@ -1,3 +1,4 @@
 <template lang="pug">
-  h1 議員 - {{$route.params.councilor}}
+  .mw8.ph3.center
+    h1 議員 - {{$route.params.councilor}}
 </template>

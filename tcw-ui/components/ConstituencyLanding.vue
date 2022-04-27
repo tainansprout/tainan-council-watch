@@ -22,6 +22,10 @@ export default {
     map: {
       type: Object,
       required: true
+    },
+    round: {
+      type: String,
+      required: true
     }
   },
   computed: {
@@ -34,7 +38,7 @@ export default {
       return {
         name: 'round-選區-constituency',
         params: {
-          round: this.$route.params.round,
+          round: this.round,
           constituency: cons
         }
       }
