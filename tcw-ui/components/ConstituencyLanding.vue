@@ -1,18 +1,17 @@
 <template lang="pug">
   .consLanding
     .consLanding__list
-      nuxt-link.cons.f6.db.pa3.pa0-l.mt3.mt0-l(
-        v-for="cons in consList"
-        :key="cons"
-        :to="consLink(cons)"
-      )
-        .dn.dib-l.mr1
-          i.fa-solid.fa-square
-        .db.di-l.mr2
-          .di.f5.f6-l {{cons}}
-          .f7.di.dn-l.ml3 {{map[cons].areaQuota}} 席
-        .db.di-l.mt3.mt0-l
-          span.cons__area.mr1-l(v-for="area in map[cons].areaList" :key="area") {{area}}
+      template(v-for="cons in consList")
+        nuxt-link.cons.f6.db.pa3.pa0-l.mt3.mt0-l(:to="consLink(cons)" :id="consId(cons)")
+          .dn.dib-l.mr1
+            i.fa-solid.fa-square
+          .db.di-l.mr2
+            .di.f5.f6-l {{cons}}
+            .f7.di.dn-l.ml3 {{map[cons].areaQuota}} 席
+          .db.di-l.mt3.mt0-l
+            span.cons__area.mr1-l(v-for="area in map[cons].areaList" :key="area") {{area}}
+        .db.dn-l(v-if="target && target === cons")
+          slot
 
 </template>
 <script>
@@ -26,6 +25,10 @@ export default {
     round: {
       type: String,
       required: true
+    },
+    target: {
+      type: String,
+      default: ''
     }
   },
   computed: {
@@ -42,6 +45,9 @@ export default {
           constituency: cons
         }
       }
+    },
+    consId (cons) {
+      return `const-${cons}`
     }
   }
 }

@@ -24,6 +24,7 @@
 </template>
 <script>
 import { get } from 'lodash'
+import { scrollTo } from '~/libs/utils'
 import { NAV_LINKS } from '~/libs/defs'
 
 export default {
@@ -56,11 +57,7 @@ export default {
       if (!ref) {
         return
       }
-      const offset = ref.$el.offsetTop - 60
-      window.scrollTo({
-        top: offset,
-        behavior: 'smooth'
-      })
+      scrollTo(ref.$el)
       e.preventDefault()
     }
   }

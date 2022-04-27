@@ -15,7 +15,7 @@ function getCouncilorId (areaName, councilorName) {
     console.warn(`Area ${areaName} not existed`)
     return ''
   }
-  councilorName = councilorName.replace(/[a-zA-Z‧． ]/g, '')
+  councilorName = councilorName.replace(/[a-zA-Z‧．議員\n ]/g, '')
   const councilor = area.councilors.find(councilor => councilor.abbr === councilorName)
   if (!councilor) {
     console.warn(`Councilor ${councilorName} not existed`)
@@ -47,8 +47,12 @@ async function parseLogs () {
           if (!councilorMap[key]) {
             councilorMap[key] = []
           }
+          const relatedOrgs = data.相關局處
+            .replace(/\n/g, '、')
+            .split('、')
+            .filter(org => org !== '無')
           councilorMap[key].push({
-            target: data.相關局處,
+            relatedOrgs,
             summary: data.質詢內容,
             say: data['發言開頭2句話'],
             date,
@@ -65,7 +69,8 @@ async function parseLogs () {
     '1909562558', // 定一
     '1969300134', // 定二
     '67860742', // 定三
-    '394033064' // 定四
+    '394033064', // 定四
+    '618060648' // 定五
   ]
 
   for (const sheetId of sheetList) {
@@ -77,7 +82,10 @@ async function parseLogs () {
       __dirname,
       `../content/${NTH}/sayit/${councilorId}.json`
     )
-    fs.writeFileSync(filename, JSON.stringify(councilorMap[councilorId]))
+    fs.writeFileSync(filename, JSON.stringify({
+      id: councilorId,
+      sayit: councilorMap[councilorId]
+    }))
   })
 }
 
