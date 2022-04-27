@@ -1,7 +1,7 @@
 <template lang="pug">
   .counCard.br1
     nuxt-link.counCard__main.bb.b--moon-gray.pb3.pb4-l(:to="councilorLink")
-      .aspect-ratio.aspect-ratio--1x1.w
+      .aspect-ratio.aspect-ratio--1x1
         .aspect-ratio--object.br-100.overflow-hidden
           img(:src="person.bgUrl" :alt="person.name")
       div

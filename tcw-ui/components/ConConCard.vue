@@ -1,5 +1,5 @@
 <template lang="pug">
-  .ccc.br1.pa3
+  .ccc.br1.pa3(:class="{'ccc--minified': minified}")
     .ccc__constituency.fw5.f4 {{data.areaTitle}}
     .ccc__areaList.fw5.mt2
       span(v-for="area in data.areaList" :key="area") {{area}}
@@ -20,7 +20,7 @@ export default {
       type: Object,
       required: true
     },
-    isMin: {
+    minified: {
       type: Boolean,
       default: false
     },
@@ -75,6 +75,30 @@ export default {
 
     &--1 {
       grid-template-columns: 1fr;
+    }
+  }
+
+  &--minified {
+    border-top: 1px solid #D8D8D8;
+    @media (hover: hover) {
+      .ccc {
+        &__councilorList {
+          display: none;
+          margin-top: 0;
+        }
+      }
+
+      &:hover {
+        .ccc {
+          &__constituency,
+          &__areaList {
+            display: none;
+          }
+          &__councilorList {
+            display: grid;
+          }
+        }
+      }
     }
   }
 }

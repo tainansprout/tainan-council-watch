@@ -41,6 +41,11 @@ export default {
       return this.$route.params.round || '第三屆'
     }
   },
+  watch: {
+    $route () {
+      this.menuOpened = false
+    }
+  },
   methods: {
     toggleMenu () {
       this.menuOpened = !this.menuOpened
