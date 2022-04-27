@@ -2,12 +2,12 @@
   .constituency.mw8.ph3.center
     .mt4.mt5-l
     constituency-landing(ref="landing" :map="consMap" :round="round" :target="target")
-      constituency-summary(v-if="meta" :meta="meta" :related-org-stats="orgStats")
+      constituency-summary(v-if="meta" :meta="meta" :round="round" :related-org-stats="orgStats")
     .dn.db-l(ref="main" v-if="meta")
       tcw-title {{meta.areaTitle}}
       p {{meta.areaList.join('.')}}
       .mt5
-        constituency-summary(:meta="meta" :related-org-stats="orgStats")
+        constituency-summary(:meta="meta" :round="round" :related-org-stats="orgStats")
 </template>
 <script>
 import { countRelatedOrgs, scrollTo } from '~/libs/utils'

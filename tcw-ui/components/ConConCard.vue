@@ -3,7 +3,7 @@
     .ccc__constituency.fw5.f4 {{data.areaTitle}}
     .ccc__areaList.fw5.mt2
       span(v-for="area in data.areaList" :key="area") {{area}}
-    .ccc__councilorList.mt3
+    .ccc__councilorList.mt3(:class="[`ccc__councilorList--${data.councilors.length}`]")
       nuxt-link.councilor.f5.f7-l(
         v-for="person in data.councilors"
         :key="person.id"
@@ -72,6 +72,10 @@ export default {
     column-gap: 1.25rem;
     row-gap: 0.5rem;
     justify-content: space-between;
+
+    &--1 {
+      grid-template-columns: 1fr;
+    }
   }
 }
 

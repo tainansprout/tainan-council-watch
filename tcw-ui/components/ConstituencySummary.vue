@@ -17,6 +17,7 @@
           v-for="person in meta.councilors"
           :key="person.id"
           :person="person"
+          :round="round"
           :related-org-stats="relatedOrgStats[person.id] || []"
         )
 </template>
@@ -29,6 +30,10 @@ export default {
     },
     relatedOrgStats: {
       type: Object,
+      required: true
+    },
+    round: {
+      type: String,
       required: true
     }
   }
