@@ -6,17 +6,18 @@
       h2.fw4.f4.f3-l.mt4.mt0-l 議員關注議題
       .conSum__statsList.mt3.mt0-l
         org-stats-tag(
-          v-for="stats in relatedOrgStats"
+          v-for="stats in relatedOrgStats.total"
           :key="stats.name"
           :stats="stats"
         )
-    .counSum
+    .counSum.mt3.pt3.mt5-l.pt5-l.bt.b--moon-gray
       h2.fw4.f4.f3-l 應屆議員
       .counSum__list.mt3.mt4-l
         councilor-card.mt2.mt0-l(
           v-for="person in meta.councilors"
           :key="person.id"
           :person="person"
+          :related-org-stats="relatedOrgStats[person.id] || []"
         )
 </template>
 <script>
@@ -27,7 +28,7 @@ export default {
       required: true
     },
     relatedOrgStats: {
-      type: Array,
+      type: Object,
       required: true
     }
   }

@@ -1,7 +1,8 @@
 <template lang="pug">
-  .orgTag.flex.items-center.justify-between
+  .orgTag.flex.items-center.justify-between(:class="{'orgTag--plain': plainText}")
     .orgTag__label {{stats.name}} {{stats.count}}
-    i.fa-solid.fa-info-circle
+    span(:class="{dn: plainText}")
+      i.fa-solid.fa-info-circle
 </template>
 <script>
 export default {
@@ -9,6 +10,10 @@ export default {
     stats: {
       type: Object,
       required: true
+    },
+    plainText: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -19,5 +24,12 @@ export default {
   border-top: 3px solid #49B0D5;
   height: 3.5rem;
   padding: 0 1.25rem;
+
+  &--plain {
+    border: none;
+    height: auto;
+    padding: 0;
+    text-decoration: underline;
+  }
 }
 </style>
