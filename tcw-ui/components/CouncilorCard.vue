@@ -1,7 +1,7 @@
 <template lang="pug">
   .counCard.br1
-    .counCard__main.bb.b--moon-gray.pb3.pb4-l
-      .aspect-ratio.aspect-ratio--1x1.w
+    nuxt-link.counCard__main.bb.b--moon-gray.pb3.pb4-l(:to="councilorLink")
+      .aspect-ratio.aspect-ratio--1x1
         .aspect-ratio--object.br-100.overflow-hidden
           img(:src="person.bgUrl" :alt="person.name")
       div
@@ -28,9 +28,22 @@ export default {
     relatedOrgStats: {
       type: Array,
       required: true
+    },
+    round: {
+      type: String,
+      required: true
     }
   },
   computed: {
+    councilorLink () {
+      return {
+        name: 'round-議員-councilor',
+        params: {
+          round: this.round,
+          councilor: this.person.id
+        }
+      }
+    }
   }
 }
 </script>
@@ -48,6 +61,7 @@ export default {
     grid-template-columns: 3fr 4fr;
     column-gap: 4rem;
     align-items: center;
+    color: $black;
     img {
       object-fit: cover;
       height: 100%;

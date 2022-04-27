@@ -80,22 +80,23 @@ const crawler = new NodeCrawler({
 crawler.on('drain', () => {
   fs.writeFileSync(
     path.join(PATH_BASE, 'area-list.json'),
-    JSON.stringify(councilorsInArea)
+    JSON.stringify(councilorsInArea, null, '  ')
   )
 
-  const councilors = Object.values(councilorsInArea).flatMap((area) => {
-    return area.councilors.map((councilor) => {
-      return {
+  const councilors = Object.values(councilorsInArea).reduce((sum, area) => {
+    area.councilors.forEach((councilor) => {
+      sum[councilor.id] = {
         ...councilor,
         areaTitle: area.areaTitle,
         areaList: area.areaList
       }
     })
-  })
+    return sum
+  }, {})
 
   fs.writeFileSync(
     path.join(PATH_BASE, 'councilor-list.json'),
-    JSON.stringify(councilors)
+    JSON.stringify(councilors, null, '  ')
   )
 })
 

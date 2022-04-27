@@ -31,7 +31,6 @@ export default {
   async asyncData ({ $content, params, redirect }) {
     const round = params.round || '第三屆'
     const consMap = await $content(round, 'area-list').fetch()
-    // const councilorList = await $content('hello').fetch()
     return { consMap, round }
   },
   computed: {
