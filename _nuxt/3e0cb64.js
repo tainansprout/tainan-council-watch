@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[0],{347:function(e,n,t){"use strict";t.r(n);var c=t(35),component=Object(c.a)({},(function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{staticClass:"mw8 ph3 center"},[t("h1",[e._v("議員 - "+e._s(e.$route.params.councilor))])])}),[],!1,null,null,null);n.default=component.exports}}]);
