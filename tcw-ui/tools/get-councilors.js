@@ -15,50 +15,62 @@ function prettyName (name) {
     .replace(/([a-z])([^ a-zA-Z])/g, '$1 $2')
 }
 
-function dumpAreaInfo (error, res, done) {
-  if (error) {
-    console.error('Fail on get area', error)
-    done()
-    return
-  }
-  const $ = res.$
-  // get area info
-  // 第五選區(善化.安定.新市.山上.新化區)
-  const header = $('h3').text().split('(')
-  const areaTitle = header[0]
-  const areaList = header[1].slice(0, -2).split('.')
+function dumpAreaInfo (quota) {
+  return (error, res, done) => {
+    if (error) {
+      console.error('Fail on get area', error)
+      done()
+      return
+    }
+    const $ = res.$
+    // get area info
+    // 第五選區(善化.安定.新市.山上.新化區)
+    const header = $('h3').text().split('(')
+    const areaTitle = header[0]
+    const areaList = header[1]
+      .slice(0, -1)
+      .replace(/區/g, '')
+      .split('.')
+      .map((area) => {
+        if (area.length < 2 || area === '中西') {
+          return `${area}區`
+        }
+        return area
+      })
 
-  councilorsInArea[areaTitle] = {
-    areaTitle,
-    areaList,
-    councilors: []
-  }
+    councilorsInArea[areaTitle] = {
+      areaTitle,
+      areaList,
+      areaQuota: quota,
+      councilors: []
+    }
 
-  // councilor list
-  $('.col-lg-3 .image-box').each(function () {
-    const ele = $(this)
-    const pageUri = ele.find('a').attr('href')
-    const pageLink = `${SITE_BASE}/${pageUri}`
-    const id = pageUri.replace(/.*mainid=([a-zA-Z0-9]+)-.*/, '$1')
-    // 林宜瑾 (109年2月1日辭職)
-    const name = prettyName(ele.find('.title').text())
-    const abbr = name.replace(/[a-zA-Z‧． ]/g, '')
-    const party = ele.find('p.mb-10').text()
+    // councilor list
+    $('.col-lg-3 .image-box').each(function () {
+      const ele = $(this)
+      const pageUri = ele.find('a').attr('href')
+      const pageLink = `${SITE_BASE}/${pageUri}`
+      const id = pageUri.replace(/.*mainid=([a-zA-Z0-9]+)-.*/, '$1')
+      // 林宜瑾 (109年2月1日辭職)
+      const name = prettyName(ele.find('.title').text())
+      const abbr = name.replace(/[a-zA-Z‧． ]/g, '')
+      const party = ele.find('p.mb-10').text()
 
-    // url(warehouse/56CC6C3B-1814-482B-92C8-D21AD0106264/153F6768-2BCB-467A-AAFF-A935010DC2F7.jpg)
-    const bgImg = ele.find('a div').css('background-image')
-    const bgUrl = `${SITE_BASE}/${bgImg.slice('url('.length, -1)}`
+      // url(warehouse/56CC6C3B-1814-482B-92C8-D21AD0106264/153F6768-2BCB-467A-AAFF-A935010DC2F7.jpg)
+      const bgImg = ele.find('a div').css('background-image')
+      const bgUrl = `${SITE_BASE}/${bgImg.slice('url('.length, -1)}`
 
-    councilorsInArea[areaTitle].councilors.push({
-      id: `${name}-${id}`,
-      name,
-      abbr,
-      party,
-      bgUrl,
-      pageLink
+      councilorsInArea[areaTitle].councilors.push({
+        id: `${name}-${id}`,
+        name,
+        abbr,
+        party,
+        bgUrl,
+        pageLink
+      })
     })
-  })
-  done()
+    done()
+  }
 }
 
 const crawler = new NodeCrawler({
@@ -98,9 +110,10 @@ crawler.queue({
     const $ = res.$
     $('.main.col-lg-12 .nav-link').each(function () {
       const areaUrl = $(this).attr('href')
+      const quota = $(this).siblings().text().replace(/[^\d]/g, '')
       crawler.queue({
         uri: `${SITE_BASE}/${areaUrl}`,
-        callback: dumpAreaInfo
+        callback: dumpAreaInfo(quota)
       })
     })
     done()
