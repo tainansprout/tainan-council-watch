@@ -1,3 +1,4 @@
 <template lang="pug">
-  h1 選區 - {{$route.params.constituency}}
+  .mw8.ph3.center
+    h1 選區 - {{$route.params.constituency}}
 </template>
