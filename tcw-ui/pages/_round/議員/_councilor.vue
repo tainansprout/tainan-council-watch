@@ -17,6 +17,8 @@
         .councilor__experience.mt4.mt0-l
           h2.mt0-l.f3 公職經歷
           a.black(href="https://hackmd.io/@ddio/SJWBXM4Sq/https%3A%2F%2Fhackmd.io%2FJ3xPDhMnT1W5Eg_cKeNTBQ") 待製作， 05/11 登場
+      .councilor__sayit.mt4.mt5-l
+        interpellation-landing(:councilor-map="counsMap" :say-list="sayList")
 </template>
 <script>
 import { scrollTo } from '~/libs/utils'
@@ -27,11 +29,22 @@ export default {
     const counsMap = await $content(round, 'councilor-list').fetch()
     const councilorId = params.councilor
     const councilor = counsMap[councilorId]
+    const sayit = await $content(round, 'sayit', councilorId).fetch()
 
-    return { consMap, round, councilor }
+    return { consMap, round, councilor, counsMap, sayit }
   },
   computed: {
-
+    sayList () {
+      if (!this.sayit) {
+        return []
+      }
+      return this.sayit.sayit.map((sayit) => {
+        return {
+          ...sayit,
+          councilorId: this.sayit.id
+        }
+      })
+    }
   },
   mounted () {
     if (this.councilor) {
