@@ -1,9 +1,9 @@
 <template lang="pug">
   .constituency.mw8.ph3.center
     .mt4.mt5-l
-    constituency-landing(ref="landing" :map="consMap" :round="round" :target="meta.areaTitle")
-      constituency-summary(:meta="meta" :related-org-stats="orgStats")
-    .dn.db-l(ref="main")
+    constituency-landing(ref="landing" :map="consMap" :round="round" :target="target")
+      constituency-summary(v-if="meta" :meta="meta" :related-org-stats="orgStats")
+    .dn.db-l(ref="main" v-if="meta")
       tcw-title {{meta.areaTitle}}
       p {{meta.areaList.join('.')}}
       .mt5
@@ -18,20 +18,31 @@ export default {
     const consMap = await $content(round, 'area-list').fetch()
     const meta = consMap[constituency]
 
-    if (!meta) {
+    if (!meta && constituency) {
       redirect(`/${round}`)
       return
     }
 
-    const councilorIds = meta.councilors.map(c => c.id)
+    let orgStats = null
+    if (meta) {
+      const councilorIds = meta.councilors.map(c => c.id)
+      const sayList = await $content(round, 'sayit')
+        .where({ id: { $in: councilorIds } })
+        .fetch()
+      orgStats = countRelatedOrgs(...sayList)
+    }
 
-    const sayList = await $content(round, 'sayit')
-      .where({ id: { $in: councilorIds } })
-      .fetch()
-    const orgStats = countRelatedOrgs(...sayList)
     return { consMap, round, meta, orgStats }
   },
+  computed: {
+    target () {
+      return this.meta ? this.meta.areaTitle : ''
+    }
+  },
   mounted () {
+    if (!this.meta) {
+      return
+    }
     const targetConsId = `#const-${this.meta.areaTitle}`
     const landing = this.$refs.landing.$el
     const main = this.$refs.main
