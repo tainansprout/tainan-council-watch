@@ -4,7 +4,7 @@
       .landing__header.relative.flex.items-center.justify-center
         .absolute.top-0.left-0.w4.h4.bw2.bl.bt.b--light-yellow
         .absolute.bottom-0.right-0.w4.h4.bw2.bb.br.b--light-yellow
-        h1.f2.f1-l.fw5 台南市議會觀測站 {{round}}
+        h1.f2.f1-l.fw5 台南市議會觀測站
       .landing__navLinks.flex.justify-between.mw6.center.mt4.mt5-l
         nuxt-link.f4.f3-l(
           v-for="link in navLinks"

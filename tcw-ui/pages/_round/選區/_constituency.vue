@@ -23,13 +23,19 @@ export default {
       return
     }
 
-    let orgStats = null
+    // count sayit group by related org
+    let orgStats = {}
     if (meta) {
       const councilorIds = meta.councilors.map(c => c.id)
       const sayList = await $content(round, 'sayit')
         .where({ id: { $in: councilorIds } })
         .fetch()
-      orgStats = countRelatedOrgs(...sayList)
+      orgStats = sayList.reduce((stats, sayit) => {
+        stats[sayit.id] = countRelatedOrgs(sayit)
+        return stats
+      }, {
+        total: countRelatedOrgs(...sayList)
+      })
     }
 
     return { consMap, round, meta, orgStats }
