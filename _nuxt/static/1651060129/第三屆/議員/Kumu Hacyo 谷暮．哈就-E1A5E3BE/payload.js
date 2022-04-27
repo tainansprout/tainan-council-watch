@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/%E7%AC%AC%E4%B8%89%E5%B1%86/%E8%AD%B0%E5%93%A1/Kumu%20Hacyo%20%E8%B0%B7%E6%9A%AE%EF%BC%8E%E5%93%88%E5%B0%B1-E1A5E3BE", {data:[{}],fetch:{},mutations:void 0});

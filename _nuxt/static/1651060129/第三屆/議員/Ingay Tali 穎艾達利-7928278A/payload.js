@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/%E7%AC%AC%E4%B8%89%E5%B1%86/%E8%AD%B0%E5%93%A1/Ingay%20Tali%20%E7%A9%8E%E8%89%BE%E9%81%94%E5%88%A9-7928278A", {data:[{}],fetch:{},mutations:void 0});

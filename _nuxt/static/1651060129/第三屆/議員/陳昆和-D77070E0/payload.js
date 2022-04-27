@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/%E7%AC%AC%E4%B8%89%E5%B1%86/%E8%AD%B0%E5%93%A1/%E9%99%B3%E6%98%86%E5%92%8C-D77070E0", {data:[{}],fetch:{},mutations:void 0});
