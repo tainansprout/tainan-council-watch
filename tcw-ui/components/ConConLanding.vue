@@ -1,7 +1,7 @@
 <template lang="pug">
   .ccl
     .ccl__ccc(v-for="cons in consList" :key="cons")
-      con-con-card(:data="map[cons]" :round="round")
+      con-con-card.h-100-l(:data="map[cons]" :round="round")
 </template>
 <script>
 import { CONSTITUENCY_LIST } from '~/libs/defs'
@@ -33,6 +33,7 @@ export default {
     grid-template-columns: repeat(4, 1fr);
     column-gap: 1rem;
     row-gap: 1.5rem;
+    align-items: stretch;
   }
 }
 </style>
