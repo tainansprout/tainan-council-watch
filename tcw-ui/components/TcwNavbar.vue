@@ -50,6 +50,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .navWrapper {
+  position: sticky;
+  top: 0rem;
+  z-index: 999;
   &--opened {
     min-height: 100vh;
     position: fixed;

@@ -9,19 +9,22 @@
         nuxt-link.f4.f3-l(
           v-for="link in navLinks"
           :key="link.label"
-          :to="link.route(round)"
+          :to="genNavLink(link)"
+          @click.native="handleNavClick"
         )
           | {{link.label}}
-    tcw-title(level="h2") 看選區
+    tcw-title(level="h2" id="看選區" ref="看選區") 看選區
     .mt5.mt3-l
       constituency-landing(:map="consMap" :round="round")
-    tcw-title(level="h2") 找議員
+    tcw-title(level="h2" id="找議員" ref="找議員") 找議員
     .mt5.mt3-l
       con-con-landing(:map="consMap" :round="round")
-    tcw-title(level="h2") 讀分析
+    tcw-title(level="h2" id="讀分析" ref="讀分析") 讀分析
     .pa3.bg-moon-gray.h3.pa4.flex.items-center.justify-center.mt5.mt3-l.w-100 施工中
 </template>
 <script>
+import { get } from 'lodash'
+import { scrollTo } from '~/libs/utils'
 import { NAV_LINKS } from '~/libs/defs'
 
 export default {
@@ -34,6 +37,28 @@ export default {
   computed: {
     navLinks () {
       return NAV_LINKS
+    }
+  },
+  methods: {
+    genNavLink (link) {
+      if (link.label !== '搜質詢') {
+        return `#${link.label}`
+      }
+      return link.route(this.round)
+    },
+    handleNavClick (e) {
+      const href = get(e, 'target.attributes.href.value', '').split('#')
+      if (href.length <= 1) {
+        return
+      }
+
+      const target = decodeURIComponent(href[1])
+      const ref = this.$refs[target]
+      if (!ref) {
+        return
+      }
+      scrollTo(ref.$el)
+      e.preventDefault()
     }
   }
 }
