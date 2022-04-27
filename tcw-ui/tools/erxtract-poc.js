@@ -4,7 +4,25 @@ const got = require('got')
 const CsvReadableStream = require('csv-reader')
 const AutoDetectDecoderStream = require('autodetect-decoder-stream')
 
+const NTH = '第三屆'
 const SHEET_URI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2_P-mrFZt2bSBuM_U2BuJR1FeRsKp0oxcFL7RcFheCUO1K86Liq9E3vu83FpkjHdrqjy-PWUBtFzc/pub?single=true&output=csv'
+
+const AREA_MAP = JSON.parse(fs.readFileSync(path.join(__dirname, `../content/${NTH}/area-list.json`)))
+
+function getCouncilorId (areaName, councilorName) {
+  const area = AREA_MAP[areaName]
+  if (!area) {
+    console.warn(`Area ${areaName} not existed`)
+    return ''
+  }
+  councilorName = councilorName.replace(/[a-zA-Z‧． ]/g, '')
+  const councilor = area.councilors.find(councilor => councilor.abbr === councilorName)
+  if (!councilor) {
+    console.warn(`Councilor ${councilorName} not existed`)
+    return ''
+  }
+  return councilor.id
+}
 
 async function parseLogs () {
   const councilorMap = {}
@@ -21,16 +39,15 @@ async function parseLogs () {
           const src = data.議事錄頁碼開頭.replace(/[p.]/g, '').split('、').map(Number.parseInt)
           const date = data.質詢日期
 
-          const key = `${area}-${councilor}`
+          const key = getCouncilorId(area, councilor)
+          if (!key) {
+            return
+          }
 
           if (!councilorMap[key]) {
-            councilorMap[key] = {
-              name: councilor,
-              area,
-              sayList: []
-            }
+            councilorMap[key] = []
           }
-          councilorMap[key].sayList.push({
+          councilorMap[key].push({
             target: data.相關局處,
             summary: data.質詢內容,
             say: data['發言開頭2句話'],
@@ -55,20 +72,12 @@ async function parseLogs () {
     await parseOneLog(sheetId)
   }
 
-  const councilorList = Object.values(councilorMap).map((councilor) => {
-    return {
-      name: councilor.name,
-      area: councilor.area
-    }
-  })
-
-  fs.writeFileSync(path.join(__dirname, '../content/councilor-list.json'), JSON.stringify({ data: councilorList }))
-  Object.values(councilorMap).forEach((councilor) => {
+  Object.keys(councilorMap).forEach((councilorId) => {
     const filename = path.join(
       __dirname,
-      `../content/councilors/${councilor.name}.json`
+      `../content/${NTH}/sayit/${councilorId}.json`
     )
-    fs.writeFileSync(filename, JSON.stringify(councilor))
+    fs.writeFileSync(filename, JSON.stringify(councilorMap[councilorId]))
   })
 }
 
