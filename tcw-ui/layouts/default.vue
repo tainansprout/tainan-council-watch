@@ -1,5 +1,5 @@
 <template lang="pug">
-  .tcw
+  .tcw.mb5
     tcw-navbar
     main
       nuxt

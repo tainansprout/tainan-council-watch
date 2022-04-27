@@ -1,3 +1,6 @@
+$black: #00000F;
+$primary: #8DEE72;
+
 @mixin large-screen {
   @media screen and (min-width: 60em) {
     @content

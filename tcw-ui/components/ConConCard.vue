@@ -1,0 +1,81 @@
+<template lang="pug">
+  .ccc.br1.pa3
+    .ccc__constituency.fw5.f4 {{data.areaTitle}}
+    .ccc__areaList.fw5.mt2
+      span(v-for="area in data.areaList" :key="area") {{area}}
+    .ccc__councilorList.mt3
+      nuxt-link.councilor.f5.f7-l(
+        v-for="person in data.councilors"
+        :key="person.id"
+        :to="councilorLink(person)"
+      )
+        span {{person.name}}&nbsp;&nbsp;/&nbsp;&nbsp;
+        span {{person.party}}
+
+</template>
+<script>
+export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    },
+    isMin: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    // constituencyLink () {
+    //   return {
+    //     name: 'round-議員-constituency',
+    //     params: {
+    //       round: this.$route.params.round,
+    //       constituency: this.data.areaTitle
+    //     }
+    //   }
+    // }
+  },
+  methods: {
+    councilorLink (person) {
+      return {
+        name: 'round-議員-councilor',
+        params: {
+          round: this.$route.params.round,
+          councilor: person.id
+        }
+      }
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+.ccc {
+  border: 1px solid #D8D8D8;
+  border-top: 8px solid $primary;
+
+  &__areaList {
+    span + span {
+      &:before {
+        content: ".";
+      }
+    }
+  }
+
+  &__councilorList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.25rem;
+    row-gap: 0.5rem;
+    justify-content: space-between;
+  }
+}
+
+.councilor {
+  color: $black;
+  text-decoration: none;
+  @include large-screen {
+    text-decoration: underline;
+  }
+}
+</style>

@@ -6,7 +6,7 @@
         :key="cons"
         :to="consLink(cons)"
       )
-        .dn.db-l.mr1
+        .dn.dib-l.mr1
           i.fa-solid.fa-square
         .db.di-l.mr2
           .di.f5.f6-l {{cons}}
@@ -60,6 +60,7 @@ export default {
   text-decoration: none;
 
   @include large-screen {
+    border: none;
     text-decoration: underline;
   }
 

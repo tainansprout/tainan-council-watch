@@ -12,14 +12,14 @@
           :to="link.route(round)"
         )
           | {{link.label}}
-    h2.landing__title.f3.f2-l.fw5
-      .relative.bg-white.pr3.dib 看選區
+    tcw-title(level="h2") 看選區
     .mt5.mt3-l
       constituency-landing(:map="consMap")
-    h2.landing__title.f3.f2-l.fw5
-      .relative.bg-white.pr3.dib 找議員
-    h2.landing__title.f3.f2-l.fw5
-      .relative.bg-white.pr3.dib 讀分析
+    tcw-title(level="h2") 找議員
+    .mt5.mt3-l
+      con-con-landing(:map="consMap")
+    tcw-title(level="h2") 讀分析
+    .pa3.bg-moon-gray.h3.pa4.flex.items-center.justify-center.mt5.mt3-l.w-100 施工中
 </template>
 <script>
 import { NAV_LINKS } from '~/libs/defs'
@@ -51,22 +51,6 @@ export default {
     a {
       color: #49B0D5;
       text-decoration: none;
-    }
-  }
-  &__title {
-    position: relative;
-    margin: 3rem 0 1rem;
-    @include large-screen {
-      margin: 10rem 0 2.5rem;
-    }
-    &:before {
-      content: " ";
-      height: 0;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 50%;
-      border: 1px solid #7A7C7D;
     }
   }
 }
