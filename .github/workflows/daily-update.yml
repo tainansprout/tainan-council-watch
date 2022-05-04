@@ -48,7 +48,7 @@ jobs:
           message: Sync to latest council data
 
       - name: Build ui
-        run: npm run generate
+        run: npm run generate:gh 
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.8.0
