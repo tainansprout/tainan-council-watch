@@ -8,6 +8,15 @@ const NTH = '第三屆'
 const SHEET_URI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2_P-mrFZt2bSBuM_U2BuJR1FeRsKp0oxcFL7RcFheCUO1K86Liq9E3vu83FpkjHdrqjy-PWUBtFzc/pub?single=true&output=csv'
 
 const AREA_MAP = JSON.parse(fs.readFileSync(path.join(__dirname, `../content/${NTH}/area-list.json`)))
+const number2zh = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
+
+function normalizeArea (area) {
+  area = area.replace(/1(\d)/, '十$1')
+  number2zh.forEach((zh, number) => {
+    area = area.replace(number, zh)
+  })
+  return area
+}
 
 function getCouncilorId (areaName, councilorName) {
   const area = AREA_MAP[areaName]
@@ -15,10 +24,10 @@ function getCouncilorId (areaName, councilorName) {
     console.warn(`Area ${areaName} not existed`)
     return ''
   }
-  councilorName = councilorName.replace(/[a-zA-Z‧．議員\n ]/g, '')
+  councilorName = councilorName.replace(/[a-zA-Z‧．、議員\n ]/g, '')
   const councilor = area.councilors.find(councilor => councilor.abbr === councilorName)
   if (!councilor) {
-    console.warn(`Councilor ${councilorName} not existed`)
+    console.warn(`Councilor ${councilorName} in ${areaName} not existed`)
     return ''
   }
   return councilor.id
@@ -34,13 +43,14 @@ async function parseLogs () {
         .pipe(new AutoDetectDecoderStream())
         .pipe(new CsvReadableStream({ asObject: true }))
         .on('data', (data) => {
-          const area = data.選區
+          const area = normalizeArea(data.選區)
           const councilor = data.議員
           const src = data.議事錄頁碼開頭.replace(/[p.]/g, '').split('、').map(Number.parseInt)
           const date = data.質詢日期
 
           const key = getCouncilorId(area, councilor)
           if (!key) {
+            console.warn(`== Councilor not found in ${sheetId}`)
             return
           }
 

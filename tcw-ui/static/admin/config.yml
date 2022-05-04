@@ -10,7 +10,7 @@ councilor: &councilor
   - { label: 補充欄 | 內文, name: misc-content, widget: text, hint: 一行個段落, required: false }
 
 # used together with `npx netlify-cms-proxy-server`. https://www.netlifycms.org/docs/beta-features/#working-with-a-local-git-repository
-local_backend: true
+# local_backend: true
 
 media_folder: static/img
 public_folder: /img
@@ -22,7 +22,7 @@ collections:
     files:
       - label: '第一選區'
         name: 'const01'
-        file: 'content/第三屆/meta-const01.json'
+        file: 'tcw-ui/content/第三屆/meta-const01.json'
         format: 'json'
         editor:
           preview: false
@@ -36,7 +36,7 @@ collections:
           - { label: 議員資訊 | 趙昆原, name: councilor-趙昆原-903E6B54, widget: object, fields: *councilor }
       - label: 第二選區
         name: 'const02'
-        file: 'content/第三屆/meta-const02.json'
+        file: 'tcw-ui/content/第三屆/meta-const02.json'
         format: 'json'
         editor:
           preview: false
@@ -49,7 +49,7 @@ collections:
           - { label: 議員資訊 | 陳昆和, name: councilor-陳昆和-D77070E0, widget: object, fields: *councilor }
       - label: 第三選區
         name: 'const03'
-        file: 'content/第三屆/meta-const03.json'
+        file: 'tcw-ui/content/第三屆/meta-const03.json'
         format: 'json'
         editor:
           preview: false
@@ -60,7 +60,7 @@ collections:
           - { label: 議員資訊 | 陳秋宏, name: councilor-陳秋宏-26189919, widget: object, fields: *councilor }
       - label: 第四選區
         name: 'const04'
-        file: 'content/第三屆/meta-const04.json'
+        file: 'tcw-ui/content/第三屆/meta-const04.json'
         format: 'json'
         editor:
           preview: false
@@ -69,7 +69,7 @@ collections:
           - { label: 議員資訊 | 周奕齊, name: councilor-周奕齊-14A262F7, widget: object, fields: *councilor }
       - label: 第五選區
         name: 'const05'
-        file: 'content/第三屆/meta-const05.json'
+        file: 'tcw-ui/content/第三屆/meta-const05.json'
         format: 'json'
         editor:
           preview: false
@@ -82,7 +82,7 @@ collections:
           - { label: 議員資訊 | 陳碧玉, name: councilor-陳碧玉-81CBE99D, widget: object, fields: *councilor }
       - label: 第六選區
         name: 'const06'
-        file: 'content/第三屆/meta-const06.json'
+        file: 'tcw-ui/content/第三屆/meta-const06.json'
         format: 'json'
         editor:
           preview: false
@@ -96,7 +96,7 @@ collections:
           - { label: 議員資訊 | 黃麗招, name: councilor-黃麗招-A4EA38B5, widget: object, fields: *councilor }
       - label: 第七選區
         name: 'const07'
-        file: 'content/第三屆/meta-const07.json'
+        file: 'tcw-ui/content/第三屆/meta-const07.json'
         format: 'json'
         editor:
           preview: false
@@ -111,7 +111,7 @@ collections:
           - { label: 議員資訊 | 陳秋萍, name: councilor-陳秋萍-E011C49C, widget: object, fields: *councilor }
       - label: 第八選區
         name: 'const08'
-        file: 'content/第三屆/meta-const08.json'
+        file: 'tcw-ui/content/第三屆/meta-const08.json'
         format: 'json'
         editor:
           preview: false
@@ -125,7 +125,7 @@ collections:
           - { label: 議員資訊 | 陳怡珍, name: councilor-陳怡珍-F58C7754, widget: object, fields: *councilor }
       - label: 第九選區
         name: 'const09'
-        file: 'content/第三屆/meta-const09.json'
+        file: 'tcw-ui/content/第三屆/meta-const09.json'
         format: 'json'
         editor:
           preview: false
@@ -139,7 +139,7 @@ collections:
           - { label: 議員資訊 | 蔡淑惠, name: councilor-蔡淑惠-F824CAE2, widget: object, fields: *councilor }
       - label: 第十選區
         name: 'const10'
-        file: 'content/第三屆/meta-const10.json'
+        file: 'tcw-ui/content/第三屆/meta-const10.json'
         format: 'json'
         editor:
           preview: false
@@ -152,7 +152,7 @@ collections:
           - { label: 議員資訊 | 蔡筱薇, name: councilor-蔡筱薇-47FECB54, widget: object, fields: *councilor }
       - label: 第十一選區
         name: 'const11'
-        file: 'content/第三屆/meta-const11.json'
+        file: 'tcw-ui/content/第三屆/meta-const11.json'
         format: 'json'
         editor:
           preview: false
@@ -165,7 +165,7 @@ collections:
           - { label: 議員資訊 | 鄭佳欣, name: councilor-鄭佳欣-3E56ADB1, widget: object, fields: *councilor }
       - label: 第十二選區
         name: 'const12'
-        file: 'content/第三屆/meta-const12.json'
+        file: 'tcw-ui/content/第三屆/meta-const12.json'
         format: 'json'
         editor:
           preview: false
@@ -174,7 +174,7 @@ collections:
           - { label: 議員資訊 | Ingay Tali 穎艾達利, name: councilor-Ingay Tali 穎艾達利-7928278A, widget: object, fields: *councilor }
       - label: 第十三選區
         name: 'const13'
-        file: 'content/第三屆/meta-const13.json'
+        file: 'tcw-ui/content/第三屆/meta-const13.json'
         format: 'json'
         editor:
           preview: false
@@ -186,7 +186,7 @@ collections:
     files:
       - label: 政黨列表
         name: partyList
-        file: 'content/meta/partyList.json'
+        file: 'tcw-ui/content/meta/partyList.json'
         format: 'json'
         editor:
           preview: false
@@ -206,7 +206,7 @@ collections:
                 widget: image
       - label: 局處簡短說明
         name: departmentBrief
-        file: 'content/meta/departmentBrief.json'
+        file: 'tcw-ui/content/meta/departmentBrief.json'
         format: 'json'
         editor:
           preview: false
@@ -255,7 +255,7 @@ collections:
               - { label: 標籤, name: label, widget: string }
   - label: '全站 | 分析文章'
     name: 'article'
-    folder: 'content/article'
+    folder: 'tcw-ui/content/article'
     create: true
     format: 'frontmatter'
     slug: '{{fields.slug}}-{{fields.createdAt}}'
@@ -274,7 +274,7 @@ collections:
       - { label: '內文', name: 'body', widget: 'markdown' }
   - label: 全站 | 文章分類
     name: articleCategory
-    folder: 'content/settings'
+    folder: 'tcw-ui/content/setting'
     filter: { field: "type", value: "articleCategory"}
     identifier_field: 'category'
     slug: 'article-category-{{slug}}'
