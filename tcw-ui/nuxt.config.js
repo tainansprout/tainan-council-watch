@@ -1,5 +1,7 @@
 import dayjs from 'dayjs'
 
+const isProd = process.env.NODE_ENV === 'production'
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -61,7 +63,7 @@ export default {
   ],
 
   sentry: {
-    dsn: 'https://42f24b48e4a64da2ba31d2781f814f24@o190111.ingest.sentry.io/6381450'
+    dsn: isProd ? 'https://42f24b48e4a64da2ba31d2781f814f24@o190111.ingest.sentry.io/6381450' : ''
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -82,6 +84,8 @@ export default {
   },
 
   router: {
-    base: process.env.NODE_ENV === 'production' ? '/tainan-council-watch' : '/'
+    base: isProd ? '/tainan-council-watch' : '/',
+    trailingSlash: false,
+    middleware: 'debug'
   }
 }

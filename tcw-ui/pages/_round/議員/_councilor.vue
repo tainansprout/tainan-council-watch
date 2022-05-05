@@ -1,6 +1,6 @@
 <template lang="pug">
   .councilor.mw8.ph3.center.pv3.pv4-l
-    con-con-landing(:map="consMap" :round="round" :minified="!!councilor")
+    con-con-landing(v-if="consMap" :map="consMap" :round="round" :minified="!!councilor")
     template(v-if="councilor")
       .councilor__head.bt.b--moon-gray.mt4.pt3.pt4-l(ref="head")
         h1.fw5.f3.f2-l.flex.flex-column.flex-row-l
@@ -32,7 +32,13 @@ export default {
     const counsMap = await $content(round, 'councilor-list').fetch()
     const councilorId = params.councilor
     let councilor = counsMap[councilorId]
-    const sayit = await $content(round, 'sayit', councilorId).fetch()
+    let sayit
+
+    try {
+      sayit = await $content(round, 'sayit', councilorId).fetch()
+    } catch {
+      // noop
+    }
 
     try {
       const cmsContent = await $content(round, `meta-${councilor.areaTitle}`).fetch()
@@ -78,6 +84,8 @@ export default {
     if (this.councilor) {
       scrollTo(this.$refs.head)
     }
+    // TODO: debug
+    console.warn('mounted,', Object.keys(this), this)
   }
 }
 </script>
