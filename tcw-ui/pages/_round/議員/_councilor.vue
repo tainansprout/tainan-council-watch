@@ -6,7 +6,7 @@
         h1.fw5.f3.f2-l.flex.flex-column.flex-row-l
           span.mr4-l.pr3-l {{councilor.areaTitle}}
           span.mt3.mt0-l {{councilor.areaList.join('.')}}
-      .councilor__person.bt-l.bb.b--moon-gray.mt4.pb4.pb0-l
+      .councilor__person.bt-l.bb.b--moon-gray.mt4.pb4.pb0-l(:class="{'councilor__person--misc': miscColumn}")
         .councilor__basic.br-l.b--moon-gray
           .aspect-ratio.aspect-ratio--1x1
             .aspect-ratio--object.br-100.overflow-hidden
@@ -14,9 +14,12 @@
           div
             .f5.f4-l {{councilor.name}}
             .f5.f4-l.mt3.mt4-l {{councilor.party}}
-        .councilor__experience.mt4.mt0-l
+        .councilor__personMeta.mt4.mt0-l
           h2.mt0-l.f3 公職經歷
-          a.black(href="https://hackmd.io/@ddio/SJWBXM4Sq/https%3A%2F%2Fhackmd.io%2FJ3xPDhMnT1W5Eg_cKeNTBQ") 待製作， 05/11 登場
+          p(v-for="line in jobHistory" :key="line") {{line}}
+        .councilor__personMeta.mt4.mt0-l.bl-l.b--moon-gray(v-if="miscColumn")
+          h2.mt0-l.f3 {{miscColumn.title}}
+          p {{miscColumn.content}}
       .councilor__sayit.mt4.mt5-l
         interpellation-landing(:councilor-map="counsMap" :say-list="sayList")
 </template>
@@ -28,8 +31,18 @@ export default {
     const consMap = await $content(round, 'area-list').fetch()
     const counsMap = await $content(round, 'councilor-list').fetch()
     const councilorId = params.councilor
-    const councilor = counsMap[councilorId]
+    let councilor = counsMap[councilorId]
     const sayit = await $content(round, 'sayit', councilorId).fetch()
+
+    try {
+      const cmsContent = await $content(round, `meta-${councilor.areaTitle}`).fetch()
+      councilor = {
+        ...councilor,
+        ...cmsContent[`councilor-${councilorId}`]
+      }
+    } catch {
+      // noop
+    }
 
     return { consMap, round, councilor, counsMap, sayit }
   },
@@ -44,6 +57,21 @@ export default {
           councilorId: this.sayit.id
         }
       })
+    },
+    jobHistory () {
+      const history = this.councilor['job-history'] || '待撰寫'
+      return history.split('\n')
+    },
+    miscColumn () {
+      const title = this.councilor['misc-title']
+      const content = this.councilor['misc-content']
+      if (title && content) {
+        return {
+          title,
+          content
+        }
+      }
+      return undefined
     }
   },
   mounted () {
@@ -65,12 +93,16 @@ export default {
     &__person {
       display: grid;
       grid-template-columns: 25rem 1fr;
+
+      &--misc {
+        grid-template-columns: 25rem 4fr 3fr;
+      }
     }
     &__basic {
       grid-template-columns: 9.25rem 1fr;
       padding: 1.5rem 2.25rem;
     }
-    &__experience {
+    &__personMeta {
       padding: 1.5rem 2.25rem;
     }
   }
