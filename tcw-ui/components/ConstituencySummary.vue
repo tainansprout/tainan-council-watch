@@ -2,7 +2,9 @@
   .conSumWrapper
     .conSum
       h2.fw4.f4.f3-l.mt3.mt0-l 選區情報
-      .conSum__article.o-50 待製作， 05/11 登場
+      .conSum__article
+        .o-50(v-if="!intro") 待撰寫
+        nuxt-content(v-else :document="intro")
       h2.fw4.f4.f3-l.mt4.mt0-l 議員關注議題
       .conSum__statsList.mt3.mt0-l
         org-stats-tag(
@@ -36,6 +38,11 @@ export default {
       type: String,
       required: true
     }
+  },
+  computed: {
+    intro () {
+      return this.meta.intro
+    }
   }
 }
 </script>
@@ -46,6 +53,7 @@ export default {
     display: grid;
     grid-template-columns: 13rem 1fr;
     column-gap: 5rem;
+    row-gap: 2rem;
   }
 
   &__statsList {
@@ -58,6 +66,17 @@ export default {
       grid-template-columns: repeat(4, 1fr);
       column-gap: 1.25rem;
       row-gap: 1rem;
+    }
+  }
+
+  &__article ::v-deep {
+    ul {
+      margin: 0;
+      padding: 0;
+      li {
+        list-style: none;
+        line-height: 1.5;
+      }
     }
   }
 }
