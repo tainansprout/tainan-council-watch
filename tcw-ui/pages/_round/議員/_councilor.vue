@@ -32,7 +32,13 @@ export default {
     const counsMap = await $content(round, 'councilor-list').fetch()
     const councilorId = params.councilor
     let councilor = counsMap[councilorId]
-    const sayit = await $content(round, 'sayit', councilorId).fetch()
+    let sayit
+
+    try {
+      sayit = await $content(round, 'sayit', councilorId).fetch()
+    } catch {
+      // noop
+    }
 
     try {
       const cmsContent = await $content(round, `meta-${councilor.areaTitle}`).fetch()
