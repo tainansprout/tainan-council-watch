@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     sayList () {
-      if (!this.sayit) {
+      if (!this.sayit || !this.sayit.sayit) {
         return []
       }
       return this.sayit.sayit.map((sayit) => {
