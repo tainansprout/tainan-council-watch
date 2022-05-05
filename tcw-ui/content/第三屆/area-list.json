@@ -402,6 +402,19 @@
         "party": "民進黨",
         "bgUrl": "https://www.tncc.gov.tw/warehouse/67C09A20-3885-4274-8F78-E9E0A404D0D6/17-唐碧娥議員.jpg",
         "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=4A715861-910B-468E-8881-D0796FBBDCC8"
+      },
+      {
+        "id": "洪玉鳳-f07e82f",
+        "name": "洪玉鳳",
+        "abbr": "洪玉鳳",
+        "party": "國民黨",
+        "bgUrl": "/img/洪玉鳳-f07e82f.jpg",
+        "pageLink": "",
+        "areaTitle": "第八選區",
+        "areaList": [
+          "北區",
+          "中西區"
+        ]
       }
     ]
   },

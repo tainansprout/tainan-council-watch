@@ -7,20 +7,39 @@
       tcw-title {{meta.areaTitle}}
       p {{meta.areaList.join('.')}}
       .mt5
-        constituency-summary(:meta="meta" :round="round" :related-org-stats="orgStats")
+        constituency-summary(
+          :meta="meta"
+          :round="round"
+          :related-org-stats="orgStats"
+        )
 </template>
 <script>
-import { countRelatedOrgs, scrollTo } from '~/libs/utils'
+import { countRelatedOrgs, scrollTo, parseMarkdown } from '~/libs/utils'
+
 export default {
   async asyncData ({ $content, params, redirect }) {
     const round = params.round || '第三屆'
     const constituency = params.constituency
     const consMap = await $content(round, 'area-list').fetch()
-    const meta = consMap[constituency]
+    let meta = consMap[constituency]
+    let cmsContent = {}
+    try {
+      cmsContent = await $content(round, `meta-${constituency}`).fetch()
+      cmsContent.intro = await parseMarkdown(cmsContent.intro || '')
+    } catch {
+      // noop
+    }
 
     if (!meta && constituency) {
       redirect(`/${round}`)
       return
+    }
+
+    if (meta && cmsContent) {
+      meta = {
+        ...meta,
+        ...cmsContent
+      }
     }
 
     // count sayit group by related org
