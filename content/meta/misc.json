@@ -1,0 +1,24 @@
+{
+  "article-desp": "讀分析說明 讀分析說明 讀分析說明 \n讀分析說明 讀分析說明 讀分析說明 \n讀分析說明 讀分析說明 讀分析說明 讀分析說明 讀分析說明 讀分析說明 \n讀分析說明 ",
+  "footer-about": [
+    {
+      "label": "臉書專頁",
+      "url": "https://www.facebook.com/tainansprout/"
+    },
+    {
+      "label": "官方網站",
+      "url": "https://www.tnsprout.org/"
+    }
+  ],
+  "footer-contact": [
+    {
+      "label": "(06) 222-7926"
+    },
+    {
+      "label": "info@tnsprout.org"
+    },
+    {
+      "label": "700 台南市中西區成功路29號4樓"
+    }
+  ]
+}
