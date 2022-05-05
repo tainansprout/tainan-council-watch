@@ -1,1 +1,0 @@
-window.__NUXT__=(function(a){return {staticAssetsBase:"\u002Ftainan-council-watch\u002F_nuxt\u002Fstatic\u002F1651727148",layout:"default",error:a,serverRendered:true,routePath:"\u002F",config:{_app:{basePath:"\u002Ftainan-council-watch\u002F",assetsPath:"\u002Ftainan-council-watch\u002F_nuxt\u002F",cdnURL:a},content:{dbHash:"4f2d7531"}}}}(null));
