@@ -8,7 +8,19 @@ const NTH = '第三屆'
 const SHEET_URI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2_P-mrFZt2bSBuM_U2BuJR1FeRsKp0oxcFL7RcFheCUO1K86Liq9E3vu83FpkjHdrqjy-PWUBtFzc/pub?single=true&output=csv'
 
 const AREA_MAP = JSON.parse(fs.readFileSync(path.join(__dirname, `../content/${NTH}/area-list.json`)))
+const COUNCILOR_LIST = Object.values(
+  JSON.parse(fs.readFileSync(path.join(__dirname, `../content/${NTH}/councilor-list.json`)))
+)
 const number2zh = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
+
+const mappingErrors = {}
+
+function pushMapError (msg) {
+  if (!mappingErrors[msg]) {
+    mappingErrors[msg] = 0
+  }
+  mappingErrors[msg] += 1
+}
 
 function normalizeArea (area) {
   area = area.replace(/1(\d)/, '十$1')
@@ -20,17 +32,26 @@ function normalizeArea (area) {
 
 function getCouncilorId (areaName, councilorName) {
   const area = AREA_MAP[areaName]
-  if (!area) {
-    console.warn(`Area ${areaName} not existed`)
-    return ''
-  }
   councilorName = councilorName.replace(/[a-zA-Z‧．、議員\n ]/g, '')
-  const councilor = area.councilors.find(councilor => councilor.abbr === councilorName)
+  let councilor = null
+
+  if (area) {
+    councilor = area.councilors.find(councilor => councilor.abbr === councilorName)
+  }
+
   if (!councilor) {
-    console.warn(`Councilor ${councilorName} in ${areaName} not existed`)
+    pushMapError(`Councilor ${councilorName} in ${areaName} not existed`)
+
+    // lookup councilor name directly
+    councilor = COUNCILOR_LIST.find(councilor => councilor.abbr === councilorName)
+  }
+
+  if (councilor) {
+    return councilor.id
+  } else {
+    pushMapError(`Councilor ${councilorName} not existed in any area`)
     return ''
   }
-  return councilor.id
 }
 
 async function parseLogs () {
@@ -50,7 +71,7 @@ async function parseLogs () {
 
           const key = getCouncilorId(area, councilor)
           if (!key) {
-            console.warn(`== Councilor not found in ${sheetId}`)
+            // console.warn(`== Councilor not found in ${sheetId}`)
             return
           }
 
@@ -97,6 +118,15 @@ async function parseLogs () {
       sayit: councilorMap[councilorId]
     }))
   })
+
+  const errors = Object.keys(mappingErrors)
+  if (errors.length) {
+    console.warn(`==== Mapping error summary x ${errors.length} ====`)
+    errors.forEach((error) => {
+      console.warn(`[${mappingErrors[error]} times] ${error}`)
+      console.warn('------------------')
+    })
+  }
 }
 
 parseLogs()
