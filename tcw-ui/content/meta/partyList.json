@@ -3,7 +3,32 @@
     {
       "name": "中國國民黨",
       "abbr": "國民黨",
-      "avatar": "https://www.moedict.tw/%E9%BB%A8.png"
+      "avatar": "/img/黨.png"
+    },
+    {
+      "name": "民主進步黨",
+      "abbr": "民進黨",
+      "avatar": "/img/黨.png"
+    },
+    {
+      "name": "台灣團結聯盟",
+      "abbr": "台聯",
+      "avatar": "/img/黨.png"
+    },
+    {
+      "name": "無黨籍",
+      "abbr": "無黨籍",
+      "avatar": "/img/黨.png"
+    },
+    {
+      "name": "台灣基進",
+      "abbr": "基進黨",
+      "avatar": "/img/黨.png"
+    },
+    {
+      "name": "時代力量",
+      "abbr": "時力",
+      "avatar": "/img/黨.png"
     }
   ]
 }
