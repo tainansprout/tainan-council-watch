@@ -7,6 +7,8 @@ const SITE_BASE = 'https://www.tncc.gov.tw'
 const NTH = process.argv[2] || '第三屆'
 const PATH_BASE = path.join(__dirname, '../content/', `${NTH}`)
 
+const MISSING_COUNCILOR_LIST = JSON.parse(fs.readFileSync(path.join(PATH_BASE, 'missing-councilor-list.json')))
+
 const councilorsInArea = {}
 
 function prettyName (name) {
@@ -78,6 +80,14 @@ const crawler = new NodeCrawler({
 })
 
 crawler.on('drain', () => {
+  // merge missing councilor list
+  Object.values(MISSING_COUNCILOR_LIST).forEach((councilor) => {
+    const area = councilor.areaTitle
+    councilor.areaList = councilorsInArea[area].areaList
+    councilorsInArea[area].councilors.push(councilor)
+  })
+
+  // dump file
   fs.writeFileSync(
     path.join(PATH_BASE, 'area-list.json'),
     JSON.stringify(councilorsInArea, null, '  ')

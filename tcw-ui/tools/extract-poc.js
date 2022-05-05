@@ -32,7 +32,7 @@ function normalizeArea (area) {
 
 function getCouncilorId (areaName, councilorName) {
   const area = AREA_MAP[areaName]
-  councilorName = councilorName.replace(/[a-zA-Z‧．、議員\n ]/g, '')
+  councilorName = councilorName.replace(/[a-zA-Z‧・·．˙、議員\n ]/g, '')
   let councilor = null
 
   if (area) {
