@@ -12,8 +12,8 @@ councilor: &councilor
 # used together with `npx netlify-cms-proxy-server`. https://www.netlifycms.org/docs/beta-features/#working-with-a-local-git-repository
 # local_backend: true
 
-media_folder: static/img
-public_folder: /img
+media_folder: tcw-ui/static/content-img
+public_folder: /content-img
 
 # Docs: https://www.netlifycms.org/docs/configuration-options/#collections
 collections:
@@ -258,11 +258,13 @@ collections:
     folder: 'tcw-ui/content/article'
     create: true
     format: 'frontmatter'
+    editor:
+      preview: false
     slug: '{{fields.slug}}-{{fields.createdAt}}'
     fields:
       - { label: '建立日期', name: 'createdAt', widget: 'datetime', date_format: "YYYY-MM-DD", time_format: false }
       - { label: '標題', name: 'title', widget: 'string' }
-      - { label: '網址', name: 'slug', widget: 'string' }
+      - { label: '網址', name: 'slug', widget: 'string', hint: '網址的樣子，華英皆可，英文為佳，可用「-」取代空白' }
       - label: 文章分類
         name: category
         widget: relation
@@ -277,7 +279,8 @@ collections:
     folder: 'tcw-ui/content/setting'
     filter: { field: "type", value: "articleCategory"}
     identifier_field: 'category'
-    slug: 'article-category-{{slug}}'
+    slug: 'article-category-{{fields.name}}'
+    summary: '{{name}}'
     format: 'json'
     create: true
     editor:
