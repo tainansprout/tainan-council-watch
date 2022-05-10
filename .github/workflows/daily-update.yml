@@ -39,7 +39,7 @@ jobs:
         run: npm ci --prefer-offline --no-audit
 
       - name: Sync latest council data
-        run: node tools/erxtract-poc.js
+        run: node ./tools/erxtract-poc.js
 
       - name: Push latest council data 
         uses: EndBug/add-and-commit@v8
