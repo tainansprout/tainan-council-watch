@@ -3,13 +3,14 @@ const path = require('path')
 const got = require('got')
 const CsvReadableStream = require('csv-reader')
 const AutoDetectDecoderStream = require('autodetect-decoder-stream')
+const { districtName2Id } = require('./utils')
 
-const NTH = '第三屆'
+const NTH = '3rd'
 const SHEET_URI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2_P-mrFZt2bSBuM_U2BuJR1FeRsKp0oxcFL7RcFheCUO1K86Liq9E3vu83FpkjHdrqjy-PWUBtFzc/pub?single=true&output=csv'
 
-const AREA_MAP = JSON.parse(fs.readFileSync(path.join(__dirname, `../content/${NTH}/area-list.json`)))
-const COUNCILOR_LIST = Object.values(
-  JSON.parse(fs.readFileSync(path.join(__dirname, `../content/${NTH}/councilor-list.json`)))
+const DISTRICT_MAP = JSON.parse(fs.readFileSync(path.join(__dirname, `../content/council/${NTH}/district-map.json`)))
+const COUNCILOR_MAP = Object.values(
+  JSON.parse(fs.readFileSync(path.join(__dirname, `../content/council/${NTH}/councilor-map.json`)))
 )
 const number2zh = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
 
@@ -22,34 +23,35 @@ function pushMapError (msg) {
   mappingErrors[msg] += 1
 }
 
-function normalizeArea (area) {
-  area = area.replace(/1(\d)/, '十$1')
+function getDistrictId (districtName) {
+  // sometime people use 第12選區 instead of 第十二選區
+  districtName = districtName.replace(/1(\d)/, '十$1')
   number2zh.forEach((zh, number) => {
-    area = area.replace(number, zh)
+    districtName = districtName.replace(number, zh)
   })
-  return area
+  return districtName2Id[districtName]
 }
 
-function getCouncilorId (areaName, councilorName) {
-  const area = AREA_MAP[areaName]
+function getCouncilorId (districtId, councilorName) {
+  const district = DISTRICT_MAP[districtId]
   councilorName = councilorName.replace(/[a-zA-Z‧・·．˙、議員\n ]/g, '')
   let councilor = null
 
-  if (area) {
-    councilor = area.councilors.find(councilor => councilor.abbr === councilorName)
+  if (district) {
+    councilor = district.councilors.find(councilor => councilor.abbr === councilorName)
   }
 
   if (!councilor) {
-    pushMapError(`Councilor ${councilorName} in ${areaName} not existed`)
+    pushMapError(`Councilor ${councilorName} in ${districtId} not existed`)
 
     // lookup councilor name directly
-    councilor = COUNCILOR_LIST.find(councilor => councilor.abbr === councilorName)
+    councilor = COUNCILOR_MAP.find(councilor => councilor.abbr === councilorName)
   }
 
   if (councilor) {
     return councilor.id
   } else {
-    pushMapError(`Councilor ${councilorName} not existed in any area`)
+    pushMapError(`Councilor ${councilorName} not existed in any district`)
     return ''
   }
 }
@@ -64,12 +66,12 @@ async function parseLogs () {
         .pipe(new AutoDetectDecoderStream())
         .pipe(new CsvReadableStream({ asObject: true }))
         .on('data', (data) => {
-          const area = normalizeArea(data.選區)
+          const districtId = getDistrictId(data.選區)
           const councilor = data.議員
           const src = data.議事錄頁碼開頭.replace(/[p.]/g, '').split('、').map(Number.parseInt)
           const date = data.質詢日期
 
-          const key = getCouncilorId(area, councilor)
+          const key = getCouncilorId(districtId, councilor)
           if (!key) {
             // console.warn(`== Councilor not found in ${sheetId}`)
             return
@@ -111,7 +113,7 @@ async function parseLogs () {
   Object.keys(councilorMap).forEach((councilorId) => {
     const filename = path.join(
       __dirname,
-      `../content/${NTH}/sayit/${councilorId}.json`
+      `../content/council/${NTH}/sayit/${councilorId}.json`
     )
     fs.writeFileSync(filename, JSON.stringify({
       id: councilorId,

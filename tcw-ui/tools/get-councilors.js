@@ -1,15 +1,16 @@
 const fs = require('fs')
 const path = require('path')
 const NodeCrawler = require('crawler')
+const { districtName2Id } = require('./utils')
 
 const SITE_BASE = 'https://www.tncc.gov.tw'
 
-const NTH = process.argv[2] || '第三屆'
-const PATH_BASE = path.join(__dirname, '../content/', `${NTH}`)
+const NTH = process.argv[2] || '3rd'
+const PATH_BASE = path.join(__dirname, '../content/council/', `${NTH}`)
 
 const MISSING_COUNCILOR_LIST = JSON.parse(fs.readFileSync(path.join(PATH_BASE, 'missing-councilor-list.json')))
 
-const councilorsInArea = {}
+const councilorsInDistrict = {}
 
 function prettyName (name) {
   return name
@@ -17,33 +18,35 @@ function prettyName (name) {
     .replace(/([a-z])([^ a-zA-Z])/g, '$1 $2')
 }
 
-function dumpAreaInfo (quota) {
+function dumpDistrictInfo (quota) {
   return (error, res, done) => {
     if (error) {
-      console.error('Fail on get area', error)
+      console.error('Fail on get district', error)
       done()
       return
     }
     const $ = res.$
-    // get area info
+    // get district info
     // 第五選區(善化.安定.新市.山上.新化區)
     const header = $('h3').text().split('(')
-    const areaTitle = header[0]
-    const areaList = header[1]
+    const districtTitle = header[0]
+    const districtId = districtName2Id(districtTitle)
+    const townList = header[1]
       .slice(0, -1)
       .replace(/區/g, '')
       .split('.')
-      .map((area) => {
-        if (area.length < 2 || area === '中西') {
-          return `${area}區`
+      .map((town) => {
+        if (town.length < 2 || town === '中西') {
+          return `${town}區`
         }
-        return area
+        return town
       })
 
-    councilorsInArea[areaTitle] = {
-      areaTitle,
-      areaList,
-      areaQuota: quota,
+    councilorsInDistrict[districtId] = {
+      districtTitle,
+      townList,
+      districtId,
+      districtQuota: quota,
       councilors: []
     }
 
@@ -62,8 +65,8 @@ function dumpAreaInfo (quota) {
       const bgImg = ele.find('a div').css('background-image')
       const bgUrl = `${SITE_BASE}/${bgImg.slice('url('.length, -1)}`
 
-      councilorsInArea[areaTitle].councilors.push({
-        id: `${name}-${id}`,
+      councilorsInDistrict[districtId].councilors.push({
+        id,
         name,
         abbr,
         party,
@@ -82,30 +85,31 @@ const crawler = new NodeCrawler({
 crawler.on('drain', () => {
   // merge missing councilor list
   Object.values(MISSING_COUNCILOR_LIST).forEach((councilor) => {
-    const area = councilor.areaTitle
-    councilor.areaList = councilorsInArea[area].areaList
-    councilorsInArea[area].councilors.push(councilor)
+    const districtId = councilor.districtId
+    councilor.townList = councilorsInDistrict[districtId].townList
+    councilorsInDistrict[districtId].councilors.push(councilor)
   })
 
   // dump file
   fs.writeFileSync(
-    path.join(PATH_BASE, 'area-list.json'),
-    JSON.stringify(councilorsInArea, null, '  ')
+    path.join(PATH_BASE, 'district-map.json'),
+    JSON.stringify(councilorsInDistrict, null, '  ')
   )
 
-  const councilors = Object.values(councilorsInArea).reduce((sum, area) => {
-    area.councilors.forEach((councilor) => {
+  const councilors = Object.values(councilorsInDistrict).reduce((sum, district) => {
+    district.councilors.forEach((councilor) => {
       sum[councilor.id] = {
         ...councilor,
-        areaTitle: area.areaTitle,
-        areaList: area.areaList
+        districtId: district.districtId,
+        districtTitle: district.districtTitle,
+        townList: district.townList
       }
     })
     return sum
   }, {})
 
   fs.writeFileSync(
-    path.join(PATH_BASE, 'councilor-list.json'),
+    path.join(PATH_BASE, 'councilor-map.json'),
     JSON.stringify(councilors, null, '  ')
   )
 })
@@ -120,11 +124,11 @@ crawler.queue({
     }
     const $ = res.$
     $('.main.col-lg-12 .nav-link').each(function () {
-      const areaUrl = $(this).attr('href')
+      const districtUrl = $(this).attr('href')
       const quota = $(this).siblings().text().replace(/[^\d]/g, '')
       crawler.queue({
-        uri: `${SITE_BASE}/${areaUrl}`,
-        callback: dumpAreaInfo(quota)
+        uri: `${SITE_BASE}/${districtUrl}`,
+        callback: dumpDistrictInfo(quota)
       })
     })
     done()
