@@ -12,7 +12,8 @@
             span.district__area.mr1-l(v-for="town in districtMeta(district).townList" :key="town") {{town}}
         .db.dn-l(v-if="target && target === district")
           slot
-
+    .districtLanding__map.mt5
+      district-map
 </template>
 <script>
 import { DISTRICT_LIST, districtName2Id } from '~/libs/defs'
