@@ -5,18 +5,31 @@
         nuxt-link.district.f6.db.pa3.pa0-l.mt3.mt0-l(:to="districtLink(district)" :id="districtId(district)")
           .dn.dib-l.mr1
             i.fa-solid.fa-square
-          .db.di-l.mr2
+          .db.di-l.mr2(
+            @mouseover="mouseoverDistrict(district)"
+            @mouseleave="mouseleaveDistrict"
+          )
             .di.f5.f6-l {{district}}
             .f7.di.dn-l.ml3 {{districtMeta(district).districtQuota}} 席
           .db.di-l.mt3.mt0-l
-            span.district__area.mr1-l(v-for="town in districtMeta(district).townList" :key="town") {{town}}
+            span.district__area.mr1-l(
+              v-for="town in districtMeta(district).townList"
+              :key="town"
+              @mouseover="mouseoverTown(town)"
+              @mouseleave="mouseleaveTown"
+            ) {{town}}
         .db.dn-l(v-if="target && target === district")
           slot
     .districtLanding__map.mt5
-      district-map
+      district-map(:focus="focusedArea")
 </template>
 <script>
+import { debounce } from 'lodash'
 import { DISTRICT_LIST, districtName2Id } from '~/libs/defs'
+
+const A_LITTLE = 100
+const A_LITTLE_MORE = 200
+
 export default {
   props: {
     map: {
@@ -32,12 +45,45 @@ export default {
       default: ''
     }
   },
+  data () {
+    return {
+      focusedArea: null,
+      isFocusedAreaDirty: false
+    }
+  },
   computed: {
     districtList () {
       return DISTRICT_LIST
     }
   },
   methods: {
+    mouseoverTown (town) {
+      if (!town.endsWith('區')) {
+        town = `${town}區`
+      }
+      this.setFocusedArea('town', town)
+    },
+    mouseleaveTown () {
+      this.resetFocusedArea()
+    },
+    mouseoverDistrict: debounce(function (name) {
+      this.setFocusedArea('district', districtName2Id(name))
+    }, A_LITTLE),
+    mouseleaveDistrict () {
+      this.resetFocusedArea()
+    },
+    setFocusedArea (type, id) {
+      this.isFocusedAreaDirty = false
+      this.focusedArea = { type, id }
+    },
+    resetFocusedArea () {
+      this.isFocusedAreaDirty = true
+      setTimeout(() => {
+        if (this.isFocusedAreaDirty && this.focusedArea) {
+          this.focusedArea = null
+        }
+      }, A_LITTLE_MORE)
+    },
     districtLink (district) {
       return {
         name: 'round-district-district',

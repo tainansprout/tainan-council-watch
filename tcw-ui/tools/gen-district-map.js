@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const turf = require('@turf/turf')
+const rewind = require('@mapbox/geojson-rewind')
 const { feature } = require('topojson-client')
 const { topology } = require('topojson-server')
 
@@ -67,10 +68,11 @@ function genDistrictMap () {
       type: 'FeatureCollection',
       features: townMap.all
     },
-    districts: {
+    // turn.join is a hole somehow
+    districts: rewind({
       type: 'FeatureCollection',
       features: featureList
-    }
+    }, true)
   }
 
   const topo = topology(topoObjects)
