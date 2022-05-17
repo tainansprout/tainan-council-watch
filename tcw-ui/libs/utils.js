@@ -1,11 +1,10 @@
-// import Markdown from '@nuxt/content/parsers/markdown'
-// import { getDefaults, processMarkdownOptions } from '@nuxt/content/lib/utils'
+import Markdown from '@nuxt/content/parsers/markdown'
+import { getDefaults, processMarkdownOptions } from '@nuxt/content/lib/utils'
 
 export function parseMarkdown (md) {
-  return md
-  // const options = getDefaults()
-  // processMarkdownOptions(options)
-  // return new Markdown(options.markdown).toJSON(md) // toJSON() is async
+  const options = getDefaults()
+  processMarkdownOptions(options)
+  return new Markdown(options.markdown).toJSON(md) // toJSON() is async
 }
 
 export function countRelatedOrgs (...sayitList) {
