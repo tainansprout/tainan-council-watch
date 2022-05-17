@@ -38,8 +38,11 @@ jobs:
       - name: Install dependencies 👨🏻‍💻
         run: npm ci --prefer-offline --no-audit
 
+      - name: Inspect env
+        run: node --version && pwd && ls ./tools && file ./tools/extract-interpellation.js
+
       - name: Sync latest council data
-        run: node ./tools/erxtract-poc.js
+        run: node ./tools/extract-interpellation.js
 
       - name: Push latest council data 
         uses: EndBug/add-and-commit@v8
