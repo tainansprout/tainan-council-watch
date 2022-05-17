@@ -30,3 +30,5 @@ export function districtName2Id (districtName) {
 export const DISTRICT_KEY_LIST = Object.values(DISTRICT_MAP)
 
 export const DISTRICT_LIST = Object.keys(DISTRICT_MAP)
+
+export const DEFAULT_ROUND = '3rd'

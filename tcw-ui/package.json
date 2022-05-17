@@ -18,6 +18,7 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/sentry": "^5.1.7",
     "core-js": "^3.22.2",
+    "d3": "^6.7.0",
     "dayjs": "^1.11.1",
     "lodash": "^4.17.21",
     "nuxt": "^2.15.8",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
+    "@mapbox/geojson-rewind": "^0.5.1",
     "@nuxtjs/eslint-config": "^8.0.0",
     "@nuxtjs/eslint-module": "^3.1.0",
     "@nuxtjs/style-resources": "^1.2.1",
@@ -44,6 +46,7 @@
     "pug-plain-loader": "^1.1.0",
     "sass": "^1.51.0",
     "sass-loader": "^10.2.1",
-    "stream": "0.0.2"
+    "stream": "0.0.2",
+    "topojson-server": "^3.0.1"
   }
 }

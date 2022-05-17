@@ -24,10 +24,11 @@
         interpellation-landing(:councilor-map="counsMap" :say-list="sayList")
 </template>
 <script>
+import { DEFAULT_ROUND } from '~/libs/defs'
 import { scrollTo } from '~/libs/utils'
 export default {
   async asyncData ({ $content, params, redirect }) {
-    const round = params.round || '3rd'
+    const round = params.round || DEFAULT_ROUND
     const districtMap = await $content('council', round, 'district-map').fetch()
     const counsMap = await $content('council', round, 'councilor-map').fetch()
     const councilorId = params.councilor

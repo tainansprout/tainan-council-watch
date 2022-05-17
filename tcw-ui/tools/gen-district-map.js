@@ -1,22 +1,35 @@
 const fs = require('fs')
 const path = require('path')
 const turf = require('@turf/turf')
+const rewind = require('@mapbox/geojson-rewind')
+const { feature } = require('topojson-client')
+const { topology } = require('topojson-server')
 
 const NTH = process.argv[2] || '3rd'
-const MAP_NAME = process.argv[3] || 'town-2010'
+const MAP_NAME = process.argv[3] || 'town-2010.topo'
 
 function getTownPolygonMap () {
-  const townGeojson = JSON.parse(
+  const townTopoJson = JSON.parse(
     fs.readFileSync(path.join(__dirname, `../content/map/${MAP_NAME}.json`))
   )
-  return townGeojson.features.reduce((map, feature) => {
-    if (feature.geometry.type !== 'Polygon') {
-      // we only care about 鄉鎮市區
+  const allFeatures = feature(townTopoJson, townTopoJson.objects.towns)
+    .features
+    .filter(town => town.properties.COUNTYNAME === '台南市')
+
+  const townMap = allFeatures
+    .reduce((map, feature) => {
+      if (feature.geometry.type !== 'Polygon') {
+        // we only care about 鄉鎮市區
+        return map
+      }
+      map[feature.properties.TOWNNAME] = turf.polygon(feature.geometry.coordinates)
       return map
-    }
-    map[feature.properties.TOWNNAME] = turf.polygon(feature.geometry.coordinates)
-    return map
-  }, {})
+    }, {})
+
+  return {
+    all: allFeatures,
+    map: townMap
+  }
 }
 
 function genDistrictMap () {
@@ -34,7 +47,7 @@ function genDistrictMap () {
         // entire Tainan
         return feature
       }
-      const townPolygon = townMap[townName]
+      const townPolygon = townMap.map[townName]
       if (!townPolygon) {
         throw new Error(`${townName} polygon not existed`)
       }
@@ -50,12 +63,23 @@ function genDistrictMap () {
     return featureList
   }, [])
 
-  fs.writeFileSync(
-    path.join(__dirname, `../content/map/${MAP_NAME}-district.json`),
-    JSON.stringify({
+  const topoObjects = {
+    towns: {
+      type: 'FeatureCollection',
+      features: townMap.all
+    },
+    // turn.join is a hole somehow
+    districts: rewind({
       type: 'FeatureCollection',
       features: featureList
-    }, null, '  ')
+    }, true)
+  }
+
+  const topo = topology(topoObjects)
+
+  fs.writeFileSync(
+    path.join(__dirname, `../content/map/${MAP_NAME}-districts.json`),
+    JSON.stringify(topo, null, '  ')
   )
 }
 

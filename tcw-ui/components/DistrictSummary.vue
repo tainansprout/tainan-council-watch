@@ -5,7 +5,7 @@
       .districtSum__article
         .o-50(v-if="!intro") 待撰寫
         nuxt-content(v-else :document="intro")
-      h2.fw4.f4.f3-l.mt4.mt0-l 議員關注議題
+      h2.fw4.f4.f3-l.mt4.mt0-l 議員質詢相關局處
       .districtSum__statsList.mt3.mt0-l
         org-stats-tag(
           v-for="stats in relatedOrgStats.total"
