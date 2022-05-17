@@ -14,7 +14,7 @@ function getTownPolygonMap () {
       // we only care about 鄉鎮市區
       return map
     }
-    map[feature.properties.town] = turf.polygon(feature.geometry.coordinates)
+    map[feature.properties.TOWNNAME] = turf.polygon(feature.geometry.coordinates)
     return map
   }, {})
 }
@@ -44,7 +44,9 @@ function genConstituencyMap () {
         }
       })
     }, turf.polygon([]))
-    featureList.push(feature)
+    if (feature.properties.name) {
+      featureList.push(feature)
+    }
     return featureList
   }, [])
 
