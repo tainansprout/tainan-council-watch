@@ -25,11 +25,11 @@
 <script>
 import { get } from 'lodash'
 import { scrollTo } from '~/libs/utils'
-import { NAV_LINKS } from '~/libs/defs'
+import { NAV_LINKS, DEFAULT_ROUND } from '~/libs/defs'
 
 export default {
   async asyncData ({ $content, params, redirect }) {
-    const round = params.round || '3rd'
+    const round = params.round || DEFAULT_ROUND
     const consMap = await $content('council', round, 'district-map').fetch()
     return { consMap, round }
   },

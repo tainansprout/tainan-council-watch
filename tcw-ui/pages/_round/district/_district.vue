@@ -14,11 +14,12 @@
         )
 </template>
 <script>
+import { DEFAULT_ROUND } from '~/libs/defs'
 import { countRelatedOrgs, scrollTo, parseMarkdown } from '~/libs/utils'
 
 export default {
   async asyncData ({ $content, params, redirect }) {
-    const round = params.round || '3rd'
+    const round = params.round || DEFAULT_ROUND
     const districtId = params.district
     const districtMap = await $content('council', round, 'district-map').fetch()
     let meta = districtMap[districtId]

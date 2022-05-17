@@ -25,7 +25,7 @@
             | {{link.label}}
 </template>
 <script>
-import { NAV_LINKS } from '~/libs/defs'
+import { NAV_LINKS, DEFAULT_ROUND } from '~/libs/defs'
 
 export default {
   data () {
@@ -38,7 +38,7 @@ export default {
       return NAV_LINKS
     },
     round () {
-      return this.$route.params.round || '3rd'
+      return this.$route.params.round || DEFAULT_ROUND
     }
   },
   watch: {

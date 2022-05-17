@@ -5,8 +5,17 @@
 <script>
 import * as d3 from 'd3'
 import { feature } from 'topojson-client'
-import { districtName2Id } from '~/libs/defs'
+import { DEFAULT_ROUND, districtName2Id } from '~/libs/defs'
 import townMap from '~/content/map/town-2010.topo-districts.json'
+import districtMap from '~/content/council/3rd/district-map.json'
+
+const TOWN2DISTRICT = Object.values(districtMap).reduce((map, district) => {
+  district.townList.forEach((town) => {
+    town = town.endsWith('區') ? town : `${town}區`
+    map[town] = district.districtId
+  })
+  return map
+}, {})
 
 export default {
   props: {
@@ -47,6 +56,18 @@ export default {
     handleOutPath (e, d) {
       this.$emit('out-town', d.properties.TOWNNAME)
     },
+    gotoDistrict (e, d) {
+      const town = d.properties.TOWNNAME
+      const districtId = TOWN2DISTRICT[town]
+      this.$router.push({
+        name: 'round-district-district',
+        params: {
+          round: DEFAULT_ROUND,
+          ...this.$route.params,
+          district: districtId
+        }
+      })
+    },
     initMap () {
       const mapEle = this.$refs.map
       const towns = feature(townMap, townMap.objects.towns).features
@@ -78,6 +99,7 @@ export default {
         .attr('class', d => `town-${d.properties.TOWNNAME}`)
         .on('mouseover', this.handleHoverPath)
         .on('mouseout', this.handleOutPath)
+        .on('click', this.gotoDistrict)
 
       const districts = feature(townMap, townMap.objects.districts).features
       const districtSvg = svgEle

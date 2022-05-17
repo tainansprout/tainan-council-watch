@@ -7,10 +7,11 @@
 </template>
 <script>
 import dayjs from 'dayjs'
+import { DEFAULT_ROUND } from '~/libs/defs'
 
 export default {
   async asyncData ({ $content, params, redirect }) {
-    const round = params.round || '3rd'
+    const round = params.round || DEFAULT_ROUND
     const counsMap = await $content('council', round, 'councilor-map').fetch()
     const allSayit = await $content('council', round, 'sayit').fetch()
 
