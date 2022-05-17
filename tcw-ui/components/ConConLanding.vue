@@ -13,7 +13,7 @@
           con-con-card.h-100-l(:data="map[cons]" :round="round" :minified="minified")
 </template>
 <script>
-import { CONSTITUENCY_LIST } from '~/libs/defs'
+import { DISTRICT_KEY_LIST } from '~/libs/defs'
 export default {
   props: {
     map: {
@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     consList () {
-      return CONSTITUENCY_LIST
+      return DISTRICT_KEY_LIST
     }
   },
   watch: {

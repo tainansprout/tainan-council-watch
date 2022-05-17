@@ -1,11 +1,11 @@
 <template lang="pug">
   .councilor.mw8.ph3.center.pv3.pv4-l
-    con-con-landing(v-if="consMap" :map="consMap" :round="round" :minified="!!councilor")
+    con-con-landing(v-if="districtMap" :map="districtMap" :round="round" :minified="!!councilor")
     template(v-if="councilor")
       .councilor__head.bt.b--moon-gray.mt4.pt3.pt4-l(ref="head")
         h1.fw5.f3.f2-l.flex.flex-column.flex-row-l
-          span.mr4-l.pr3-l {{councilor.areaTitle}}
-          span.mt3.mt0-l {{councilor.areaList.join('.')}}
+          span.mr4-l.pr3-l {{councilor.districtTitle}}
+          span.mt3.mt0-l {{councilor.townList.join('.')}}
       .councilor__person.bt-l.bb.b--moon-gray.mt4.pb4.pb0-l(:class="{'councilor__person--misc': miscColumn}")
         .councilor__basic.br-l.b--moon-gray
           .aspect-ratio.aspect-ratio--1x1
@@ -27,21 +27,21 @@
 import { scrollTo } from '~/libs/utils'
 export default {
   async asyncData ({ $content, params, redirect }) {
-    const round = params.round || '第三屆'
-    const consMap = await $content(round, 'area-list').fetch()
-    const counsMap = await $content(round, 'councilor-list').fetch()
+    const round = params.round || '3rd'
+    const districtMap = await $content('council', round, 'district-map').fetch()
+    const counsMap = await $content('council', round, 'councilor-map').fetch()
     const councilorId = params.councilor
     let councilor = counsMap[councilorId]
     let sayit
 
     try {
-      sayit = await $content(round, 'sayit', councilorId).fetch()
+      sayit = await $content('council', round, 'sayit', councilorId).fetch()
     } catch {
       // noop
     }
 
     try {
-      const cmsContent = await $content(round, `meta-${councilor.areaTitle}`).fetch()
+      const cmsContent = await $content('council', round, `meta-${councilor.districtTitle}`).fetch()
       councilor = {
         ...councilor,
         ...cmsContent[`councilor-${councilorId}`]
@@ -50,7 +50,7 @@ export default {
       // noop
     }
 
-    return { consMap, round, councilor, counsMap, sayit }
+    return { districtMap, round, councilor, counsMap, sayit }
   },
   computed: {
     sayList () {

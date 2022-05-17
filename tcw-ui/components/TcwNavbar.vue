@@ -38,7 +38,7 @@ export default {
       return NAV_LINKS
     },
     round () {
-      return this.$route.params.round || '第三屆'
+      return this.$route.params.round || '3rd'
     }
   },
   watch: {

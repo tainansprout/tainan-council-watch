@@ -1,13 +1,13 @@
 <template lang="pug">
-  .constituency.mw8.ph3.center
+  .district.mw8.ph3.center
     .mt4.mt5-l
-    constituency-landing(ref="landing" :map="consMap" :round="round" :target="target")
-      constituency-summary(v-if="meta" :meta="meta" :round="round" :related-org-stats="orgStats")
+    district-landing(ref="landing" :map="districtMap" :round="round" :target="target")
+      district-summary(v-if="meta" :meta="meta" :round="round" :related-org-stats="orgStats")
     .dn.db-l(ref="main" v-if="meta")
-      tcw-title {{meta.areaTitle}}
-      p {{meta.areaList.join('.')}}
+      tcw-title {{meta.districtTitle}}
+      p {{meta.townList.join('.')}}
       .mt5
-        constituency-summary(
+        district-summary(
           :meta="meta"
           :round="round"
           :related-org-stats="orgStats"
@@ -18,19 +18,19 @@ import { countRelatedOrgs, scrollTo, parseMarkdown } from '~/libs/utils'
 
 export default {
   async asyncData ({ $content, params, redirect }) {
-    const round = params.round || '第三屆'
-    const constituency = params.constituency
-    const consMap = await $content(round, 'area-list').fetch()
-    let meta = consMap[constituency]
+    const round = params.round || '3rd'
+    const districtId = params.district
+    const districtMap = await $content('council', round, 'district-map').fetch()
+    let meta = districtMap[districtId]
     let cmsContent = {}
     try {
-      cmsContent = await $content(round, `meta-${constituency}`).fetch()
+      cmsContent = await $content('council', round, `meta-${meta.districtTitle}`).fetch()
       cmsContent.intro = await parseMarkdown(cmsContent.intro || '')
     } catch {
       // noop
     }
 
-    if (!meta && constituency) {
+    if (!meta && districtId) {
       redirect(`/${round}`)
       return
     }
@@ -46,7 +46,7 @@ export default {
     let orgStats = {}
     if (meta) {
       const councilorIds = meta.councilors.map(c => c.id)
-      const sayList = await $content(round, 'sayit')
+      const sayList = await $content('council', round, 'sayit')
         .where({ id: { $in: councilorIds } })
         .fetch()
       orgStats = sayList.reduce((stats, sayit) => {
@@ -57,31 +57,31 @@ export default {
       })
     }
 
-    return { consMap, round, meta, orgStats }
+    return { districtMap, round, meta, orgStats }
   },
   computed: {
     target () {
-      return this.meta ? this.meta.areaTitle : ''
+      return this.meta ? this.meta.districtTitle : ''
     }
   },
   mounted () {
     if (!this.meta) {
       return
     }
-    const targetConsId = `#const-${this.meta.areaTitle}`
+    const targetDistrictId = `#district-${this.meta.districtTitle}`
     const landing = this.$refs.landing.$el
     const main = this.$refs.main
     if (main.offsetTop) {
       // is visible, we are in large screen
       scrollTo(main)
     } else {
-      scrollTo(landing.querySelector(targetConsId))
+      scrollTo(landing.querySelector(targetDistrictId))
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.constituency {
+.district {
   h1.tcwTitle {
     margin-bottom: 1rem;
   }

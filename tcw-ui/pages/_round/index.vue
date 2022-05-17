@@ -15,7 +15,7 @@
           | {{link.label}}
     tcw-title(level="h2" id="看選區" ref="看選區") 看選區
     .mt5.mt3-l
-      constituency-landing(:map="consMap" :round="round")
+      district-landing(:map="consMap" :round="round")
     tcw-title(level="h2" id="找議員" ref="找議員") 找議員
     .mt5.mt3-l
       con-con-landing(:map="consMap" :round="round")
@@ -29,8 +29,8 @@ import { NAV_LINKS } from '~/libs/defs'
 
 export default {
   async asyncData ({ $content, params, redirect }) {
-    const round = params.round || '第三屆'
-    const consMap = await $content(round, 'area-list').fetch()
+    const round = params.round || '3rd'
+    const consMap = await $content('council', round, 'district-map').fetch()
     return { consMap, round }
   },
   computed: {

@@ -4,7 +4,7 @@
       .f6.gray {{sayit.date}}
       .mt3.mt0-l
         .f6.gray.mb1 質詢議員： {{councilor.name}}
-        .f6.gray 選舉區域： {{constituency}}
+        .f6.gray 選舉區域： {{district}}
     h2.f4.f3-l.fw6 {{sayit.summary}}
     p {{sayit.say}}
     .flex-l.justify-between
@@ -27,8 +27,8 @@ export default {
     councilor () {
       return this.councilorMap[this.sayit.councilorId]
     },
-    constituency () {
-      return `${this.councilor.areaTitle} | ${this.councilor.areaList.join('.')}`
+    district () {
+      return `${this.councilor.districtTitle} | ${this.councilor.townList.join('.')}`
     }
   }
 }

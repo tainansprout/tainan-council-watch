@@ -1,12 +1,12 @@
 <template lang="pug">
-  .conSumWrapper
-    .conSum
+  .districtSumWrapper
+    .districtSum
       h2.fw4.f4.f3-l.mt3.mt0-l 選區情報
-      .conSum__article
+      .districtSum__article
         .o-50(v-if="!intro") 待撰寫
         nuxt-content(v-else :document="intro")
       h2.fw4.f4.f3-l.mt4.mt0-l 議員關注議題
-      .conSum__statsList.mt3.mt0-l
+      .districtSum__statsList.mt3.mt0-l
         org-stats-tag(
           v-for="stats in relatedOrgStats.total"
           :key="stats.name"
@@ -47,7 +47,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.conSum {
+.districtSum {
 
   @include large-screen {
     display: grid;

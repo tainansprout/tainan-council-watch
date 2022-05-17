@@ -37,7 +37,7 @@ export default {
   computed: {
     councilorLink () {
       return {
-        name: 'round-議員-councilor',
+        name: 'round-councilor-councilor',
         params: {
           round: this.round,
           councilor: this.person.id

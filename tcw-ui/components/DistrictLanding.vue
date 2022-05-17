@@ -1,21 +1,21 @@
 <template lang="pug">
-  .consLanding
-    .consLanding__list
-      template(v-for="cons in consList")
-        nuxt-link.cons.f6.db.pa3.pa0-l.mt3.mt0-l(:to="consLink(cons)" :id="consId(cons)")
+  .districtLanding
+    .districtLanding__list
+      template(v-for="district in districtList")
+        nuxt-link.district.f6.db.pa3.pa0-l.mt3.mt0-l(:to="districtLink(district)" :id="districtId(district)")
           .dn.dib-l.mr1
             i.fa-solid.fa-square
           .db.di-l.mr2
-            .di.f5.f6-l {{cons}}
-            .f7.di.dn-l.ml3 {{map[cons].areaQuota}} 席
+            .di.f5.f6-l {{district}}
+            .f7.di.dn-l.ml3 {{districtMeta(district).districtQuota}} 席
           .db.di-l.mt3.mt0-l
-            span.cons__area.mr1-l(v-for="area in map[cons].areaList" :key="area") {{area}}
-        .db.dn-l(v-if="target && target === cons")
+            span.district__area.mr1-l(v-for="town in districtMeta(district).townList" :key="town") {{town}}
+        .db.dn-l(v-if="target && target === district")
           slot
 
 </template>
 <script>
-import { CONSTITUENCY_LIST } from '~/libs/defs'
+import { DISTRICT_LIST, districtName2Id } from '~/libs/defs'
 export default {
   props: {
     map: {
@@ -32,28 +32,31 @@ export default {
     }
   },
   computed: {
-    consList () {
-      return CONSTITUENCY_LIST
+    districtList () {
+      return DISTRICT_LIST
     }
   },
   methods: {
-    consLink (cons) {
+    districtLink (district) {
       return {
-        name: 'round-選區-constituency',
+        name: 'round-district-district',
         params: {
           round: this.round,
-          constituency: cons
+          district: districtName2Id(district)
         }
       }
     },
-    consId (cons) {
-      return `const-${cons}`
+    districtId (district) {
+      return `district-${district}`
+    },
+    districtMeta (name) {
+      return this.map[districtName2Id(name)]
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.consLanding {
+.districtLanding {
   &__list {
     @include large-screen {
       display: grid;
@@ -63,7 +66,7 @@ export default {
     }
   }
 }
-.cons {
+.district {
   border: 1px solid #D8D8D8;
   border-top: 4px solid #FBF1A9;
   color: #00000F;

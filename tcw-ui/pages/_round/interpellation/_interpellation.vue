@@ -10,9 +10,9 @@ import dayjs from 'dayjs'
 
 export default {
   async asyncData ({ $content, params, redirect }) {
-    const round = params.round || '第三屆'
-    const counsMap = await $content(round, 'councilor-list').fetch()
-    const allSayit = await $content(round, 'sayit').fetch()
+    const round = params.round || '3rd'
+    const counsMap = await $content('council', round, 'councilor-map').fetch()
+    const allSayit = await $content('council', round, 'sayit').fetch()
 
     const sayList = allSayit
       .flatMap((person) => {
