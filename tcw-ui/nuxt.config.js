@@ -84,7 +84,6 @@ export default {
   },
 
   router: {
-    base: isProd ? '/tainan-council-watch' : '/',
-    trailingSlash: false
+    base: isProd ? '/tainan-council-watch' : '/'
   }
 }

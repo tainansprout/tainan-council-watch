@@ -1,8 +1,8 @@
 <template lang="pug">
   .ccc.br1.pa3(:class="{'ccc--minified': minified}")
-    .ccc__constituency.fw5.f4 {{data.areaTitle}}
+    .ccc__constituency.fw5.f4 {{data.districtTitle}}
     .ccc__areaList.fw5.mt2
-      span(v-for="area in data.areaList" :key="area") {{area}}
+      span(v-for="area in data.townList" :key="area") {{area}}
     .ccc__councilorList.mt3(:class="[`ccc__councilorList--${data.councilors.length}`]")
       nuxt-link.councilor.f5.f7-l(
         v-for="person in data.councilors"
@@ -32,10 +32,10 @@ export default {
   computed: {
     // constituencyLink () {
     //   return {
-    //     name: 'round-議員-constituency',
+    //     name: 'round-councilor-constituency',
     //     params: {
     //       round: this.$route.params.round,
-    //       constituency: this.data.areaTitle
+    //       constituency: this.data.districtTitle
     //     }
     //   }
     // }
@@ -43,7 +43,7 @@ export default {
   methods: {
     councilorLink (person) {
       return {
-        name: 'round-議員-councilor',
+        name: 'round-councilor-councilor',
         params: {
           round: this.round,
           councilor: person.id

@@ -22,165 +22,166 @@ collections:
     files:
       - label: '第一選區'
         name: 'const01'
-        file: 'tcw-ui/content/第三屆/meta-第一選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第一選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | 劉米山, name: councilor-劉米山-E4C9B92F, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 張世賢, name: councilor-張世賢-FD1153AA, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 李宗翰, name: councilor-李宗翰-822C2918, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 沈家鳳, name: councilor-沈家鳳-D9810CDC, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 蔡育輝, name: councilor-蔡育輝-63ECF425, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 趙昆原, name: councilor-趙昆原-903E6B54, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 劉米山, name: councilor-E4C9B92F, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 張世賢, name: councilor-FD1153AA, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 李宗翰, name: councilor-822C2918, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 沈家鳳, name: councilor-D9810CDC, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 蔡育輝, name: councilor-63ECF425, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 趙昆原, name: councilor-903E6B54, widget: object, fields: *councilor }
       - label: 第二選區
         name: 'const02'
-        file: 'tcw-ui/content/第三屆/meta-第二選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第二選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | 方一峰, name: councilor-方一峰-DA67440D, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 蔡秋蘭, name: councilor-蔡秋蘭-7F271C1B, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 蔡蘇秋金, name: councilor-蔡蘇秋金-69F36580, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 謝財旺, name: councilor-謝財旺-D9A25B56, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 陳昆和, name: councilor-陳昆和-D77070E0, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 方一峰, name: councilor-DA67440D, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 蔡秋蘭, name: councilor-7F271C1B, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 蔡蘇秋金, name: councilor-69F36580, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 謝財旺, name: councilor-D9A25B56, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 陳昆和, name: councilor-D77070E0, widget: object, fields: *councilor }
       - label: 第三選區
         name: 'const03'
-        file: 'tcw-ui/content/第三屆/meta-第三選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第三選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | 吳通龍, name: councilor-吳通龍-F4BE07EC, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 尤榮智, name: councilor-尤榮智-B19250D2, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 陳秋宏, name: councilor-陳秋宏-26189919, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 吳通龍, name: councilor-F4BE07EC, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 尤榮智, name: councilor-B19250D2, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 陳秋宏, name: councilor-26189919, widget: object, fields: *councilor }
       - label: 第四選區
         name: 'const04'
-        file: 'tcw-ui/content/第三屆/meta-第四選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第四選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | 周奕齊, name: councilor-周奕齊-14A262F7, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 周奕齊, name: councilor-14A262F7, widget: object, fields: *councilor }
       - label: 第五選區
         name: 'const05'
-        file: 'tcw-ui/content/第三屆/meta-第五選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第五選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | 李偉智, name: councilor-李偉智-4E55DF62, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 李文俊, name: councilor-李文俊-C724FF9C, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 林志展, name: councilor-林志展-649D4023, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 林志聰, name: councilor-林志聰-F83155EE, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 陳碧玉, name: councilor-陳碧玉-81CBE99D, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 李偉智, name: councilor-4E55DF62, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 李文俊, name: councilor-C724FF9C, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 林志展, name: councilor-649D4023, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 林志聰, name: councilor-F83155EE, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 陳碧玉, name: councilor-81CBE99D, widget: object, fields: *councilor }
       - label: 第六選區
         name: 'const06'
-        file: 'tcw-ui/content/第三屆/meta-第六選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第六選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | 李中岑, name: councilor-李中岑-1E2BC486, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 林炳利, name: councilor-林炳利-A9594FE7, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 王錦德, name: councilor-王錦德-3B7EB972, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 郭信良, name: councilor-郭信良-E67057A4, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 郭清華, name: councilor-郭清華-99DDE3A1, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 黃麗招, name: councilor-黃麗招-A4EA38B5, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 李中岑, name: councilor-1E2BC486, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 林炳利, name: councilor-A9594FE7, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 王錦德, name: councilor-3B7EB972, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 郭信良, name: councilor-E67057A4, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 郭清華, name: councilor-99DDE3A1, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 黃麗招, name: councilor-A4EA38B5, widget: object, fields: *councilor }
       - label: 第七選區
         name: 'const07'
-        file: 'tcw-ui/content/第三屆/meta-第七選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第七選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | 李鎮國, name: councilor-李鎮國-E872A9E9, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 林宜瑾, name: councilor-林宜瑾-4B26C933, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 林易瑩, name: councilor-林易瑩-CFCEC42A, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 林燕祝, name: councilor-林燕祝-5EB6A667, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 林阳乙, name: councilor-林阳乙-19B08661, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 楊中成, name: councilor-楊中成-981C667C, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 陳秋萍, name: councilor-陳秋萍-E011C49C, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 李鎮國, name: councilor-E872A9E9, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 林宜瑾, name: councilor-4B26C933, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 林易瑩, name: councilor-CFCEC42A, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 林燕祝, name: councilor-5EB6A667, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 林阳乙, name: councilor-19B08661, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 楊中成, name: councilor-981C667C, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 陳秋萍, name: councilor-E011C49C, widget: object, fields: *councilor }
       - label: 第八選區
         name: 'const08'
-        file: 'tcw-ui/content/第三屆/meta-第八選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第八選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | 唐碧娥, name: councilor-唐碧娥-4A715861, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 沈震東, name: councilor-沈震東-81919CFD, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 許至椿, name: councilor-許至椿-091FB39A, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 謝龍介, name: councilor-謝龍介-791D5A4F, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 邱莉莉, name: councilor-邱莉莉-0B616907, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 陳怡珍, name: councilor-陳怡珍-F58C7754, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 唐碧娥, name: councilor-4A715861, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 沈震東, name: councilor-81919CFD, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 許至椿, name: councilor-091FB39A, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 謝龍介, name: councilor-791D5A4F, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 邱莉莉, name: councilor-0B616907, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 陳怡珍, name: councilor-F58C7754, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 洪玉鳳, name: councilor-f07e82f, widget: object, fields: *councilor }
       - label: 第九選區
         name: 'const09'
-        file: 'tcw-ui/content/第三屆/meta-第九選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第九選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | 呂維胤, name: councilor-呂維胤-4348ACF1, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 周麗津, name: councilor-周麗津-C74D9364, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 李啟維, name: councilor-李啟維-ADADD8CA, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 林美燕, name: councilor-林美燕-502E5F0C, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 盧崑福, name: councilor-盧崑福-A919B7FF, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 蔡淑惠, name: councilor-蔡淑惠-F824CAE2, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 呂維胤, name: councilor-4348ACF1, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 周麗津, name: councilor-C74D9364, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 李啟維, name: councilor-ADADD8CA, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 林美燕, name: councilor-502E5F0C, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 盧崑福, name: councilor-A919B7FF, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 蔡淑惠, name: councilor-F824CAE2, widget: object, fields: *councilor }
       - label: 第十選區
         name: 'const10'
-        file: 'tcw-ui/content/第三屆/meta-第十選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第十選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | 曾信凱, name: councilor-曾信凱-EBBF7A00, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 曾培雅, name: councilor-曾培雅-B4B20244, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 王家貞, name: councilor-王家貞-09CC5079, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 蔡旺詮, name: councilor-蔡旺詮-D8EE7C84, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 蔡筱薇, name: councilor-蔡筱薇-47FECB54, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 曾信凱, name: councilor-EBBF7A00, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 曾培雅, name: councilor-B4B20244, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 王家貞, name: councilor-09CC5079, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 蔡旺詮, name: councilor-D8EE7C84, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 蔡筱薇, name: councilor-47FECB54, widget: object, fields: *councilor }
       - label: 第十一選區
         name: 'const11'
-        file: 'tcw-ui/content/第三屆/meta-第十一選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第十一選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | 吳禹寰, name: councilor-吳禹寰-8857C2F0, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 杜素吟, name: councilor-杜素吟-CCAD7008, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 許又仁, name: councilor-許又仁-279902C9, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 郭鴻儀, name: councilor-郭鴻儀-A9380159, widget: object, fields: *councilor }
-          - { label: 議員資訊 | 鄭佳欣, name: councilor-鄭佳欣-3E56ADB1, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 吳禹寰, name: councilor-8857C2F0, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 杜素吟, name: councilor-CCAD7008, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 許又仁, name: councilor-279902C9, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 郭鴻儀, name: councilor-A9380159, widget: object, fields: *councilor }
+          - { label: 議員資訊 | 鄭佳欣, name: councilor-3E56ADB1, widget: object, fields: *councilor }
       - label: 第十二選區
         name: 'const12'
-        file: 'tcw-ui/content/第三屆/meta-第十二選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第十二選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | Ingay Tali 穎艾達利, name: councilor-Ingay Tali 穎艾達利-7928278A, widget: object, fields: *councilor }
+          - { label: 議員資訊 | Ingay Tali 穎艾達利, name: councilor-7928278A, widget: object, fields: *councilor }
       - label: 第十三選區
         name: 'const13'
-        file: 'tcw-ui/content/第三屆/meta-第十三選區.json'
+        file: 'tcw-ui/content/councilor/3rd/meta-第十三選區.json'
         format: 'json'
         editor:
           preview: false
         fields:
           - { label: 選區情報, name: intro, widget: markdown }
-          - { label: 議員資訊 | Kumu Hacyo 谷暮．哈就, name: councilor-Kumu Hacyo 谷暮．哈就-E1A5E3BE, widget: object, fields: *councilor }
+          - { label: 議員資訊 | Kumu Hacyo 谷暮．哈就, name: councilor-E1A5E3BE, widget: object, fields: *councilor }
   - label: 全站 | 後設資料
     name: meta
     files:
@@ -224,7 +225,7 @@ collections:
                 hint: 一兩句話的說明，簡單介紹局處性質，讓讀者了解
       - label: 文 | 關於觀測站
         name: about-page
-        file: content/meta/about.md
+        file: tcw-ui/content/meta/about.md
         format: 'frontmatter'
         editor:
           preview: false
@@ -233,7 +234,7 @@ collections:
           - {label: '內文', name: 'body', widget: 'markdown'}
       - label: 雜項欄位
         name: misc
-        file: content/meta/misc.json
+        file: tcw-ui/content/meta/misc.json
         format: json
         editor:
           preview: false
