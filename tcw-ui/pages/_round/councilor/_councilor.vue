@@ -21,7 +21,12 @@
           h2.mt0-l.f3 {{miscColumn.title}}
           p {{miscColumn.content}}
       .councilor__sayit.mt4.mt5-l
-        interpellation-landing(:councilor-map="counsMap" :say-list="sayList" :stats="sayitStats")
+        interpellation-landing(
+          :councilor-map="counsMap"
+          :say-list="sayList"
+          :stats="sayitStats"
+          :category="{type: 'org', value: 'all'}"
+        )
 </template>
 <script>
 import { get } from 'lodash'

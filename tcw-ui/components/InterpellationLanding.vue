@@ -5,19 +5,32 @@
       button.stats__item.ba.b--moon-gray.flex-l.justify-between.f5.f4-l.w-100-l.pa2.pv3-l.ph0-l.mr2.mb2.ma0-l.pointer(
         v-for="org in stats.org"
         :key="org.name"
+        :class="{'stats__item--active': isCatActive('org', org.name)}"
         @click="filter('org', org.name)"
       )
         span.mr2.mr0-l {{org.name}}
         span {{org.count}}
     .intLanding__main.mt3(ref="main")
-      interpellation-card(
-        v-for="(sayit, index) in visibleSayList"
-        :key="index"
-        :councilor-map="councilorMap" :sayit="sayit")
-      client-only
-        infinite-loading(@infinite="loadMoreSayList" :identifier="infiniteId")
-          .f6.gray(slot="no-more") 已顯示所有搜尋結果
-          .f6.gray(slot="no-results") 找不到任何結果，或許換個關鍵字試試？
+      template(v-if="isShowingAllCategory")
+        interpellation-category(
+          v-for="cat in perCategorySayList"
+          :key="cat.name"
+          :name="cat.name"
+          :councilor-map="councilorMap"
+          :say-list="cat.sayList"
+          :has-more="cat.hasMore"
+          @more="filter('org', cat.name)"
+        )
+      template(v-else)
+        interpellation-card(
+          v-for="(sayit, index) in visibleSayList"
+          :key="index"
+          :councilor-map="councilorMap" :sayit="sayit"
+        )
+        client-only
+          infinite-loading(@infinite="loadMoreSayList" :identifier="infiniteId")
+            .f6.gray(slot="no-more") 已顯示所有搜尋結果
+            .f6.gray(slot="no-results") 找不到任何結果，或許換個關鍵字試試？
 </template>
 <script>
 /**
@@ -29,6 +42,7 @@ import InfiniteLoading from 'vue-infinite-loading'
 import { scrollTo } from '~/libs/utils'
 
 const N_ITEM_PER_PAGE = 10
+const N_SAYIT_PER_CAT = 3
 
 export default {
   components: {
@@ -92,6 +106,38 @@ export default {
     },
     visibleSayList () {
       return this.targetSayList.slice(0, this.cursor)
+    },
+    isShowingAllCategory () {
+      return this.targetCategory && this.targetCategory.value === 'all'
+    },
+    perCategorySayList () {
+      if (!this.isShowingAllCategory) {
+        return []
+      }
+      if (this.targetCategory.type !== 'org') {
+        // TODO: implement topic when data ready
+        return []
+      }
+      const sayListPerOrg = this.sayList.reduce((accu, sayit) => {
+        sayit.relatedOrgs.forEach((org) => {
+          if (!accu[org]) {
+            accu[org] = []
+          }
+          if (accu[org].length <= N_SAYIT_PER_CAT) {
+            accu[org].push(sayit)
+          }
+        })
+        return accu
+      }, {})
+      return this.stats.org
+        .filter(org => sayListPerOrg[org.name])
+        .map((org) => {
+          return {
+            ...org,
+            sayList: sayListPerOrg[org.name].slice(0, N_SAYIT_PER_CAT),
+            hasMore: sayListPerOrg[org.name].length > N_SAYIT_PER_CAT
+          }
+        })
     }
   },
   watch: {
@@ -126,6 +172,11 @@ export default {
     resetInfiniteLoading () {
       this.cursor = 0
       this.infiniteId += 1
+    },
+    isCatActive (type, value) {
+      return this.targetCategory &&
+        this.targetCategory.type === type &&
+        this.targetCategory.value === value
     },
     filter (type, value) {
       this.targetCategory = { type, value }
@@ -173,6 +224,10 @@ export default {
 
     @include large-screen {
       border-width: 0 0 1px 0;
+    }
+
+    &--active {
+      color: #49b0d5;
     }
   }
 }
