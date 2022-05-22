@@ -64,7 +64,8 @@ export default {
       return sayit.map((it) => {
         return {
           ...it,
-          councilorId: this.sayit.id
+          councilorId: this.sayit.id,
+          councilRound: this.round
         }
       })
     },
@@ -88,8 +89,6 @@ export default {
     if (this.councilor) {
       scrollTo(this.$refs.head)
     }
-    // TODO: debug
-    console.warn('mounted,', Object.keys(this), this)
   }
 }
 </script>
