@@ -46,7 +46,7 @@ jobs:
         run: npm ci --prefer-offline --no-audit
 
       - name: Prepare env
-        run: toucn .env
+        run: touch .env
  
       - name: Build UI
         run: npm run generate:gh
