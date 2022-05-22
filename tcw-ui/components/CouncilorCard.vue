@@ -18,7 +18,6 @@
         )
 </template>
 <script>
-// import { countRelatedOrgs } from '~/libs/utils'
 export default {
   props: {
     person: {

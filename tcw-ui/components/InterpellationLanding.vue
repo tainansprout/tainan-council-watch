@@ -3,7 +3,7 @@
     .intLanding__stats.stats
       h2.f4.f3-l.mb3 質詢局處
       button.stats__item.ba.b--moon-gray.flex-l.justify-between.f5.f4-l.w-100-l.pa2.pv3-l.ph0-l.mr2.mb2.ma0-l(
-        v-for="org in relatedOrgs"
+        v-for="org in stats.org"
         :key="org.name"
       )
         span.mr2.mr0-l {{org.name}}
@@ -15,7 +15,6 @@
         :councilor-map="councilorMap" :sayit="sayit")
 </template>
 <script>
-import { countRelatedOrgs } from '~/libs/utils'
 export default {
   props: {
     councilorMap: {
@@ -28,13 +27,13 @@ export default {
       validator (list) {
         return list.every(sayit => sayit.councilorId && sayit.summary)
       }
-    }
-  },
-  computed: {
-    relatedOrgs () {
-      return countRelatedOrgs({
-        sayit: this.sayList
-      })
+    },
+    stats: {
+      type: Object,
+      required: true,
+      validator (stats) {
+        return stats.org
+      }
     }
   }
 }
