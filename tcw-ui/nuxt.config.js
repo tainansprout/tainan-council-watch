@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 // in case we need env var in this file
 require('dotenv').config()
 
