@@ -20,24 +20,24 @@ npm run dev
 1. 議員基本資料
    ```
    cd tcw-ui
-   node tools/get-councilors.js
+   node tools/get-councilors.js 3rd
    ```
-2. 質詢編碼資料
-   ```
-   cd tcw-ui
-   node tools/extract-poc.js
-   ```
-3. 產生台南行政區地圖 (geojson)
-   ```
-   cd data/town-map
-   ./extract-tainan.sh <台灣鄉鎮市區>.geojson
-   cp tainan-town.json ../tcw-ui/content/map/<想要取的名字>
-   ```
-4. 產生台南選區地圖 (geojson)
+2. 質詢編碼資料（僅限第三屆）
    ```
    cd tcw-ui
-   node tools/gen-constituency-map.js 第三屆 <台南行政區地圖>
+   node tools/extract-interpellation.js
    ```
+3. 產生台南選區地圖 (geojson)
+   ```
+   cd tcw-ui
+   node tools/gen-district-map.js 3rd <台南行政區地圖>
+   ```
+4. 產生搜尋索引
+   ```
+   cd tcw-ui
+   node tools/sync-search-index.js 3rd <取樣機率>
+   ```
+   - `取樣機率` 預設為 100 ，表示 100% 的質詢會被放進索引中。測試時，可使用 < 100 的取樣機率，方便開發
 
 ### 發佈步驟
 

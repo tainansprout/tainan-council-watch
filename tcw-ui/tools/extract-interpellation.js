@@ -59,9 +59,9 @@ function getCouncilorId (districtId, councilorName) {
 async function parseLogs () {
   const councilorMap = {}
 
-  async function parseOneLog (sheetId) {
+  async function parseOneLog (sheetMeta) {
     await new Promise((resolve, reject) => {
-      const endpoint = `${SHEET_URI}&gid=${sheetId}`
+      const endpoint = `${SHEET_URI}&gid=${sheetMeta.sheetId}`
       got.stream(endpoint)
         .pipe(new AutoDetectDecoderStream())
         .pipe(new CsvReadableStream({ asObject: true }))
@@ -73,7 +73,7 @@ async function parseLogs () {
 
           const key = getCouncilorId(districtId, councilor)
           if (!key) {
-            // console.warn(`== Councilor not found in ${sheetId}`)
+            // console.warn(`== Councilor not found in ${sheetMeta.sheetId}`)
             return
           }
 
@@ -89,6 +89,8 @@ async function parseLogs () {
             summary: data.質詢內容,
             say: data['發言開頭2句話'],
             date,
+            type: sheetMeta.type,
+            round: sheetMeta.round,
             src
           })
         })
@@ -99,15 +101,15 @@ async function parseLogs () {
   }
 
   const sheetList = [
-    '1909562558', // 定一
-    '1969300134', // 定二
-    '67860742', // 定三
-    '394033064', // 定四
-    '618060648' // 定五
+    { sheetId: '1909562558', type: '定期會', round: 1 },
+    { sheetId: '1969300134', type: '定期會', round: 2 },
+    { sheetId: '67860742', type: '定期會', round: 3 },
+    { sheetId: '394033064', type: '定期會', round: 4 },
+    { sheetId: '618060648', type: '定期會', round: 5 }
   ]
 
-  for (const sheetId of sheetList) {
-    await parseOneLog(sheetId)
+  for (const sheetMeta of sheetList) {
+    await parseOneLog(sheetMeta)
   }
 
   Object.keys(councilorMap).forEach((councilorId) => {
