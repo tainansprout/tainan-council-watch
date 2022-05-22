@@ -10,6 +10,11 @@ on:
       - main
       - master
 
+env:
+  ALGOLIA_APP_ID: ${{ secret.ALGOLIA_APP_ID }}
+  ALGOLIA_SEARCH_API_KEY: ${{ secret.ALGOLIA_SEARCH_API_KEY }}
+  ALGOLIA_INDEX_NAME: ${{ secret.ALGOLIA_INDEX_NAME }}
+
 jobs:
   cd:
     runs-on: ${{ matrix.os }}
@@ -40,7 +45,10 @@ jobs:
       - name: Install dependencies 👨🏻‍💻
         run: npm ci --prefer-offline --no-audit
 
-      - name: Build ui
+      - name: Prepare env
+        run: toucn .env
+ 
+      - name: Build UI
         run: npm run generate:gh
 
       - name: Deploy

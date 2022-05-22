@@ -89,7 +89,6 @@ export default {
   },
   computed: {
     sayList () {
-      console.warn('update saylist', this.category)
       if (this.category && this.category.value === 'all') {
         return this.defaultSayList
       }
@@ -106,20 +105,17 @@ export default {
   },
   methods: {
     startNewSearch: debounce(function () {
-      console.warn('search!', this.query)
       if (this.query) {
         this.category = null
         this.searchInterpellation(true)
       } else {
         this.category = { ...DEFAULT_CATEGORY }
-        console.warn('start new!', this.category)
       }
     }, SEARCH_SLOWLY),
     /**
      * @return reach to end of result or not
      */
     async searchInterpellation (shouldReset = false) {
-      console.warn('s int', shouldReset)
       let result = this.algoliaResult
       if (shouldReset) {
         result = []
