@@ -1,9 +1,10 @@
 <template lang="pug">
   .int.mw8.ph3.center.pv3.pv4-l
-    .mv4.o-50.h5.flex.items-center.justify-center.bb.b--moon-gray.bg-light-gray
-      | 各選區質詢，會連同搜尋一起實做，預計
-      a.gray(href="https://hackmd.io/@ddio/SJWBXM4Sq/https%3A%2F%2Fhackmd.io%2FJ3xPDhMnT1W5Eg_cKeNTBQ") 5/11 完成
-      .pv3 {{category}}
+    .mv4.mw5.center
+      input.int__query.br-pill(v-model.trim="query" placeholder="搜尋質詢議題")
+    .mv4.o-50.h4.flex.items-center.justify-center.bb.b--moon-gray.bg-light-gray
+      | 各選區質詢，05/25 登場～
+      .pv2 {{category}}
     interpellation-landing(
       ref="main"
       :councilor-map="counsMap"
@@ -16,10 +17,14 @@
 </template>
 <script>
 import algoliasearch from 'algoliasearch'
+import { debounce } from 'lodash'
 import { DEFAULT_ROUND } from '~/libs/defs'
 
 const N_PER_CAT = 4
 const N_PER_ALGOLIA_REQUEST = 30
+const SEARCH_SLOWLY = 300
+
+const DEFAULT_CATEGORY = { type: 'org', value: 'all' }
 
 export default {
   async asyncData ({ $content, params, redirect }) {
@@ -74,19 +79,18 @@ export default {
     const algoliaIndex = algoliaClient.initIndex(process.env.algoliaIndex)
 
     return {
+      query: '',
       algoliaResult: [],
       algoliaClient,
       algoliaIndex,
 
-      category: {
-        type: 'org',
-        value: 'all'
-      }
+      category: { ...DEFAULT_CATEGORY }
     }
   },
   computed: {
     sayList () {
-      if (this.category.value === 'all') {
+      console.warn('update saylist', this.category)
+      if (this.category && this.category.value === 'all') {
         return this.defaultSayList
       }
       return this.algoliaResult
@@ -95,13 +99,27 @@ export default {
   watch: {
     category () {
       this.searchInterpellation(true)
+    },
+    query () {
+      this.startNewSearch()
     }
   },
   methods: {
+    startNewSearch: debounce(function () {
+      console.warn('search!', this.query)
+      if (this.query) {
+        this.category = null
+        this.searchInterpellation(true)
+      } else {
+        this.category = { ...DEFAULT_CATEGORY }
+        console.warn('start new!', this.category)
+      }
+    }, SEARCH_SLOWLY),
     /**
      * @return reach to end of result or not
      */
     async searchInterpellation (shouldReset = false) {
+      console.warn('s int', shouldReset)
       let result = this.algoliaResult
       if (shouldReset) {
         result = []
@@ -111,10 +129,10 @@ export default {
         hitsPerPage: N_PER_ALGOLIA_REQUEST,
         page: Math.floor(result.length / N_PER_ALGOLIA_REQUEST)
       }
-      if (this.category.type === 'org') {
+      if (this.category && this.category.type === 'org') {
         params.facetFilters = [`relatedOrgs:${this.category.value}`]
       }
-      const { hits, nbPages } = await this.algoliaIndex.search('', params)
+      const { hits, nbPages } = await this.algoliaIndex.search(this.query, params)
 
       hits.forEach((hit) => {
         result.push({
@@ -144,3 +162,11 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.int {
+  &__query {
+    border: 1px solid #d8d8d8;
+    padding: 0.5rem 2rem;
+  }
+}
+</style>
