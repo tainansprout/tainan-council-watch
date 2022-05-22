@@ -1,3 +1,6 @@
+// in case we need env var in this file
+require('dotenv').config()
+
 import dayjs from 'dayjs'
 import { friendlyHeader } from './libs/crawlerFriendly'
 
@@ -103,6 +106,9 @@ export default {
   },
 
   env: {
-    buildTime: dayjs().unix()
+    buildTime: dayjs().unix(),
+    algoliaApp: process.env.ALGOLIA_APP_ID,
+    algoliaIndex: process.env.ALGOLIA_INDEX_NAME,
+    algoliaKey: process.env.ALGOLIA_SEARCH_API_KEY
   }
 }

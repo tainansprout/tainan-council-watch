@@ -18,11 +18,20 @@ async function main () {
   const agIndex = agClient.initIndex(process.env.ALGOLIA_INDEX_NAME)
 
   agIndex.delete()
+  agIndex.setSettings({
+    attributesForFaceting: [
+      'relatedOrgs',
+      'src'
+    ]
+  })
 
   const councilorMeta = JSON.parse(fs.readFileSync(path.join(SAYIT_BASE, '../councilor-map.json')))
 
   const files = fs.readdirSync(SAYIT_BASE)
   const promises = files.map((file) => {
+    if (file === 'stats.json') {
+      return null
+    }
     const sayit = JSON.parse(fs.readFileSync(path.join(SAYIT_BASE, file)))
     const councilor = councilorMeta[sayit.id]
 
@@ -45,7 +54,7 @@ async function main () {
           councilor
         }
       })
-      .filter((r) => r.timestamp && Math.random() <= SAMPLE_RATIO / 100)
+      .filter(r => r.timestamp && Math.random() <= SAMPLE_RATIO / 100)
 
     return agIndex
       .saveObjects(rows, { autoGenerateObjectIDIfNotExist: true })

@@ -12,7 +12,7 @@
         span {{org.count}}
     .intLanding__main.mt3(ref="main")
       template(v-if="isShowingAllCategory")
-        interpellation-category(
+        interpellation-category.mb5(
           v-for="cat in perCategorySayList"
           :key="cat.name"
           :name="cat.name"
@@ -24,7 +24,7 @@
       template(v-else)
         interpellation-card(
           v-for="(sayit, index) in visibleSayList"
-          :key="index"
+          :key="sayit.objectID || index"
           :councilor-map="councilorMap" :sayit="sayit"
         )
         client-only
