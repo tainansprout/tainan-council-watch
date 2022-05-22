@@ -104,9 +104,5 @@ export default {
 
   env: {
     buildTime: dayjs().unix()
-  },
-
-  router: {
-    base: isProd ? '/tainan-council-watch' : '/'
   }
 }
