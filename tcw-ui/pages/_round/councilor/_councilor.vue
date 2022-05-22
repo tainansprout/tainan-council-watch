@@ -21,11 +21,18 @@
           h2.mt0-l.f3 {{miscColumn.title}}
           p {{miscColumn.content}}
       .councilor__sayit.mt4.mt5-l
-        interpellation-landing(:councilor-map="counsMap" :say-list="sayList")
+        interpellation-landing(
+          :councilor-map="counsMap"
+          :say-list="sayList"
+          :stats="sayitStats"
+          :category="{type: 'org', value: 'all'}"
+        )
 </template>
 <script>
+import { get } from 'lodash'
 import { DEFAULT_ROUND } from '~/libs/defs'
 import { scrollTo } from '~/libs/utils'
+
 export default {
   async asyncData ({ $content, params, redirect }) {
     const round = params.round || DEFAULT_ROUND
@@ -54,14 +61,16 @@ export default {
     return { districtMap, round, councilor, counsMap, sayit }
   },
   computed: {
+    sayitStats () {
+      return get(this, 'sayit.stats', [])
+    },
     sayList () {
-      if (!this.sayit || !this.sayit.sayit) {
-        return []
-      }
-      return this.sayit.sayit.map((sayit) => {
+      const sayit = get(this, 'sayit.sayit', [])
+      return sayit.map((it) => {
         return {
-          ...sayit,
-          councilorId: this.sayit.id
+          ...it,
+          councilorId: this.sayit.id,
+          councilRound: this.round
         }
       })
     },
@@ -85,8 +94,6 @@ export default {
     if (this.councilor) {
       scrollTo(this.$refs.head)
     }
-    // TODO: debug
-    console.warn('mounted,', Object.keys(this), this)
   }
 }
 </script>

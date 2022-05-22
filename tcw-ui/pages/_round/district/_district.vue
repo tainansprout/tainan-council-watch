@@ -2,7 +2,7 @@
   .district.mw8.ph3.center
     .mt4.mt5-l
     district-landing(ref="landing" :map="districtMap" :round="round" :target="target")
-      district-summary(v-if="meta" :meta="meta" :round="round" :related-org-stats="orgStats")
+      district-summary(v-if="meta" :meta="meta" :round="round" :related-stats="stats")
     .dn.db-l(ref="main" v-if="meta")
       tcw-title {{meta.districtTitle}}
       p {{meta.townList.join('.')}}
@@ -10,12 +10,12 @@
         district-summary(
           :meta="meta"
           :round="round"
-          :related-org-stats="orgStats"
+          :related-stats="stats"
         )
 </template>
 <script>
 import { DEFAULT_ROUND } from '~/libs/defs'
-import { countRelatedOrgs, scrollTo, parseMarkdown } from '~/libs/utils'
+import { scrollTo, parseMarkdown } from '~/libs/utils'
 
 export default {
   async asyncData ({ $content, params, redirect }) {
@@ -44,21 +44,22 @@ export default {
     }
 
     // count sayit group by related org
-    let orgStats = {}
+    let stats = {}
     if (meta) {
       const councilorIds = meta.councilors.map(c => c.id)
+      const allSayitStats = await $content('council', round, 'sayit/stats').fetch()
       const sayList = await $content('council', round, 'sayit')
         .where({ id: { $in: councilorIds } })
         .fetch()
-      orgStats = sayList.reduce((stats, sayit) => {
-        stats[sayit.id] = countRelatedOrgs(sayit)
+      stats = sayList.reduce((stats, sayit) => {
+        stats[sayit.id] = sayit.stats
         return stats
       }, {
-        total: countRelatedOrgs(...sayList)
+        total: allSayitStats[districtId]
       })
     }
 
-    return { districtMap, round, meta, orgStats }
+    return { districtMap, round, meta, stats }
   },
   computed: {
     target () {

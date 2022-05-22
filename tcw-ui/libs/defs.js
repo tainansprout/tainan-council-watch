@@ -32,3 +32,7 @@ export const DISTRICT_KEY_LIST = Object.values(DISTRICT_MAP)
 export const DISTRICT_LIST = Object.keys(DISTRICT_MAP)
 
 export const DEFAULT_ROUND = '3rd'
+
+export const NAV_HEIGHT = 60
+
+export const NUMBER_2_ZH = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']

@@ -8,7 +8,7 @@
       h2.fw4.f4.f3-l.mt4.mt0-l 議員質詢相關局處
       .districtSum__statsList.mt3.mt0-l
         org-stats-tag(
-          v-for="stats in relatedOrgStats.total"
+          v-for="stats in relatedStats.total.org"
           :key="stats.name"
           :stats="stats"
         )
@@ -20,7 +20,7 @@
           :key="person.id"
           :person="person"
           :round="round"
-          :related-org-stats="relatedOrgStats[person.id] || []"
+          :related-org-stats="relatedStats[person.id].org || []"
         )
 </template>
 <script>
@@ -30,7 +30,7 @@ export default {
       type: Object,
       required: true
     },
-    relatedOrgStats: {
+    relatedStats: {
       type: Object,
       required: true
     },

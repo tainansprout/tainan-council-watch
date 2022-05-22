@@ -8,10 +8,12 @@
     h2.f4.f3-l.fw6 {{sayit.summary}}
     p {{sayit.say}}
     .flex-l.justify-between
-      .f6 來源出處：第三屆第？次臨時會
+      .f6 來源出處： {{roundLabel}}
       .dn.light-blue.f6 閱讀更多
 </template>
 <script>
+import { DEFAULT_ROUND } from '~/libs/defs'
+import { number2zh } from '~/libs/utils'
 export default {
   props: {
     councilorMap: {
@@ -29,6 +31,11 @@ export default {
     },
     district () {
       return `${this.councilor.districtTitle} | ${this.councilor.townList.join('.')}`
+    },
+    roundLabel () {
+      const councilorRound = number2zh(this.sayit.councilorRound || DEFAULT_ROUND)
+      const meetingRound = number2zh(this.sayit.round)
+      return `${councilorRound}屆第${meetingRound}次${this.sayit.type}`
     }
   }
 }
