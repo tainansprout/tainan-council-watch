@@ -71,8 +71,9 @@ export default {
     initMap () {
       const mapEle = this.$refs.map
       const towns = feature(townMap, townMap.objects.towns).features
+      const mapSize = 400
       const projection = d3.geoMercator()
-        .fitSize([mapEle.clientWidth, mapEle.clientHeight], {
+        .fitSize([mapSize, mapSize], {
           type: 'FeatureCollection',
           features: towns
         })
@@ -82,8 +83,10 @@ export default {
       // create map
       const svgEle = d3.select(mapEle)
         .append('svg')
-        .attr('width', mapEle.clientWidth)
-        .attr('height', mapEle.clientHeight)
+        // Responsive SVG needs these 2 attributes and no width and height attr.
+        .attr('preserveAspectRatio', 'xMinYMin meet')
+        .attr('viewBox', `0 0 ${mapSize} ${mapSize}`)
+        .classed('svg-content', true)
 
       this.mapD3 = svgEle
 
@@ -118,9 +121,22 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dmap {
-  padding-bottom: 56%;
+  padding-bottom: 92%;
   &__map {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
+
     ::v-deep {
+      .svg-content {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
       g.town {
         path {
           fill: white;
