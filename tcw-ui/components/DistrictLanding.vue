@@ -2,10 +2,11 @@
   .districtLanding
     .districtLanding__list
       template(v-for="district in districtList")
-        nuxt-link.district.f6.db.pa3.pa0-l.mt3.mt0-l(:to="districtLink(district)" :id="districtId(district)")
+        nuxt-link.district.f6.db.pa3.pa0-l.mt3.mt0-l.mb3-l(:to="districtLink(district)" :id="districtId(district)")
           .dn.dib-l.mr1
             i.fa-solid.fa-square
           .district__name.db.di-l.mr2(
+            :class="{'district__name--active': isDistrictActive(district)}"
             @mouseover="mouseoverDistrict(district)"
             @mouseleave="mouseleaveDistrict"
           )
@@ -21,7 +22,7 @@
             ) {{town}}
         .db.dn-l(v-if="target && target === district")
           slot
-    .districtLanding__map.mt5
+    .districtLanding__map.dn.db-l
       district-map(:focus="focusedArea" @hover-town="mouseoverTown" @out-town="mouseleaveTown")
 </template>
 <script>
@@ -85,6 +86,9 @@ export default {
         }
       }, A_LITTLE_MORE)
     },
+    isDistrictActive (district) {
+      return this.focusedArea && this.focusedArea.type === 'district' && this.focusedArea.id.includes(district)
+    },
     isTownActive (town) {
       return this.focusedArea && this.focusedArea.type === 'town' && this.focusedArea.id.includes(town)
     },
@@ -108,13 +112,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .districtLanding {
-  &__list {
-    @include large-screen {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      column-gap: 2rem;
-      row-gap: 0.5rem;
-    }
+  @include large-screen {
+    display: grid;
+    grid-template-columns: 20rem 1fr;
   }
 }
 .district {
@@ -132,6 +132,14 @@ export default {
 
     &__town {
       text-decoration: underline;
+    }
+  }
+
+  &__name {
+    &--active,
+    &:hover {
+      color: #49b0d5;
+      text-decoration-color: #49b0d5;
     }
   }
 

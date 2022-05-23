@@ -1,5 +1,5 @@
 <template lang="pug">
-  .district.mw8.ph3.center
+  .district.mw8.ph4.center
     .mt4.mt5-l
     district-landing(ref="landing" :map="districtMap" :round="round" :target="target")
       district-summary(v-if="meta" :meta="meta" :round="round" :related-stats="stats")
