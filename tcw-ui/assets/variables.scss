@@ -1,5 +1,14 @@
+$white: #fffffe;
 $black: #00000F;
-$primary: #8DEE72;
+$blue: #49b0d5;
+$yellow: #8dee72;
+$gray: #d8d8d8;
+
+@mixin not-small-screen {
+  @media screen and (min-width: 30em) {
+    @content
+  }
+};
 
 @mixin large-screen {
   @media screen and (min-width: 60em) {

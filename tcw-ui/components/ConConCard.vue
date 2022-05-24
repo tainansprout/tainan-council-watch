@@ -56,7 +56,7 @@ export default {
 <style lang="scss" scoped>
 .ccc {
   border: 1px solid #D8D8D8;
-  border-top: 8px solid $primary;
+  border-top: 8px solid $yellow;
 
   &__areaList {
     span + span {

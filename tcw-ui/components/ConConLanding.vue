@@ -57,7 +57,7 @@ export default {
 <style lang="scss" scoped>
 .ccl {
   &__toggle {
-    border: 1px solid $primary;
+    border: 1px solid $yellow;
     background: none;
   }
   &__ccc {
