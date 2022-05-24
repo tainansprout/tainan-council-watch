@@ -4,6 +4,12 @@ $blue: #49b0d5;
 $yellow: #8dee72;
 $gray: #d8d8d8;
 
+@mixin medium-screen {
+  @media screen and (min-width: 30em) and (max-width: 60em) {
+    @content
+  }
+};
+
 @mixin not-small-screen {
   @media screen and (min-width: 30em) {
     @content
