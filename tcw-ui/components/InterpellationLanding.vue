@@ -236,7 +236,14 @@ export default {
   &__item {
     background: none;
 
+    &:nth-child(n+7) {
+      display: none;
+    }
+
     @include large-screen {
+      &:nth-child(n+7) {
+        display: flex;
+      }
       border-width: 0 0 1px 0;
     }
 

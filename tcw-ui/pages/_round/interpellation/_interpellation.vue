@@ -1,7 +1,7 @@
 <template lang="pug">
   .int.mw8.ph3.center.pv3.pv4-l
-    .mv4.ph6
-      input.w-100.int__query.br-pill(v-model.trim="query" placeholder="搜尋質詢議題")
+    .mv4
+      input.w-100.int__query.br-pill(v-model.trim="query" placeholder="搜尋質詢議題" type="text")
     .int__districtList.mv4.center.pb4.bb.b--gray
       button.int__district.tl.pa0(
         v-for="district in districtList"
