@@ -3,7 +3,7 @@
     .mt4.mt5-l
     district-landing(ref="landing" :map="districtMap" :round="round" :target="target")
       district-summary(v-if="meta" :meta="meta" :round="round" :related-stats="stats")
-    .dn.db-l(ref="main" v-if="meta")
+    .dn.db-ns(ref="main" v-if="meta")
       tcw-title {{meta.districtTitle}}
       p {{meta.townList.join('.')}}
       .mt5

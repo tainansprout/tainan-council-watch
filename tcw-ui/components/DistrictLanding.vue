@@ -1,22 +1,22 @@
 <template lang="pug">
   .districtLanding
     .districtLanding__list
-      template(v-for="district in districtList")
-        nuxt-link.district.db.dn-ns.pa3.mt3(:to="districtLink(district)" :id="districtId(district)")
+      .district(v-for="district in districtList")
+        nuxt-link.district__card.db.dn-ns.pa3(:to="districtLink(district)" :id="districtId(district)")
           district-text(
             :district="districtMeta(district)"
             :active-area.sync="focusedArea"
             :is-single-element="true"
             :is-quota-visible="true"
           )
-        nuxt-link.district.dn.db-ns.mb3(:to="districtLink(district)" :id="districtId(district)")
+        nuxt-link.district__interact.dn.db-ns(:to="districtLink(district)" :id="districtId(district)")
           district-text(
             :district="districtMeta(district)"
             :active-area.sync="focusedArea"
           )
-        .db.dn-l(v-if="target && target === district")
+        .db.dn-ns(v-if="target && target === district")
           slot
-    .districtLanding__map.dn.db-l
+    .districtLanding__map.dn.db-ns
       district-map(
         :map="map"
         :focus="focusedArea"
@@ -116,14 +116,40 @@ export default {
   @include large-screen {
     display: grid;
     grid-template-columns: 20rem 1fr;
+    align-items: center;
+  }
+
+  &__list {
+    @include medium-screen {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 2rem;
+      row-gap: 1rem;
+    }
+  }
+
+  &__map {
+    @include medium-screen {
+      max-width: 50vh;
+      margin: 2rem auto 0;
+    }
   }
 }
 .district {
-  border: 1px solid $gray;
-  border-top: 6px solid $yellow;
+  + .district {
+    margin-top: 0.5rem;
 
-  @include not-small-screen {
-    border: none;
+    @include medium-screen {
+      margin: 0;
+    }
+
+    @include large-screen {
+      margin-top: 1.25rem;
+    }
+  }
+  &__card {
+    border: 1px solid $gray;
+    border-top: 6px solid $yellow;
   }
 }
 </style>
