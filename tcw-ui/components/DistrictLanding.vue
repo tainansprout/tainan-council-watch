@@ -17,7 +17,14 @@
         .db.dn-l(v-if="target && target === district")
           slot
     .districtLanding__map.dn.db-l
-      district-map(:focus="focusedArea" @hover-town="mouseoverTown" @out-town="mouseleaveTown")
+      district-map(
+        :map="map"
+        :focus="focusedArea"
+        @hover-town="mouseoverTown"
+        @out-town="mouseleaveTown"
+        @hover-district="mouseoverDistrict"
+        @out-district="mouseleaveDistrict"
+      )
 </template>
 <script>
 import { debounce } from 'lodash'
