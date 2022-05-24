@@ -1,13 +1,13 @@
 <template lang="pug">
   .districtText.fw3.f6(:class="{'districtText--multiEle': !isSingleElement, 'districtText--active': isDistrictActive}")
     .districtText__square.dn.dib-ns.mr1
-    .districtText__name.db.di-l.mr2(
+    .districtText__name.db.di-ns.mr2(
       @mouseover="activateArea('district', district.districtId)"
       @mouseleave="deactivateArea"
     )
       .di.f5.f6-ns {{district.districtTitle}}
       .f7.di.ml4(v-if="isQuotaVisible") {{district.districtQuota}} 席
-    .db.di-l.mt3.mt0-l
+    .db.di-ns.mt3.mt0-l
       span(v-if="isSingleElement") {{townLabelList.join('.')}}
       template(v-else)
         span.districtText__town.mr1(

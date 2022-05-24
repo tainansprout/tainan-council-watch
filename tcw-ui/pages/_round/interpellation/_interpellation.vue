@@ -1,10 +1,14 @@
 <template lang="pug">
   .int.mw8.ph3.center.pv3.pv4-l
     .mv4.ph6
-        input.w-100.int__query.br-pill(v-model.trim="query" placeholder="搜尋質詢議題")
-    .mv4.o-50.h4.flex.items-center.justify-center.bb.b--moon-gray.bg-light-gray
-      | 各選區質詢，05/25 登場～
-      .pv2 {{category}}
+      input.w-100.int__query.br-pill(v-model.trim="query" placeholder="搜尋質詢議題")
+    .int__districtList.mv4.center.pb4.bb.b--gray
+      button.int__district.tl.pa0(
+        v-for="district in districtList"
+        :key="district.districtId"
+        @click="toggleDistrict(district)"
+      )
+        district-text(:district="district" :active-area="activeDistrict")
     interpellation-landing(
       ref="main"
       :councilor-map="councilorMap"
@@ -29,10 +33,14 @@ const DEFAULT_CATEGORY = { type: 'org', value: 'all' }
 export default {
   async asyncData ({ $content, params }) {
     const round = params.round || DEFAULT_ROUND
+    const districtMap = await $content('council', round, 'district-map').fetch()
     const councilorMap = await $content('council', round, 'councilor-map').fetch()
     const allSayit = await $content('council', round, 'sayit').fetch()
     const allSayitStats = await $content('council', round, 'sayit/stats').fetch()
 
+    const districtList = Object
+      .values(districtMap)
+      .filter(row => row.districtId)
     const nSayitPerCat = { org: {} }
 
     const sayList = allSayit
@@ -71,6 +79,7 @@ export default {
 
     return {
       round,
+      districtList,
       councilorMap,
       defaultSayList: sayList,
       defaultSayitStats: sayitStats
@@ -91,12 +100,13 @@ export default {
       algoliaIndex,
       orgFacets: null,
 
-      category: { ...DEFAULT_CATEGORY }
+      category: { ...DEFAULT_CATEGORY },
+      district: null
     }
   },
   computed: {
     isDefaultView () {
-      return this.category && this.category.value === 'all'
+      return this.category && this.category.value === 'all' && !this.district
     },
     sayList () {
       if (this.isDefaultView) {
@@ -115,6 +125,15 @@ export default {
       return {
         org: orgStats
       }
+    },
+    activeDistrict () {
+      if (!this.district) {
+        return null
+      }
+      return {
+        type: 'district',
+        id: this.district.districtId
+      }
     }
   },
   watch: {
@@ -126,12 +145,39 @@ export default {
     }
   },
   methods: {
+    async updateSayitStats () {
+      const params = {
+        hitsPerPage: 0,
+        facets: ['relatedOrgs']
+      }
+      if (this.district) {
+        params.facetFilters = [`councilor.districtId:${this.district.districtId}`]
+      }
+      const { facets } = await this.algoliaIndex.search(this.query, params)
+      this.orgFacets = facets.relatedOrgs
+    },
+    toggleDistrict (district) {
+      if (!this.district || this.district.districtId !== district.districtId) {
+        this.district = district
+      } else {
+        this.district = null
+      }
+      if (this.district && this.category && this.category.value === 'all') {
+        this.category = null
+      }
+      if (this.category) {
+        // if category is not set, facet will be updated during search
+        this.updateSayitStats()
+      }
+      this.searchInterpellation(true)
+    },
     startNewSearch: debounce(function () {
       if (this.query) {
         this.category = null
         this.searchInterpellation(true)
       } else {
         this.category = { ...DEFAULT_CATEGORY }
+        this.district = null
       }
     }, SEARCH_SLOWLY),
     resetResult () {
@@ -155,10 +201,14 @@ export default {
         hitsPerPage: N_PER_ALGOLIA_REQUEST,
         page: Math.floor(this.algoliaResult.length / N_PER_ALGOLIA_REQUEST),
 
-        facets: ['relatedOrgs']
+        facets: ['relatedOrgs'],
+        facetFilters: []
       }
       if (this.category && this.category.type === 'org') {
-        params.facetFilters = [`relatedOrgs:${this.category.value}`]
+        params.facetFilters.push(`relatedOrgs:${this.category.value}`)
+      }
+      if (this.district) {
+        params.facetFilters.push(`councilor.districtId:${this.district.districtId}`)
       }
       const { hits, nbPages, facets } = await this.algoliaIndex.search(this.query, params)
 
@@ -194,6 +244,25 @@ export default {
 </script>
 <style lang="scss" scoped>
 .int {
+  &__districtList {
+    display: none;
+    @include not-small-screen {
+      width: 40rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1rem;
+      row-gap: 0.75rem;
+      justify-content: center;
+    }
+    @include large-screen {
+      width: 60rem;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+  &__district {
+    border: none;
+    background: none;
+  }
   &__query {
     border: 1px solid #d8d8d8;
     padding: 0.5rem 2rem;
