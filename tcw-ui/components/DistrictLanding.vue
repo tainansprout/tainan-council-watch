@@ -2,24 +2,18 @@
   .districtLanding
     .districtLanding__list
       template(v-for="district in districtList")
-        nuxt-link.district.f6.db.pa3.pa0-l.mt3.mt0-l.mb3-l(:to="districtLink(district)" :id="districtId(district)")
-          .dn.dib-l.mr1
-            i.fa-solid.fa-square
-          .district__name.db.di-l.mr2(
-            :class="{'district__name--active': isDistrictActive(district)}"
-            @mouseover="mouseoverDistrict(district)"
-            @mouseleave="mouseleaveDistrict"
+        nuxt-link.district.db.dn-ns.pa3.mt3(:to="districtLink(district)" :id="districtId(district)")
+          district-text(
+            :district="districtMeta(district)"
+            :active-area.sync="focusedArea"
+            :is-single-element="true"
+            :is-quota-visible="true"
           )
-            .di.f5.f6-l {{district}}
-            .f7.di.dn-l.ml3 {{districtMeta(district).districtQuota}} 席
-          .db.di-l.mt3.mt0-l
-            span.district__town.mr1-l(
-              v-for="town in districtMeta(district).townList"
-              :key="town"
-              :class="{'district__town--active': isTownActive(town)}"
-              @mouseover="mouseoverTown(town)"
-              @mouseleave="mouseleaveTown"
-            ) {{town}}
+        nuxt-link.district.dn.db-ns.mb3(:to="districtLink(district)" :id="districtId(district)")
+          district-text(
+            :district="districtMeta(district)"
+            :active-area.sync="focusedArea"
+          )
         .db.dn-l(v-if="target && target === district")
           slot
     .districtLanding__map.dn.db-l
@@ -118,43 +112,11 @@ export default {
   }
 }
 .district {
-  border: 1px solid #D8D8D8;
-  border-top: 4px solid #FBF1A9;
-  color: #00000F;
-  text-decoration: none;
+  border: 1px solid $gray;
+  border-top: 6px solid $yellow;
 
-  @include large-screen {
+  @include not-small-screen {
     border: none;
-
-    &__name {
-      text-decoration: underline;
-    }
-
-    &__town {
-      text-decoration: underline;
-    }
-  }
-
-  &__name {
-    &--active,
-    &:hover {
-      color: #49b0d5;
-      text-decoration-color: #49b0d5;
-    }
-  }
-
-  &__town {
-    &:not(:last-child):after {
-      content: ".";
-      @include large-screen {
-        display: none;
-      }
-    }
-    &--active,
-    &:hover {
-      color: #49b0d5;
-      text-decoration-color: #49b0d5;
-    }
   }
 }
 </style>

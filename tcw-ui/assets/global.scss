@@ -1,5 +1,10 @@
 html {
-  color: #00000F;
+  color: $black;
+  background: $white;
+}
+
+a {
+  text-decoration: none;
 }
 
 body, button, input, optgroup, select, textarea {
