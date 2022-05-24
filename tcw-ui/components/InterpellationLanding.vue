@@ -25,7 +25,6 @@
         interpellation-card(
           v-for="(sayit, index) in visibleSayList"
           :key="sayit.objectID || index"
-          :class="[`id-${sayit.objectID}`]"
           :councilor-map="councilorMap" :sayit="sayit"
         )
         client-only
