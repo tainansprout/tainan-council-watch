@@ -69,7 +69,12 @@ export default {
 
     const sayitStats = allSayitStats.all
 
-    return { round, councilorMap, defaultSayList: sayList, sayitStats }
+    return {
+      round,
+      councilorMap,
+      defaultSayList: sayList,
+      defaultSayitStats: sayitStats
+    }
   },
   data () {
     const algoliaClient = algoliasearch(
@@ -84,16 +89,32 @@ export default {
       hasNoMoreResult: false,
       algoliaClient,
       algoliaIndex,
+      orgFacets: null,
 
       category: { ...DEFAULT_CATEGORY }
     }
   },
   computed: {
+    isDefaultView () {
+      return this.category && this.category.value === 'all'
+    },
     sayList () {
-      if (this.category && this.category.value === 'all') {
+      if (this.isDefaultView) {
         return this.defaultSayList
       }
       return this.algoliaResult
+    },
+    sayitStats () {
+      if (this.isDefaultView || !this.orgFacets) {
+        return this.defaultSayitStats
+      }
+      const orgStats = Object.keys(this.orgFacets)
+        .map(org => ({ name: org, count: this.orgFacets[org] }))
+        .sort((a, b) => b.count - a.count)
+
+      return {
+        org: orgStats
+      }
     }
   },
   watch: {
@@ -132,12 +153,18 @@ export default {
 
       const params = {
         hitsPerPage: N_PER_ALGOLIA_REQUEST,
-        page: Math.floor(this.algoliaResult.length / N_PER_ALGOLIA_REQUEST)
+        page: Math.floor(this.algoliaResult.length / N_PER_ALGOLIA_REQUEST),
+
+        facets: ['relatedOrgs']
       }
       if (this.category && this.category.type === 'org') {
         params.facetFilters = [`relatedOrgs:${this.category.value}`]
       }
-      const { hits, nbPages } = await this.algoliaIndex.search(this.query, params)
+      const { hits, nbPages, facets } = await this.algoliaIndex.search(this.query, params)
+
+      if (!this.category || this.category.type !== 'org') {
+        this.orgFacets = facets.relatedOrgs
+      }
 
       hits.forEach((hit) => {
         this.algoliaResult.push({

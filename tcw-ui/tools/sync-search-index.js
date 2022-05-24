@@ -21,6 +21,9 @@ async function main () {
   agIndex.setSettings({
     attributesForFaceting: [
       'relatedOrgs',
+      'round',
+      'type',
+      'councilor.districtId',
       'src'
     ]
   })
