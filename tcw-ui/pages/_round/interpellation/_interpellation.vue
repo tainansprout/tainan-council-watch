@@ -1,13 +1,13 @@
 <template lang="pug">
   .int.mw8.ph3.center.pv3.pv4-l
-    .mv4.mw5.center
-      input.int__query.br-pill(v-model.trim="query" placeholder="搜尋質詢議題")
+    .mv4.ph6
+        input.w-100.int__query.br-pill(v-model.trim="query" placeholder="搜尋質詢議題")
     .mv4.o-50.h4.flex.items-center.justify-center.bb.b--moon-gray.bg-light-gray
       | 各選區質詢，05/25 登場～
       .pv2 {{category}}
     interpellation-landing(
       ref="main"
-      :councilor-map="counsMap"
+      :councilor-map="councilorMap"
       :say-list="sayList"
       :stats="sayitStats"
       :category.sync="category"
@@ -27,9 +27,9 @@ const SEARCH_SLOWLY = 300
 const DEFAULT_CATEGORY = { type: 'org', value: 'all' }
 
 export default {
-  async asyncData ({ $content, params, redirect }) {
+  async asyncData ({ $content, params }) {
     const round = params.round || DEFAULT_ROUND
-    const counsMap = await $content('council', round, 'councilor-map').fetch()
+    const councilorMap = await $content('council', round, 'councilor-map').fetch()
     const allSayit = await $content('council', round, 'sayit').fetch()
     const allSayitStats = await $content('council', round, 'sayit/stats').fetch()
 
@@ -69,7 +69,7 @@ export default {
 
     const sayitStats = allSayitStats.all
 
-    return { round, counsMap, defaultSayList: sayList, sayitStats }
+    return { round, councilorMap, defaultSayList: sayList, sayitStats }
   },
   data () {
     const algoliaClient = algoliasearch(
@@ -81,6 +81,7 @@ export default {
     return {
       query: '',
       algoliaResult: [],
+      hasNoMoreResult: false,
       algoliaClient,
       algoliaIndex,
 
@@ -112,18 +113,26 @@ export default {
         this.category = { ...DEFAULT_CATEGORY }
       }
     }, SEARCH_SLOWLY),
+    resetResult () {
+      this.algoliaResult = []
+      this.hasNoMoreResult = false
+      if (this.$refs.main) {
+        this.$refs.main.resetInfiniteLoading()
+      }
+    },
     /**
      * @return reach to end of result or not
      */
     async searchInterpellation (shouldReset = false) {
-      let result = this.algoliaResult
       if (shouldReset) {
-        result = []
+        this.resetResult()
+        // let infinite loading trigger the real search
+        return
       }
 
       const params = {
         hitsPerPage: N_PER_ALGOLIA_REQUEST,
-        page: Math.floor(result.length / N_PER_ALGOLIA_REQUEST)
+        page: Math.floor(this.algoliaResult.length / N_PER_ALGOLIA_REQUEST)
       }
       if (this.category && this.category.type === 'org') {
         params.facetFilters = [`relatedOrgs:${this.category.value}`]
@@ -131,28 +140,26 @@ export default {
       const { hits, nbPages } = await this.algoliaIndex.search(this.query, params)
 
       hits.forEach((hit) => {
-        result.push({
+        this.algoliaResult.push({
           ...hit,
           councilorId: hit.councilor.id,
           councilorRound: this.round
         })
       })
-      this.algoliaResult = result
 
-      if (shouldReset) {
-        if (this.$refs.main) {
-          this.$refs.main.resetInfiniteLoading()
-        }
-      }
-
-      return (params.page + 1) >= nbPages
+      this.hasNoMoreResult = (params.page + 1) >= nbPages
+      return hits.length
     },
     async loadMore ($state) {
-      const isEnd = await this.searchInterpellation()
-      if (isEnd) {
+      if (this.hasNoMoreResult) {
         $state.complete()
-      } else {
+        return
+      }
+      const nNewResult = await this.searchInterpellation()
+      if (nNewResult) {
         $state.loaded()
+      } else {
+        $state.complete()
       }
     }
   }

@@ -121,7 +121,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dmap {
-  padding-bottom: 92%;
   &__map {
     display: inline-block;
     position: relative;

@@ -25,6 +25,7 @@
         interpellation-card(
           v-for="(sayit, index) in visibleSayList"
           :key="sayit.objectID || index"
+          :class="[`id-${sayit.objectID}`]"
           :councilor-map="councilorMap" :sayit="sayit"
         )
         client-only
@@ -38,11 +39,15 @@
  *   - update:category (newCategory)
  *   - infinite ($state) - same usage as vue-infinite-loading
  */
+import { debounce } from 'lodash'
 import InfiniteLoading from 'vue-infinite-loading'
+import { NAV_HEIGHT } from '~/libs/defs'
 import { scrollTo } from '~/libs/utils'
 
+const SCROLL_PADDING = 120
 const N_ITEM_PER_PAGE = 10
 const N_SAYIT_PER_CAT = 3
+const RESET_LATTER = 200
 
 export default {
   components: {
@@ -169,10 +174,10 @@ export default {
     }
   },
   methods: {
-    resetInfiniteLoading () {
-      this.cursor = 0
+    resetInfiniteLoading: debounce(function () {
+      this.cursor = N_ITEM_PER_PAGE
       this.infiniteId += 1
-    },
+    }, RESET_LATTER),
     isCatActive (type, value) {
       return this.targetCategory &&
         this.targetCategory.type === type &&
@@ -198,7 +203,16 @@ export default {
       this.$emit('infinite', $state)
     },
     scrollToMain () {
-      scrollTo(this.$refs.main)
+      const main = this.$refs.main
+      if (!main) {
+        return
+      }
+      const bbox = main.getBoundingClientRect()
+      const isBelowViewport = bbox.y + SCROLL_PADDING > window.innerHeight
+      if (bbox.y < NAV_HEIGHT || isBelowViewport) {
+        // out of viewport, scroll to top
+        scrollTo(main)
+      }
     }
   }
 }
