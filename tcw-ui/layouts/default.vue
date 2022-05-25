@@ -3,6 +3,7 @@
     tcw-navbar
     main
       nuxt
+    tcw-footer
 </template>
 <script>
 export default {
