@@ -15,7 +15,7 @@
 </template>
 <script>
 import { DEFAULT_ROUND } from '~/libs/defs'
-import { scrollTo, parseMarkdown } from '~/libs/utils'
+import { scrollTo } from '~/libs/utils'
 
 export default {
   async asyncData ({ $content, params, redirect }) {
@@ -26,7 +26,6 @@ export default {
     let cmsContent = {}
     try {
       cmsContent = await $content('council', round, `meta-${meta.districtTitle}`).fetch()
-      cmsContent.intro = await parseMarkdown(cmsContent.intro || '')
     } catch {
       // noop
     }
@@ -39,7 +38,7 @@ export default {
     if (meta && cmsContent) {
       meta = {
         ...meta,
-        ...cmsContent
+        intro: { body: cmsContent.body }
       }
     }
 
