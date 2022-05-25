@@ -3,7 +3,7 @@
     .districtSum
       h2.fw4.f4.f3-l.mt3.mt0-l 選區情報
       .districtSum__article
-        .o-50(v-if="!intro") 待撰寫
+        .o-50(v-if="!intro.body") 待撰寫
         nuxt-content(v-else :document="intro")
       h2.fw4.f4.f3-l.mt4.mt0-l 議員質詢相關局處
       .districtSum__statsList.mt3.mt0-l
