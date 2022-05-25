@@ -1,7 +1,7 @@
 ---
 createdAt: 2022-05-05T05:13:03.801Z
 title: 探討探討x1
-slug: 探討探討x1
+slug: discussx1
 category: 事件議題探討
 summary: "探討探討探討探討 簡介 簡介 "
 ---
