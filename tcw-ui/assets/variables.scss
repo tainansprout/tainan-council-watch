@@ -1,8 +1,10 @@
 $white: #fffffe;
 $black: #00000F;
+$black-1: #11111e;
 $blue: #49b0d5;
 $yellow: #8dee72;
-$gray: #d8d8d8;
+$gray-d: #d8d8d8;
+$gray-9: #979797;
 
 @mixin medium-screen {
   @media screen and (min-width: 30em) and (max-width: 60em) {

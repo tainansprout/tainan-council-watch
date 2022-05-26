@@ -2,6 +2,8 @@
 
 const TITLE_TAIL = '台南市議會觀測站'
 
+export const SITE_URL = process.env.SITE_URL || 'https://tcco.tnsprout.org'
+
 export function genMeta (name, content) {
   const nameAttr = name.startsWith('og:') ? 'property' : 'name'
   return {
@@ -13,8 +15,6 @@ export function genMeta (name, content) {
 
 // all three attribute can be either static string or callback that use vue instance as this
 export function friendlyHeader ({ title, description, coverUrl }) {
-  const SITE_URL = process.env.SITE_URL || 'https://tcco.tnsprout.org'
-
   function getContentAtBest (sth) {
     if (typeof sth === 'string') {
       return sth

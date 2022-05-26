@@ -276,7 +276,7 @@ export default {
 
       .board {
         margin: 1px;
-        border: solid 1px $gray;
+        border: solid 1px $gray-d;
         border-top: 6px solid $yellow;
         height: calc(100% - 2px);
         background: $white;

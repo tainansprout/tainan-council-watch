@@ -1,4 +1,9 @@
+import dayjs from 'dayjs'
 import { NAV_HEIGHT, NUMBER_2_ZH } from './defs'
+
+export function date (dateString) {
+  return dayjs(dateString).format('YYYY.MM.DD')
+}
 
 export function scrollTo (el) {
   if (!el) {
