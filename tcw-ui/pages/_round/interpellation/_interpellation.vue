@@ -3,7 +3,7 @@
     .mv4
       input.w-100.int__query.br-pill(v-model.trim="query" placeholder="搜尋質詢議題" type="text")
     .int__districtList.mv4.center.pb4.bb.b--gray
-      button.int__district.tl.pa0(
+      button.int__district.tl.pa0.pointer(
         v-for="district in districtList"
         :key="district.districtId"
         @click="toggleDistrict(district)"
@@ -27,6 +27,7 @@ import { DEFAULT_ROUND } from '~/libs/defs'
 const N_PER_CAT = 4
 const N_PER_ALGOLIA_REQUEST = 30
 const SEARCH_SLOWLY = 300
+const AGGREGATE_URL_UPDATE_SLOWLY = 50
 
 const DEFAULT_CATEGORY = { type: 'org', value: 'all' }
 
@@ -38,9 +39,6 @@ export default {
     const allSayit = await $content('council', round, 'sayit').fetch()
     const allSayitStats = await $content('council', round, 'sayit/stats').fetch()
 
-    const districtList = Object
-      .values(districtMap)
-      .filter(row => row.districtId)
     const nSayitPerCat = { org: {} }
 
     const sayList = allSayit
@@ -79,7 +77,7 @@ export default {
 
     return {
       round,
-      districtList,
+      districtMap,
       councilorMap,
       defaultSayList: sayList,
       defaultSayitStats: sayitStats
@@ -93,18 +91,60 @@ export default {
     const algoliaIndex = algoliaClient.initIndex(process.env.algoliaIndex)
 
     return {
-      query: '',
       algoliaResult: [],
       hasNoMoreResult: false,
       algoliaClient,
       algoliaIndex,
-      orgFacets: null,
-
-      category: { ...DEFAULT_CATEGORY },
-      district: null
+      orgFacets: null
     }
   },
   computed: {
+    query: {
+      get () {
+        const query = this.$route.query.query || ''
+        return query.trim()
+      },
+      set (value) {
+        this.resetQuery(value)
+      }
+    },
+    district () {
+      const districtId = this.$route.query.district || ''
+      return this.districtMap[districtId] || null
+    },
+    category: {
+      get () {
+        const { catType, catValue } = this.$route.query
+        if (catType === 'null') {
+          return null
+        }
+        if (catType === 'org' && this.defaultSayitStats.org.find(stat => stat.name === catValue)) {
+          return {
+            type: catType,
+            value: catValue
+          }
+        }
+
+        return { ...DEFAULT_CATEGORY }
+      },
+      set (category) {
+        this.updateSearchQuery({ category })
+      }
+    },
+    districtList () {
+      // content module inject some other stuff into it XD
+      const ret = Object
+        .values(this.districtMap)
+        .filter(district => district.districtId)
+
+      ret.push({
+        districtId: 'all',
+        districtTitle: '所有選區',
+        townList: []
+      })
+
+      return ret
+    },
     isDefaultView () {
       return this.category && this.category.value === 'all' && !this.district
     },
@@ -128,7 +168,10 @@ export default {
     },
     activeDistrict () {
       if (!this.district) {
-        return null
+        return {
+          type: 'district',
+          id: 'all'
+        }
       }
       return {
         type: 'district',
@@ -137,14 +180,65 @@ export default {
     }
   },
   watch: {
-    category () {
-      this.searchInterpellation(true)
+    category (newCat, oldCat) {
+      if (newCat) {
+        // if category is not set, facet will be updated during search
+        this.updateSayitStats()
+      }
+      this.resetSearch()
     },
     query () {
-      this.startNewSearch()
+      this.resetSearch()
+    },
+    district () {
+      this.resetSearch()
     }
   },
   methods: {
+    updateSearchQuery ({ query, category, district }) {
+      const newParams = { ...this.$route.query }
+
+      if (query !== undefined) {
+        if (query) {
+          newParams.query = query
+        } else {
+          delete newParams.query
+        }
+      }
+
+      if (category !== undefined) {
+        if (!category) {
+          newParams.catType = 'null'
+        } else {
+          newParams.catType = category.type
+          newParams.catValue = category.value
+        }
+      }
+
+      if (district !== undefined) {
+        if (!district) {
+          delete newParams.district
+        } else {
+          newParams.district = district.districtId
+        }
+      }
+
+      if (newParams.district || newParams.query) {
+        if (newParams.catValue === 'all') {
+          // disable per-category view
+          newParams.catType = 'null'
+          delete newParams.catValue
+        }
+      } else if (newParams.catType === 'null') {
+        // make sure category is reset when no other search criteria
+        delete newParams.category
+      }
+
+      this.$router.push({
+        name: this.$route.name,
+        query: newParams
+      })
+    },
     async updateSayitStats () {
       const params = {
         hitsPerPage: 0,
@@ -157,46 +251,30 @@ export default {
       this.orgFacets = facets.relatedOrgs
     },
     toggleDistrict (district) {
-      if (!this.district || this.district.districtId !== district.districtId) {
-        this.district = district
+      const params = {}
+      if (district.districtId === 'all') {
+        params.district = null
+      } else if (!this.district || this.district.districtId !== district.districtId) {
+        params.district = district
       } else {
-        this.district = null
+        params.district = null
       }
-      if (this.district && this.category && this.category.value === 'all') {
-        this.category = null
-      }
-      if (this.category) {
-        // if category is not set, facet will be updated during search
-        this.updateSayitStats()
-      }
-      this.searchInterpellation(true)
+      this.updateSearchQuery(params)
     },
-    startNewSearch: debounce(function () {
-      if (this.query) {
-        this.category = null
-        this.searchInterpellation(true)
-      } else {
-        this.category = { ...DEFAULT_CATEGORY }
-        this.district = null
-      }
+    resetQuery: debounce(function (query) {
+      this.updateSearchQuery({ query })
     }, SEARCH_SLOWLY),
-    resetResult () {
+    resetSearch: debounce(function () {
       this.algoliaResult = []
       this.hasNoMoreResult = false
       if (this.$refs.main) {
         this.$refs.main.resetInfiniteLoading()
       }
-    },
+    }, AGGREGATE_URL_UPDATE_SLOWLY),
     /**
      * @return reach to end of result or not
      */
-    async searchInterpellation (shouldReset = false) {
-      if (shouldReset) {
-        this.resetResult()
-        // let infinite loading trigger the real search
-        return
-      }
-
+    async searchInterpellation () {
       const params = {
         hitsPerPage: N_PER_ALGOLIA_REQUEST,
         page: Math.floor(this.algoliaResult.length / N_PER_ALGOLIA_REQUEST),
