@@ -25,7 +25,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .tcwIcon {
-  font-size: 1rem;
   width: 1em;
   height: 1em;
   object-fit: contain;
