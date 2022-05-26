@@ -1,12 +1,17 @@
 <template lang="pug">
-  .nav(:class="{'nav--opened': menuOpened}")
-    .nav__top.flex.justify-between.items-center
-      nuxt-link.black.fw6(:to="`/${round}`") 議會觀測站
-      button.plainButton.f4.db.dn-l(@click="toggleMenu")
-        .pa1
-          tcw-icon(:icon="menuOpened ? 'cancel' : 'menu'")
+  .nav(:class="{'nav--opened': menuOpened, 'nav--desktopSticky': isDesktopSticky}")
+    vue-intersect(@enter="leaveMobileSticky" @leave="enterMobileSticky")
+      .nav__stickyZone.pb2
+    vue-intersect(@enter="leaveDesktopSticky" @leave="enterDesktopSticky")
+      .nav__top.flex.justify-between.items-center(
+        :class="{'nav__top--sticky': isMobileSticky}"
+      )
+        nuxt-link.nav__home.black.fw6(:to="`/${round}`") 議會觀測站
+        button.plainButton.f4.db.dn-l(@click="toggleMenu")
+          .pa1
+            tcw-icon(:icon="menuOpened ? 'cancel' : 'menu'")
     .nav__bottom.dn
-      nuxt-link.black.fw6(:to="`/${round}`") 議會觀測站
+      nuxt-link.nav__home.black.fw6(:to="`/${round}`") 議會觀測站
       .flex.items-center.flex-none
         nuxt-link.nav__item.ls4(
           v-for="link in navLinks"
@@ -50,14 +55,21 @@
         | {{link.label}}
 </template>
 <script>
+import VueIntersect from 'vue-intersect'
 import { NAV_LINKS, DEFAULT_ROUND } from '~/libs/defs'
 
 export default {
+  components: {
+    VueIntersect
+  },
   data () {
     return {
       menuOpened: false,
       searchOpened: false,
-      query: ''
+      query: '',
+
+      isMobileSticky: false,
+      isDesktopSticky: false
     }
   },
   computed: {
@@ -106,15 +118,26 @@ export default {
     closeSearch () {
       this.query = ''
       this.searchOpened = false
+    },
+    enterMobileSticky () {
+      this.isMobileSticky = true
+    },
+    leaveMobileSticky () {
+      this.isMobileSticky = false
+    },
+    enterDesktopSticky () {
+      this.isDesktopSticky = true
+    },
+    leaveDesktopSticky () {
+      this.isDesktopSticky = false
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 .nav {
-  padding-top: 0.5rem;
   position: sticky;
-  top: -0.5rem;
+  top: calc( -0.5rem - 1px );
   z-index: 999;
   background: $white;
 
@@ -129,6 +152,11 @@ export default {
 
   &__top {
     padding: 1rem;
+    border: 0px solid $gray-a;
+
+    &--sticky {
+      border-bottom-width: 1px;
+    }
   }
 
   &__item {
@@ -186,10 +214,17 @@ export default {
     min-width: 64rem;
     margin: 0 auto;
     border-bottom: 1px solid $gray-a;
+    top: -5.875rem;
+
+    &--desktopSticky {
+      .nav__bottom .nav__home {
+        opacity: 1;
+      }
+    }
 
     &__top {
       padding: 1.75rem 0 2.375rem 4rem;
-      border-bottom: 1px solid $gray-a;
+      border-bottom-width: 1px;
     }
 
     &__bottom {
@@ -202,6 +237,10 @@ export default {
       column-gap: 2rem;
       align-items: center;
       justify-content: space-between;
+
+      .nav__home {
+        opacity: 0;
+      }
     }
 
     &__item {
