@@ -12,7 +12,7 @@ export default {
       type: String,
       default: 'regular',
       validator (size) {
-        return size === 'regular' || size === 'large'
+        return ['small', 'regular', 'large'].includes(size)
       }
     }
   },
@@ -30,6 +30,9 @@ export default {
   height: 1em;
   object-fit: contain;
 
+  &--small {
+    font-size: 0.75rem;
+  }
   &--large {
     font-size: 1.5rem;
   }

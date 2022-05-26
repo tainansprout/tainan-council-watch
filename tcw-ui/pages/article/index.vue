@@ -1,22 +1,29 @@
 <template lang="pug">
-  .articleList.mw8.center
+  .articleList.pageContainer
     page-title 讀分析
-    .articleList__desp
+    .articleList__desp.ls-1
       p(v-for="paragraph in desp") {{paragraph}}
-    .articleList__main
-      .categoryList
-        button.categoryList__item(
-          v-for="category in categories"
-          :key="category.name"
-          @click="switchCategory(category)"
+    .articleList__main.relative.flex-ns
+      .articleList__catList
+        .categoryList
+          button.categoryList__item(
+            @click="showAllArticle"
+            :class="{'categoryList__item--active': !activeCategory}"
+          )
+            | 所有分析
+          button.categoryList__item.nowrap(
+            v-for="category in categories"
+            :key="category.name"
+            :class="{'categoryList__item--active': isCategoryActive(category)}"
+            @click="switchCategory(category)"
+          )
+            | {{category.name}}
+      .articleList__list.flex-1
+        article-card(
+          v-for="article in visibleArticles"
+          :key="article.slug"
+          :article="article"
         )
-          | {{category.name}}
-        button.categoryList__item(
-          @click="showAllArticle"
-        )
-          | 所有分析
-      .articleList__list
-        .pv2.bb(v-for="article in visibleArticles" :key="article.slug") {{article.title}} / {{article.slug}}
 </template>
 <script>
 export default {
@@ -74,5 +81,77 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.articleList {}
+.articleList {
+  .pTitle {
+    margin: 1.75rem 0 1.5rem;
+  }
+  &__desp {
+    margin: 1.5rem 0 3.5rem;
+  }
+  &__catList {
+    margin: 3.5rem 0 1.875rem;
+    overflow: hidden;
+    position: relative;
+    width: calc(100% + 1rem);
+    height: 2.5rem;
+  }
+
+  @include not-small-screen {
+    .pTitle {
+      margin: 3.5rem 0 2.25rem;
+    }
+    &__desp {
+      margin: 2.25rem 0 7.5rem;
+      line-height: 1.5;
+    }
+    &__catList {
+      margin: 0 7rem 0 0;
+      width: auto;
+      height: auto;
+    }
+  }
+}
+
+.categoryList {
+  display: flex;
+  width: 100%;
+  padding-bottom: 17px;
+  box-sizing: content-box;
+  overflow-x: scroll;
+
+  &__item {
+    flex-shrink: 0;
+    font-size: 1.25rem;
+    letter-spacing: 1.66px;
+    padding: 0 0 1rem 0;
+    height: 2.5rem;
+    background: none;
+    text-align: left;
+    border: none;
+    border-bottom: 2px solid $gray-9;
+    margin-right: 0.75rem;
+    cursor: pointer;
+    &--active {
+      color: $blue;
+    }
+  }
+
+  @include not-small-screen {
+    flex-direction: column;
+    width: auto;
+    padding: 0;
+
+    &__item {
+      font-size: 1.75rem;
+      letter-spacing: 2.33px;
+      border-width: 1px;
+      padding: 0 2rem 1.5rem 0;
+      margin: 0;
+      height: auto;
+      + .categoryList__item {
+        margin-top: 2.5rem;
+      }
+    }
+  }
+}
 </style>

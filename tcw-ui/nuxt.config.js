@@ -9,8 +9,8 @@ const isProd = process.env.NODE_ENV === 'production'
 
 const defaultHeader = friendlyHeader({
   title: '台南市議會觀測站',
-  description: 'TBD',
-  coverUrl: 'og-default.jpg'
+  description: '',
+  coverUrl: 'og-default.png'
 })()
 
 export default {

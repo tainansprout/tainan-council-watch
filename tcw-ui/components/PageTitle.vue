@@ -1,9 +1,9 @@
 <template lang="pug">
-  h1.ptitle
+  h1.pTitle
     slot
 </template>
 <style lang="scss" scoped>
-.ptitle {
+.pTitle {
   font-size: 1.5rem;
   letter-spacing: 2px;
 
