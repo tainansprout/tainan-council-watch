@@ -1,7 +1,7 @@
 <template lang="pug">
   component.tcwTitle.f3.f2-l.fw5(:is="level" :id="id")
-      .relative.bg-white.pr3.dib
-        slot
+    .relative.bg-white.pr3.dib
+      slot
 </template>
 <script>
 export default {

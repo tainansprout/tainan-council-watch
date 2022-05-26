@@ -1,7 +1,8 @@
 export const NAV_LINKS = [
   { label: '看選區', route: r => `/${r}/district` },
   { label: '找議員', route: r => `/${r}/councilor` },
-  { label: '搜質詢', route: r => `/${r}/interpellation` }
+  { label: '搜質詢', route: r => `/${r}/interpellation` },
+  { label: '讀分析', route: () => '/article' }
 ]
 
 const DISTRICT_MAP = {

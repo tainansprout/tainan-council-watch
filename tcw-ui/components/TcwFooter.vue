@@ -39,7 +39,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .footer {
-  border-top: 1px solid #979797;
+  border-top: 1px solid $gray-9;
   margin: 6rem auto;
   padding: 2.25rem 1rem 0;
   line-height: 1.33;
@@ -60,7 +60,7 @@ export default {
 
   &__item,
   a {
-    border-bottom: 1px solid #979797;
+    border-bottom: 1px solid $gray-9;
   }
 
   &__item + .footer__item {

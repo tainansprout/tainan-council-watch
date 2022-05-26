@@ -287,5 +287,7 @@ collections:
     editor:
       preview: false
     fields:
-      - { label: '名稱', name: 'name', widget: 'string', required: true }
-      - { label: 'Type', name: 'type', widget: 'hidden', default: 'articleCategory' }
+      - { label: 名稱, name: name, widget: string }
+      - { label: 網址, name: slug, widget: string, hint: '網址的樣子，只可英數字，不可漢字，可用「-」取代空白' }
+      - { label: 順序, name: order, widget: number, hint: '分類的排序，數字越小越前面' }
+      - { label: Type, name: type, widget: hidden, default: articleCategory }

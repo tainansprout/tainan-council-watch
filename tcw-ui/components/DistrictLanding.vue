@@ -148,7 +148,7 @@ export default {
     }
   }
   &__card {
-    border: 1px solid $gray;
+    border: 1px solid $gray-d;
     border-top: 6px solid $yellow;
   }
 }
