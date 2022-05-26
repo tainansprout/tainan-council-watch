@@ -49,6 +49,9 @@ jobs:
 
       - name: Sync latest council data
         run: node ./tools/extract-interpellation.js
+      
+      - name: Sync search index
+        run: node ./tools/sync-search-index.js
 
       - name: Push latest council data 
         uses: EndBug/add-and-commit@v8
