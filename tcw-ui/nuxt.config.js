@@ -86,7 +86,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
-    '@nuxtjs/sentry'
+    '@nuxtjs/sentry',
+    'vue-social-sharing/nuxt'
   ],
 
   sentry: {

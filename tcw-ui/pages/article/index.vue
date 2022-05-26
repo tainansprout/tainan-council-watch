@@ -26,6 +26,7 @@
         )
 </template>
 <script>
+import { friendlyHeader } from '~/libs/crawlerFriendly'
 export default {
   async asyncData ({ $content, params, redirect }) {
     const misc = await $content('meta/misc').fetch()
@@ -47,6 +48,17 @@ export default {
       categories
     }
   },
+  head: friendlyHeader({
+    title () {
+      if (this.activeCategory) {
+        return this.activeCategory.name
+      }
+      return '讀分析'
+    },
+    description () {
+      return this.desp.join('')
+    }
+  }),
   computed: {
     visibleArticles () {
       if (this.activeCategory) {
