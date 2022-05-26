@@ -12,3 +12,35 @@ a {
 body, button, input, optgroup, select, textarea {
   font-family: 'Noto Sans TC', serif;
 }
+
+.pageContainer {
+  margin: 0 auto;
+  max-width: 64rem;
+  padding: 0 1rem;
+}
+
+.ls1 {
+  letter-spacing: 1.33px;
+}
+
+.ls2 {
+  letter-spacing: 1.66px;
+}
+
+.ls3 {
+  letter-spacing: 2px;
+}
+
+@include not-small-screen {
+  .ls1-ns {
+    letter-spacing: 1.33px;
+  }
+
+  .ls2-ns {
+    letter-spacing: 1.66px;
+  }
+
+  .ls3-ns {
+    letter-spacing: 2px;
+  }
+}
