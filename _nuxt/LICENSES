@@ -21,7 +21,11 @@
  */
 
 
-/*! algoliasearch.umd.js | 4.13.1 | © Algolia, inc. | https://github.com/algolia/algoliasearch-client-javascript */
+/*!
+ * vue-infinite-loading v2.4.5
+ * (c) 2016-2020 PeachScript
+ * MIT License
+ */
 
 
 /*!
@@ -52,8 +56,4 @@ PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
 
-/*!
- * vue-infinite-loading v2.4.5
- * (c) 2016-2020 PeachScript
- * MIT License
- */
+/*! algoliasearch.umd.js | 4.13.1 | © Algolia, inc. | https://github.com/algolia/algoliasearch-client-javascript */
