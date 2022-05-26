@@ -13,6 +13,13 @@ body, button, input, optgroup, select, textarea {
   font-family: 'Noto Sans TC', serif;
 }
 
+.plainButton {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+
 .pageContainer {
   margin: 0 auto;
   max-width: 64rem;

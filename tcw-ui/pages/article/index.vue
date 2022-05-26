@@ -18,7 +18,7 @@
             @click="switchCategory(category)"
           )
             | {{category.name}}
-      .articleList__list.flex-1
+      .articleList__list.flex-auto
         article-card(
           v-for="article in visibleArticles"
           :key="article.slug"

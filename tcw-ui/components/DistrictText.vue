@@ -52,6 +52,9 @@ export default {
     },
     townLabelList () {
       const list = this.district.townList
+      if (!list.length) {
+        return []
+      }
       const lastTown = list[list.length - 1]
       if (!lastTown.endsWith('區')) {
         list[list.length - 1] = `${lastTown}區`

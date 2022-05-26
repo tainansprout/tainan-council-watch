@@ -30,7 +30,12 @@
         client-only
           infinite-loading(@infinite="loadMoreSayList" :identifier="infiniteId")
             .f6.gray(slot="no-more") 已顯示所有搜尋結果
-            .f6.gray(slot="no-results") 找不到任何結果，或許換個關鍵字試試？
+            .f6.gray(slot="no-results")
+              span(v-if="isShowingAllCategory")
+                | 找不到任何結果，或許換個關鍵字試試？
+              .pointer(v-else @click="filter('org', 'all')")
+                | 找不到任何結果，或許看看
+                .di.underline 所有局處？
 </template>
 <script>
 /**
