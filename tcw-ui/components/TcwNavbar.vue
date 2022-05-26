@@ -29,8 +29,9 @@
           placeholder="搜尋質詢議題"
           v-show="searchOpened"
           @blur="closeSearch"
+          @keyup.enter="triggerSearch"
         )
-        button.plainButton.pointer.flex-none(@click="triggerSearch")
+        button.nav__searchCta.plainButton.pointer.flex-none(@click="triggerSearch")
           tcw-icon(:icon="searchOpened ? 'search-gray' : 'search-black'")
     .navMenu(v-show="menuOpened")
       .nav__search.flex.items-center(
@@ -43,8 +44,12 @@
           v-show="searchOpened"
           ref="mobileSearch"
           @blur="closeSearch"
+          @keyup.enter="triggerSearch"
         )
-        button.plainButton(:class="{'flex-auto': !searchOpened, 'flex-none': searchOpened}" @click="triggerSearch")
+        button.nav__searchCta.plainButton(
+          :class="{'flex-auto': !searchOpened, 'flex-none': searchOpened}"
+          @click="triggerSearch"
+        )
           span(v-show="!searchOpened") 搜尋
           tcw-icon(v-show="searchOpened" icon="search-gray")
       nuxt-link.nav__item.ls2.db(
@@ -111,13 +116,27 @@ export default {
         })
       } else {
         // TODO: 議員、選區 search
-        // TODO: do search
+        if (this.query) {
+          this.$router.push({
+            name: 'round-interpellation',
+            params: {
+              round: this.$route.params.round || DEFAULT_ROUND
+            },
+            query: {
+              query: this.query
+            }
+          })
+        }
         this.closeSearch()
       }
     },
-    closeSearch () {
-      this.query = ''
-      this.searchOpened = false
+    closeSearch (e) {
+      if (e && e.relatedTarget && e.relatedTarget.classList.contains('nav__searchCta')) {
+        this.triggerSearch()
+      } else {
+        this.query = ''
+        this.searchOpened = false
+      }
     },
     enterMobileSticky () {
       this.isMobileSticky = true

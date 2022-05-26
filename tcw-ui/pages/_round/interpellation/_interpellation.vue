@@ -188,13 +188,29 @@ export default {
       this.resetSearch()
     },
     query () {
-      this.resetSearch()
+      if (!this.normalizeSearchInNeeded()) {
+        this.resetSearch()
+      }
     },
     district () {
-      this.resetSearch()
+      if (!this.normalizeSearchInNeeded()) {
+        this.resetSearch()
+      }
     }
   },
+  mounted () {
+    this.normalizeSearchInNeeded()
+  },
   methods: {
+    normalizeSearchInNeeded () {
+      if (this.query || this.district) {
+        if (this.category && this.category.value === 'all') {
+          this.updateSearchQuery({ category: null })
+          return true
+        }
+      }
+      return false
+    },
     updateSearchQuery ({ query, category, district }) {
       const newParams = { ...this.$route.query }
 
