@@ -202,6 +202,7 @@ collections:
               - label: 簡稱
                 name: abbr
                 widget: string
+                hint: 市議會網站所用簡稱，若與全名相同則留白
               - label: 縮圖
                 name: avatar
                 widget: image
