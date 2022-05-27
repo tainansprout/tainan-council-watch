@@ -1,5 +1,28 @@
 import dayjs from 'dayjs'
 import { NAV_HEIGHT, NUMBER_2_ZH } from './defs'
+import { partyList as PARTY_LIST } from '~/content/meta/partyList.json'
+
+const PARTY_MAP = PARTY_LIST.reduce((accu, party) => {
+  accu[party.abbr || party.name] = party
+  return accu
+}, {})
+
+export function normalizeParty (party) {
+  if (!party) {
+    return undefined
+  }
+  if (party.name && party.avatar) {
+    return party
+  }
+  let theParty = PARTY_MAP[party]
+  if (!theParty) {
+    theParty = PARTY_LIST.find(p => p.name === party)
+  }
+  if (!theParty) {
+    throw new Error(`Undefined party: ${party}`)
+  }
+  return theParty
+}
 
 export function date (dateString) {
   return dayjs(dateString).format('YYYY.MM.DD')

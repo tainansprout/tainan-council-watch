@@ -6,6 +6,7 @@
         v-for="person in data.councilors"
         :key="person.id"
         :to="councilorLink(person)"
+        :class="{'o-50': isPartyDeactivated(person)}"
       )
         party-icon.mr2(:party="person.party")
         span {{person.name}}
@@ -24,9 +25,18 @@ export default {
     round: {
       type: String,
       required: true
+    },
+    activeParty: {
+      default: null,
+      validator (val) {
+        return !val || typeof val === 'string'
+      }
     }
   },
   methods: {
+    isPartyDeactivated (person) {
+      return this.activeParty && this.activeParty !== person.party
+    },
     councilorLink (person) {
       return {
         name: 'round-councilor-councilor',
