@@ -1,32 +1,34 @@
 <template lang="pug">
-  .councilor.mw8.ph3.center.pv3.pv4-l
-    con-con-landing(v-if="districtMap" :map="districtMap" :round="round" :minified="!!councilor")
-    template(v-if="councilor")
-      .councilor__head.bt.b--moon-gray.mt4.pt3.pt4-l(ref="head")
-        h1.fw5.f3.f2-l.flex.flex-column.flex-row-l
-          span.mr4-l.pr3-l {{councilor.districtTitle}}
-          span.mt3.mt0-l {{councilor.townList.join('.')}}
-      .councilor__person.bt-l.bb.b--moon-gray.mt4.pb4.pb0-l(:class="{'councilor__person--misc': miscColumn}")
-        .councilor__basic.br-l.b--moon-gray
-          .aspect-ratio.aspect-ratio--1x1
-            .aspect-ratio--object.br-100.overflow-hidden
-              img(:src="councilor.bgUrl" :alt="councilor.name")
-          div
-            .f5.f4-l {{councilor.name}}
-            .f5.f4-l.mt3.mt4-l {{councilor.party}}
-        .councilor__personMeta.mt4.mt0-l
-          h2.mt0-l.f3 公職經歷
-          p(v-for="line in jobHistory" :key="line") {{line}}
-        .councilor__personMeta.mt4.mt0-l.bl-l.b--moon-gray(v-if="miscColumn")
-          h2.mt0-l.f3 {{miscColumn.title}}
-          p {{miscColumn.content}}
-      .councilor__sayit.mt4.mt5-l
-        interpellation-landing(
-          :councilor-map="counsMap"
-          :say-list="sayList"
-          :stats="sayitStats"
-          :category.sync="interpellationCategory"
-        )
+  .pageContainer
+    .councilor
+      councilor-landing(v-if="districtMap" :map="districtMap" :round="round" :minified="!!councilor")
+      template(v-if="councilor")
+        .councilor__head.bt.b--gray-d(ref="head")
+          h1.fw5.flex.flex-column.flex-row-ns
+            span {{councilor.districtTitle}}
+            span {{townLabel}}
+        .councilor__person.bb.bt-ns.b--gray-d.b--gray-9-ns(:class="{'councilor__person--misc': miscColumn}")
+          .councilor__basic.br-ns.b--gray-9
+            .aspect-ratio.aspect-ratio--1x1
+              .aspect-ratio--object.br-100.overflow-hidden
+                img(:src="councilor.bgUrl" :alt="councilor.name")
+            div
+              .f5.f4-ns.fw5.ls3 {{councilor.name}}
+              .f5.pt2-ns.mt3
+                party-label(:party="councilor.party")
+          .councilor__personMeta
+            h2.f3 公職經歷
+            p.ls2(v-for="line in jobHistory" :key="line") {{line}}
+          .councilor__personMeta.bl-ns.b--gray-9(v-if="miscColumn")
+            h2.f3 {{miscColumn.title}}
+            p.ls2 {{miscColumn.content}}
+        .councilor__sayit
+          interpellation-landing(
+            :councilor-map="counsMap"
+            :say-list="sayList"
+            :stats="sayitStats"
+            :category.sync="interpellationCategory"
+          )
 </template>
 <script>
 import { get } from 'lodash'
@@ -86,6 +88,17 @@ export default {
         })
       }
     },
+    townLabel () {
+      if (!this.councilor) {
+        return ''
+      }
+      const list = this.councilor.townList
+      const lastTown = list[list.length - 1]
+      if (!lastTown.endsWith('區')) {
+        list[list.length - 1] = `${lastTown}區`
+      }
+      return list.join('.')
+    },
     sayitStats () {
       return get(this, 'sayit.stats', { org: [] })
     },
@@ -124,27 +137,81 @@ export default {
 </script>
 <style lang="scss" scoped>
 .councilor {
+  padding: 1.75rem 0;
+
+  &__head {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    line-height: normal;
+
+    span:first-child {
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  &__person {
+    margin: 1.5rem 0 2.25rem;
+    padding-bottom: 1.75rem;
+  }
+
   &__basic {
     display: grid;
-    grid-template-columns: 33vw 1fr;
-    column-gap: 2rem;
+    grid-template-columns: 6rem 1fr;
+    column-gap: 2.25rem;
     align-items: center;
+    line-height: normal;
   }
-  @include large-screen {
-    &__person {
-      display: grid;
-      grid-template-columns: 25rem 1fr;
 
-      &--misc {
-        grid-template-columns: 25rem 4fr 3fr;
+  &__personMeta {
+    margin-top: 1.25rem;
+    line-height: normal;
+    h2 {
+      margin: 0 0 0.5rem;
+    }
+  }
+  @include not-small-screen {
+    padding: 3.5rem 0;
+
+    &__head {
+      margin-top: 3.5rem;
+      padding-top: 3.5rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      letter-spacing: 2.33px;
+
+      span:first-child {
+        margin: 0 3rem 0 0;
       }
     }
+
+    &__person {
+      margin: 3.5rem 1rem 8.5rem;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 22rem 1fr;
+    }
     &__basic {
-      grid-template-columns: 9.25rem 1fr;
-      padding: 1.5rem 2.25rem;
+      grid-template-columns: 8.5rem 1fr;
+      column-gap: 1.75rem;
+      padding: 1.5rem 1rem 1.5rem 0;
     }
     &__personMeta {
+      margin-top: 0;
       padding: 1.5rem 2.25rem;
+    }
+    &__person--misc {
+      grid-template-columns: 19.5rem 1fr 1fr;
+
+      .councilor__personMeta {
+        padding: 1.5rem 1.75rem;
+      }
     }
   }
 }

@@ -26,6 +26,14 @@ body, button, input, optgroup, select, textarea {
   padding: 0 1rem;
 }
 
+.b--gray-d {
+  border-color: $gray-d;
+}
+
+.b--gray-9 {
+  border-color: $gray-9;
+}
+
 .lh-normal {
   line-height: normal;
 }
@@ -46,19 +54,15 @@ body, button, input, optgroup, select, textarea {
   letter-spacing: 2px;
 }
 
-@include not-small-screen {
-  .ls1-ns {
-    letter-spacing: 1.67px;
-  }
-  .ls2-ns {
-    letter-spacing: 1.33px;
-  }
 
-  .ls3-ns {
-    letter-spacing: 1.66px;
+.b--gray-d-ns {
+  @include not-small-screen {
+    border-color: $gray-d;
   }
+}
 
-  .ls4-ns {
-    letter-spacing: 2px;
+.b--gray-9-ns {
+  @include not-small-screen {
+    border-color: $gray-9;
   }
 }

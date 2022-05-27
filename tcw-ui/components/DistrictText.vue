@@ -1,13 +1,15 @@
 <template lang="pug">
   .districtText.fw3.f6(:class="{'districtText--multiEle': !isSingleElement, 'districtText--active': isDistrictActive}")
-    .districtText__square.dn.dib-ns.mr1
+    .districtText__square.dn.dib-ns.mr1(v-if="!isSingleElement")
     .districtText__name.db.di-ns.mr2(
       @mouseover="activateArea('district', district.districtId)"
       @mouseleave="deactivateArea"
     )
-      .di.f5.f6-ns {{district.districtTitle}}
+      .di.f5.f6-ns(
+        :class="{ls1: !isSingleElement, ls2: isSingleElement}"
+      ) {{district.districtTitle}}
       .f7.di.ml4(v-if="isQuotaVisible") {{district.districtQuota}} 席
-    .db.di-ns.mt3.mt0-l
+    .districtText__townList.db.di-ns.mt3.mt0-l.ls1
       span(v-if="isSingleElement") {{townLabelList.join('.')}}
       template(v-else)
         span.districtText__town.mr1(
@@ -100,6 +102,7 @@ export default {
 .districtText {
   color: $black;
   text-decoration: none;
+  line-height: normal;
 
   &--multiEle {
     .districtText {

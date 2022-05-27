@@ -18,7 +18,7 @@
       district-landing(:map="consMap" :round="round")
     tcw-title(level="h2" id="找議員" ref="找議員") 找議員
     .mt5.mt3-l
-      con-con-landing(:map="consMap" :round="round")
+      councilor-landing(:map="consMap" :round="round")
     tcw-title(level="h2" id="讀分析" ref="讀分析") 讀分析
     .pa3.bg-moon-gray.h3.pa4.flex.items-center.justify-center.mt5.mt3-l.w-100 施工中
 </template>
