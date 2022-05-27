@@ -1,7 +1,7 @@
 <template lang="pug">
   .partyLabel.flex.items-center
     party-icon.mr2(:party="meta")
-    | {{meta.name}}
+    .nowrap {{meta.name}}
 </template>
 <script>
 import { partyMixin } from '~/libs/mixins'
