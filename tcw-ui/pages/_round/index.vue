@@ -2,8 +2,8 @@
   .landing.pageContainer
     .landing__entry.mt5
       landing-cover(:round="round")
-      .landing__navLinks.flex.justify-between.mw6.center.mt4.mt5-l
-        nuxt-link.f4.f3-l(
+      .landing__navLinks.flex.justify-between.center
+        nuxt-link(
           v-for="link in navLinks"
           :key="link.label"
           :to="genNavLink(link)"
@@ -11,13 +11,13 @@
         )
           | {{link.label}}
     tcw-title(level="h2" id="看選區" ref="看選區") 看選區
-    .mt5.mt3-l
+    .landing__section
       district-landing(:map="consMap" :round="round")
     tcw-title(level="h2" id="找議員" ref="找議員") 找議員
-    .mt5.mt3-l
+    .landing__section.landing__section--tight
       councilor-landing(:map="consMap" :round="round")
     tcw-title(level="h2" id="讀分析" ref="讀分析") 讀分析
-    .mt5.mt3-l
+    .landing__section
       article-gallery(:categories="articleCategories")
 </template>
 <script>
@@ -87,17 +87,44 @@ export default {
 </script>
 <style lang="scss" scoped>
 .landing {
-  &__header {
-    height: calc(100vh - 14rem);
-    max-height: 40vh;
-    @include large-screen {
-      max-height: 35vw;
+  padding-top: 0.5rem;
+
+  &__navLinks {
+    max-width: 35rem;
+    margin: 3.5rem auto;
+
+    a {
+      letter-spacing: 1.33px;
+      color: $blue;
+      text-decoration: underline;
+      text-decoration-color: $blue;
+
+      &:hover {
+        font-weight: 500;
+        text-decoration: none;
+      }
     }
   }
-  &__navLinks {
-    a {
-      color: #49B0D5;
-      text-decoration: none;
+
+  &__section {
+    margin: 1.5rem 0 3.5rem;
+  }
+
+  @include not-small-screen {
+    padding-top: 2.25rem;
+
+    &__navLinks {
+      margin: 2.25rem auto 8.25rem;
+      font-size: 1.75rem;
+      letter-spacing: 2.33px;
+    }
+
+    &__section {
+      margin: 6rem 0 9.75rem;
+
+      &--tight {
+        margin-top: 3.5rem;
+      }
     }
   }
 }

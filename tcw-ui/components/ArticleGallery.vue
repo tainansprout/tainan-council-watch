@@ -41,6 +41,7 @@ export default {
 <style lang="scss" scoped>
 .articleGallery {
   &__category {
+    display: block;
     padding: 0 1.25rem 100%;
     + .articleGallery__category {
       margin-top: 1rem;
