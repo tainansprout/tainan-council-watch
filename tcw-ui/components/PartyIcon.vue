@@ -1,26 +1,11 @@
 <template lang="pug">
-  img.partyIcon(:src="cover" :alt="party")
+  img.partyIcon(:src="meta.avatar" :alt="meta.name")
 </template>
 <script>
-import { partyList as PARTY_LIST } from '~/content/meta/partyList.json'
-
-const PARTY_MAP = PARTY_LIST.reduce((accu, party) => {
-  accu[party.name] = party.avatar
-  return accu
-}, {})
+import { partyMixin } from '~/libs/mixins'
 
 export default {
-  props: {
-    party: {
-      type: String,
-      required: true
-    }
-  },
-  computed: {
-    cover () {
-      return PARTY_MAP[this.party] || ''
-    }
-  }
+  mixins: [partyMixin]
 }
 </script>
 <style lang="scss" scoped>
