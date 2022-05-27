@@ -10,7 +10,7 @@
       )
         span.mr2.mr0-l {{org.name}}
         span {{org.count}}
-    .intLanding__main.mt3(ref="main")
+    .intLanding__main(ref="main")
       template(v-if="isShowingAllCategory")
         interpellation-category.mb5(
           v-for="cat in perCategorySayList"
@@ -223,11 +223,18 @@ export default {
 </script>
 <style lang="scss" scoped>
 .intLanding {
+  &__main {
+    margin-top: 2.25rem;
+  }
   @include large-screen {
     display: grid;
     grid-template-columns: 14rem 1fr;
     column-gap: 5rem;
     align-items: start;
+
+    &__main {
+      margin-top: 0;
+    }
 
     &__stats {
       position: sticky;

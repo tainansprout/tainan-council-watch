@@ -236,7 +236,7 @@ export default {
     min-width: 64rem;
     margin: 0 auto;
     border-bottom: 1px solid $gray-a;
-    top: -5.875rem;
+    top: -6.25rem;
 
     &--desktopSticky {
       .nav__bottom .nav__home {

@@ -419,8 +419,7 @@ export default {
     }
     &__districtList {
       margin-top: 3.5rem;
-      margin-bottom: 6rem;
-      width: calc(100% - 2rem);
+      margin-bottom: 3.5rem;
       padding: 0 1.5rem 3.5rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -432,6 +431,8 @@ export default {
   }
   @include large-screen {
     &__districtList {
+      width: calc(100% - 2rem);
+      margin-bottom: 6rem;
       grid-template-columns: 1fr 1fr 1fr;
     }
   }

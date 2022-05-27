@@ -3,21 +3,20 @@
     page-title 讀分析
     .articleList__desp.ls-1
       p(v-for="paragraph in desp") {{paragraph}}
-    .articleList__main.relative.flex-ns
-      .articleList__catList.flex-none
-        .categoryList
-          button.categoryList__item(
-            @click="showAllArticle"
-            :class="{'categoryList__item--active': !activeCategory}"
-          )
-            | 所有分析
-          button.categoryList__item.nowrap(
-            v-for="category in categories"
-            :key="category.name"
-            :class="{'categoryList__item--active': isCategoryActive(category)}"
-            @click="switchCategory(category)"
-          )
-            | {{category.name}}
+    .articleList__main.relative.flex-l
+      long-menu.articleList__catList.flex-none
+        button.categoryList__item(
+          @click="showAllArticle"
+          :class="{'categoryList__item--active': !activeCategory}"
+        )
+          | 所有分析
+        button.categoryList__item.nowrap(
+          v-for="category in categories"
+          :key="category.name"
+          :class="{'categoryList__item--active': isCategoryActive(category)}"
+          @click="switchCategory(category)"
+        )
+          | {{category.name}}
       .articleList__list.flex-auto
         article-card(
           v-for="article in visibleArticles"
@@ -102,13 +101,9 @@ export default {
   }
   &__catList {
     margin: 3.5rem 0 1.875rem;
-    overflow: hidden;
-    position: relative;
-    width: calc(100% + 1rem);
-    height: 2.5rem;
   }
 
-  @include not-small-screen {
+  @include large-screen {
     .pTitle {
       margin: 3.5rem 0 2.25rem;
     }
@@ -118,19 +113,11 @@ export default {
     }
     &__catList {
       margin: 0 7rem 0 0;
-      width: auto;
-      height: auto;
     }
   }
 }
 
 .categoryList {
-  display: flex;
-  width: 100%;
-  padding-bottom: 17px;
-  box-sizing: content-box;
-  overflow-x: scroll;
-
   &__item {
     flex-shrink: 0;
     font-size: 1.25rem;
@@ -142,17 +129,14 @@ export default {
     border: none;
     border-bottom: 2px solid $gray-9;
     margin-right: 0.75rem;
+    box-sizing: border-box;
     cursor: pointer;
     &--active {
       color: $blue;
     }
   }
 
-  @include not-small-screen {
-    flex-direction: column;
-    width: auto;
-    padding: 0;
-
+  @include large-screen {
     &__item {
       font-size: 1.75rem;
       letter-spacing: 2.33px;
