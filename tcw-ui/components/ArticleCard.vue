@@ -1,6 +1,6 @@
 <template lang="pug">
   nuxt-link.articleCard(:to="{name: 'article-article', params: { article: article.slug }}")
-    h2.truncate.ws-normal-ns.f5.f3-ns.fw5.ls2.mv0 {{article.title}}{{article.title}}{{article.title}}{{article.title}}
+    h2.truncate.ws-normal-ns.f5.f3-ns.fw5.ls2.mv0 {{article.title}}
     p.ls2 {{article.summary}}
     .flex.justify-between
       tcw-date.f6(:date="article.createdAt")
