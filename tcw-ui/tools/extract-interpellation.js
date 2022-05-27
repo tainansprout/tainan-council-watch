@@ -119,7 +119,7 @@ function parseOneLog (sheetMeta) {
         const relatedOrgs = data.相關局處
           .replace(/\n/g, '、')
           .split('、')
-          .filter(org => org !== '無')
+          .filter(org => org && org !== '無')
         sayitMap[key].push({
           relatedOrgs,
           summary: data.質詢內容,
@@ -141,7 +141,7 @@ async function parseLogs () {
     { sheetId: '1909562558', type: '定期會', round: 1 },
     { sheetId: '1969300134', type: '定期會', round: 2 },
     { sheetId: '67860742', type: '定期會', round: 3 },
-    { sheetId: '394033064', type: '定期會', round: 4 },
+    { sheetId: '1585934193', type: '定期會', round: 4 },
     { sheetId: '618060648', type: '定期會', round: 5 }
   ]
 

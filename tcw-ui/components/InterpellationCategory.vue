@@ -1,8 +1,10 @@
 <template lang="pug">
   .intCat
-    .tr(v-if="hasMore")
-      button.intCat__more.pv2.mb3.pointer(@click="showMore") 閱讀全部 >
-    .intCat__title.f3.fw5.pb3.mb4.bb.b--gray.bw2 / {{name}}
+    .intCat__title.flex.justify-between.items-center
+      .f3.fw5 / {{name}}
+      button.intCat__more.pv2.plainButton.underline.pointer.flex.items-center(v-if="hasMore" @click="showMore")
+        | 局處所有質詢
+        tcw-icon.ml2(icon="chevron-right-gray")
     interpellation-card(
       v-for="(sayit, index) in sayList"
       :key="index"
@@ -41,10 +43,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .intCat {
-  &__more {
-    outline: none;
-    border: none;
-    background: none;
+  &__title {
+    padding-bottom: 1.5rem;
+    border-bottom: 4px solid $gray-9;
+    margin-bottom: 3.5rem;
   }
 }
 </style>

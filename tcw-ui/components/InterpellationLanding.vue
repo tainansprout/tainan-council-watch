@@ -1,25 +1,28 @@
 <template lang="pug">
   .intLanding
     .intLanding__stats.stats
-      h2.f4.f3-l.mb3 質詢局處
-      button.stats__item.ba.b--moon-gray.flex-l.justify-between.f5.f4-l.w-100-l.pa2.pv3-l.ph0-l.mr2.mb2.ma0-l.pointer(
-        v-for="org in stats.org"
-        :key="org.name"
-        :class="{'stats__item--active': isCatActive('org', org.name)}"
-        @click="filter('org', org.name)"
-      )
-        span.mr2.mr0-l {{org.name}}
-        span {{org.count}}
-    .intLanding__main.mt3(ref="main")
+      .flex.items-center.dn-l.pb1.mb3
+        button.plainButton.stats__switch.f4.ls3 質詢局處
+      h2.f4.f3-l.mb3.dn.db-l 質詢局處
+      long-menu(height="2.25rem")
+        button.stats__item.flex-none.flex-l.justify-between.f5.f4-l.w-100-l.pointer.ls2(
+          v-for="org in stats.org"
+          :key="org.name"
+          :class="{'stats__item--active': isCatActive('org', org.name)}"
+          @click="toggleCategory('org', org.name)"
+        )
+          span.mr2.mr0-l {{org.name}}
+          span {{org.count.toLocaleString()}}
+    .intLanding__main(ref="main")
       template(v-if="isShowingAllCategory")
-        interpellation-category.mb5(
+        interpellation-category.mb6(
           v-for="cat in perCategorySayList"
           :key="cat.name"
           :name="cat.name"
           :councilor-map="councilorMap"
           :say-list="cat.sayList"
           :has-more="cat.hasMore"
-          @more="filter('org', cat.name)"
+          @more="toggleCategory('org', cat.name)"
         )
       template(v-else)
         interpellation-card(
@@ -33,7 +36,7 @@
             .f6.gray(slot="no-results")
               span(v-if="isShowingAllCategory")
                 | 找不到任何結果，或許換個關鍵字試試？
-              .pointer(v-else @click="filter('org', 'all')")
+              .pointer(v-else @click="filterCategory('org', 'all')")
                 | 找不到任何結果，或許看看
                 .di.underline 所有局處？
 </template>
@@ -187,7 +190,15 @@ export default {
         this.targetCategory.type === type &&
         this.targetCategory.value === value
     },
-    filter (type, value) {
+    toggleCategory (type, value) {
+      const cat = this.targetCategory
+      if (cat && cat.type === type && cat.value === value) {
+        this.filterCategory(type, 'all')
+      } else {
+        this.filterCategory(type, value)
+      }
+    },
+    filterCategory (type, value) {
       this.targetCategory = { type, value }
       this.resetInfiniteLoading()
       this.$emit('update:category', this.targetCategory)
@@ -223,32 +234,49 @@ export default {
 </script>
 <style lang="scss" scoped>
 .intLanding {
+  &__main {
+    margin-top: 2.25rem;
+  }
   @include large-screen {
     display: grid;
     grid-template-columns: 14rem 1fr;
     column-gap: 5rem;
     align-items: start;
 
+    &__main {
+      margin-top: 0;
+    }
+
     &__stats {
       position: sticky;
-      top: 4rem;
+      top: 6rem;
+      max-height: calc(100vh - 10rem);
+      overflow-y: scroll;
     }
   }
 }
 
 .stats {
+  &__switch {
+    padding: 0 0.625rem 0.75rem;
+    border-bottom: 2px solid $gray-9;
+
+    + .stats__switch {
+      margin-left: 2rem;
+    }
+  }
   &__item {
     background: none;
-
-    &:nth-child(n+7) {
-      display: none;
-    }
+    border: 1px solid $gray-a;
+    padding: 0.5rem 0.75rem;
+    margin: 0 0.5rem 0.75rem 0;
+    line-height: 1.125;
+    text-align: left;
 
     @include large-screen {
-      &:nth-child(n+7) {
-        display: flex;
-      }
       border-width: 0 0 1px 0;
+      margin: 0 0 0.25rem 0;
+      padding: 1rem 0.75rem 1rem 0;
     }
 
     &--active {

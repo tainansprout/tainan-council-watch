@@ -113,26 +113,39 @@ export default {
 </script>
 <style lang="scss" scoped>
 .districtLanding {
-  @include large-screen {
-    display: grid;
-    grid-template-columns: 20rem 1fr;
-    align-items: center;
-  }
-
-  &__list {
-    @include medium-screen {
+  @include medium-screen {
+    &__list {
       display: grid;
       grid-template-columns: 1fr 1fr;
       column-gap: 2rem;
       row-gap: 1rem;
     }
-  }
 
-  &__map {
-    @include medium-screen {
+    &__map {
       max-width: 50vh;
       margin: 2rem auto 0;
     }
+  }
+  @include medium-landscape-screen {
+    display: grid;
+    grid-template-columns: 20rem 1fr;
+    align-items: center;
+
+    &__list {
+      display: block;
+    }
+
+    &__map {
+      max-width: inherit;
+      padding: 0 4rem;
+      margin: 0;
+    }
+  }
+
+  @include large-screen {
+    display: grid;
+    grid-template-columns: 20rem 1fr;
+    align-items: center;
   }
 }
 .district {
@@ -143,13 +156,17 @@ export default {
       margin: 0;
     }
 
+    @include medium-landscape-screen {
+      margin-top: 0.5rem;
+    }
+
     @include large-screen {
       margin-top: 1.25rem;
     }
   }
   &__card {
     border: 1px solid $gray-d;
-    border-top: 6px solid $yellow;
+    border-top: 6px solid $yellow-8;
   }
 }
 </style>

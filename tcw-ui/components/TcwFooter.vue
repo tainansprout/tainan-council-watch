@@ -1,24 +1,24 @@
 <template lang="pug">
-  .footer.mw8
+  .tcwFooter.mw8
     .f3.tracked 台南新芽
-    .footer__main
+    .tcwFooter__main
       .flex.flex-column.items-start
-        .footer__subheader 關於我們
-        a.footer__item(
+        .tcwFooter__subheader 關於我們
+        a.tcwFooter__item(
           v-for="item in about"
           :key="item.label"
           :href="item.url"
           target="_blank"
         ) {{item.label}}
       .flex.flex-column.items-start
-        .footer__subheader 聯絡我們
-        component.footer__item(
+        .tcwFooter__subheader 聯絡我們
+        component.tcwFooter__item(
           v-for="item in contact"
           :key="item.label"
           :is="item.url ? 'a' : 'div'"
           :href="item.url || ''"
         ) {{item.label}}
-    .footer__license
+    .tcwFooter__license
       | 除另有註明，網站之內容皆採&nbsp;
       a(href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW" target="_blank") CC-BY 4.0
       | &nbsp;授權條款釋出
@@ -38,7 +38,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.footer {
+.tcwFooter {
   border-top: 1px solid $gray-9;
   margin: 6rem auto;
   padding: 2.25rem 1rem 0;
@@ -63,7 +63,7 @@ export default {
     border-bottom: 1px solid $gray-9;
   }
 
-  &__item + .footer__item {
+  &__item + .tcwFooter__item {
     margin-top: 0.5rem;
   }
 
@@ -72,7 +72,7 @@ export default {
     letter-spacing: 1.33px;
   }
 
-  @include not-small-screen {
+  @include large-screen {
     margin-top: 12.25rem auto 8.25rem;
     padding: 4rem 4.5rem 0;
 

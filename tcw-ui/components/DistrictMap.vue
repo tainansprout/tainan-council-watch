@@ -19,8 +19,8 @@ const TOWN2DISTRICT = Object.values(districtMap).reduce((map, district) => {
 
 const MAP_SIZE = 800
 
-const TOOLTIP_WIDTH = 100
-const TOOLTIP_HEIGHT = 73
+const TOOLTIP_WIDTH = 120
+const TOOLTIP_HEIGHT = 87
 const TOOLTIP_CONFIG = {
   LINE_START: {
     第十二選區: [630, 750],
@@ -28,9 +28,10 @@ const TOOLTIP_CONFIG = {
   },
   LINE_OFFSET: {
     default: [0, -40],
-    第八選區: [-110, 15],
+    第五選區: [0, -48],
+    第八選區: [-100, 10],
     第九選區: [-50, 45],
-    第十選區: [20, 80]
+    第十選區: [25, 70]
   },
   BOARD_OFFSET: {
     default: {
@@ -250,6 +251,7 @@ export default {
         path {
           fill: white;
           stroke: #cacac9;
+          cursor: pointer;
         }
       }
 
@@ -259,6 +261,7 @@ export default {
           stroke: #8a8c8c;
           stroke-width: 1.2px;
           pointer-events: none;
+          cursor: pointer;
         }
       }
 
@@ -269,7 +272,7 @@ export default {
       g.tooltip {
         path {
           fill: transparent;
-          stroke: #78cc61;
+          stroke: $yellow-7;
           stroke-width: 3px;
         }
       }
@@ -277,7 +280,7 @@ export default {
       .board {
         margin: 1px;
         border: solid 1px $gray-d;
-        border-top: 6px solid $yellow;
+        border-top: 6px solid $yellow-8;
         height: calc(100% - 2px);
         background: $white;
         display: flex;
@@ -285,6 +288,7 @@ export default {
         justify-content: space-evenly;
         align-content: center;
         text-align: center;
+        cursor: pointer;
 
         &__title {
           font-weight: 300;
@@ -294,6 +298,18 @@ export default {
         &__quota {
           font-weight: 500;
           pointer-events: none;
+        }
+      }
+
+      @include medium-landscape-screen {
+        .board {
+          border-width: 6px 2px 2px 2px;
+          &__title {
+            transform: scale(1.65)
+          }
+          &__quota {
+            transform: scale(1.65)
+          }
         }
       }
     }
