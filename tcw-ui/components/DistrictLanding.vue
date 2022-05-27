@@ -136,9 +136,9 @@ export default {
     }
 
     &__map {
-      max-width: inherit;
-      padding: 0 4rem;
-      margin: 0;
+      max-width: 100vh;
+      width: calc(100vw - 20rem - 4vw);
+      margin: 0 auto;
     }
   }
 
