@@ -274,11 +274,9 @@ export default {
     text-align: left;
 
     @include large-screen {
-      &:nth-child(n+7) {
-        display: flex;
-      }
       border-width: 0 0 1px 0;
-      padding-left: 0;
+      margin: 0 0 0.25rem 0;
+      padding: 1rem 0.75rem 1rem 0;
     }
 
     &--active {

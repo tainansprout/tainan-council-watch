@@ -8,8 +8,16 @@ $gray-a: #afafb0;
 $gray-d: #d8d8d8;
 $gray-9: #979797;
 
+$nav-height-mobile: 5.5rem;
+
 @mixin medium-screen {
   @media screen and (min-width: 30em) and (max-width: 60em) {
+    @content
+  }
+};
+
+@mixin medium-landscape-screen {
+  @media screen and (min-width: 30em) and (max-width: 60em) and (orientation: landscape) {
     @content
   }
 };

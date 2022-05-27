@@ -19,8 +19,8 @@ const TOWN2DISTRICT = Object.values(districtMap).reduce((map, district) => {
 
 const MAP_SIZE = 800
 
-const TOOLTIP_WIDTH = 100
-const TOOLTIP_HEIGHT = 73
+const TOOLTIP_WIDTH = 120
+const TOOLTIP_HEIGHT = 87
 const TOOLTIP_CONFIG = {
   LINE_START: {
     第十二選區: [630, 750],
@@ -28,9 +28,10 @@ const TOOLTIP_CONFIG = {
   },
   LINE_OFFSET: {
     default: [0, -40],
-    第八選區: [-110, 15],
+    第五選區: [0, -48],
+    第八選區: [-100, 10],
     第九選區: [-50, 45],
-    第十選區: [20, 80]
+    第十選區: [25, 70]
   },
   BOARD_OFFSET: {
     default: {
@@ -297,6 +298,18 @@ export default {
         &__quota {
           font-weight: 500;
           pointer-events: none;
+        }
+      }
+
+      @include medium-landscape-screen {
+        .board {
+          border-width: 6px 2px 2px 2px;
+          &__title {
+            transform: scale(1.65)
+          }
+          &__quota {
+            transform: scale(1.65)
+          }
         }
       }
     }
