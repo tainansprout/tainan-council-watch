@@ -70,6 +70,7 @@ export default {
   }
 
   &:hover {
+    color: $blue;
     .orgTag__info {
       display: none;
       &--hover {

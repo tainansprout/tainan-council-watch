@@ -15,10 +15,10 @@
           :stats="stats"
           :to="orgInterpellationLink(stats.name)"
         )
-    .counSum.mt3.pt3.mt5-ns.pt5-ns.bt.b--moon-gray
-      h2.fw4.f4.f3-ns 應屆議員
-      .counSum__list.mt3.mt4-ns
-        councilor-card.mt2.mt0-ns(
+    .counSum
+      h2.fw5.f3.f2-l.ls4.lh-normal 應屆議員
+      .counSum__list
+        councilor-card.mb2.mb0-ns(
           v-for="person in meta.councilors"
           :key="person.id"
           :person="person"
@@ -70,6 +70,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .districtSum {
+  padding: 0 0.75rem;
 
   h2 {
     font-size: 1.25rem;
@@ -102,6 +103,7 @@ export default {
   }
 
   @include not-small-screen {
+    padding: 0;
     display: grid;
     grid-template-columns: 12rem 1fr;
     column-gap: 2rem;
@@ -141,10 +143,32 @@ export default {
   }
 }
 .counSum {
-  &__list {
-    @include not-small-screen {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $gray-d;
+
+  h2 {
+    margin-bottom: 1.25rem;
+  }
+
+  @include not-small-screen {
+    margin-top: 5.5rem;
+    padding-top: 5.5rem;
+
+    h2 {
+      margin-bottom: 3.5rem;
+    }
+
+    &__list {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      column-gap: 3rem;
+      row-gap: 2rem;
+    }
+  }
+
+  @include large-screen {
+    &__list {
       column-gap: 6rem;
       row-gap: 3.5rem;
     }
