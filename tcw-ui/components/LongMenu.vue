@@ -41,6 +41,8 @@ export default {
       flex-direction: column;
       width: auto;
       padding-bottom: 0;
+      box-sizing: border-box;
+      overflow-x: auto;
     }
   }
 }

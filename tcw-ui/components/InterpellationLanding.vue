@@ -249,7 +249,9 @@ export default {
 
     &__stats {
       position: sticky;
-      top: 4rem;
+      top: 6rem;
+      max-height: calc(100vh - 10rem);
+      overflow-y: scroll;
     }
   }
 }
@@ -269,12 +271,14 @@ export default {
     padding: 0.5rem 0.75rem;
     margin: 0 0.5rem 0.75rem 0;
     line-height: 1.125;
+    text-align: left;
 
     @include large-screen {
       &:nth-child(n+7) {
         display: flex;
       }
       border-width: 0 0 1px 0;
+      padding-left: 0;
     }
 
     &--active {

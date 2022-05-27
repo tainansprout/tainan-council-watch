@@ -63,6 +63,8 @@
 import VueIntersect from 'vue-intersect'
 import { NAV_LINKS, DEFAULT_ROUND } from '~/libs/defs'
 
+const WAIT_UI_REFRESH = 50
+
 export default {
   components: {
     VueIntersect
@@ -101,7 +103,7 @@ export default {
     triggerSearch () {
       if (!this.searchOpened) {
         this.searchOpened = true
-        this.$nextTick(() => {
+        setTimeout(() => {
           [
             this.$refs.desktopSearch,
             this.$refs.mobileSearch
@@ -113,7 +115,7 @@ export default {
               }
               return false
             })
-        })
+        }, WAIT_UI_REFRESH)
       } else {
         // TODO: 議員、選區 search
         if (this.query) {
