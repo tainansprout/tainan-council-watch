@@ -13,8 +13,5 @@ export default {
 <style lang="scss" scoped>
 .partyLabel {
   letter-spacing: 0.083em;
-  .partyIcon {
-    font-size: calc(1em + 0.25rem);
-  }
 }
 </style>

@@ -10,8 +10,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .partyIcon {
-  height: 1em;
-  width: 1em;
+  height: calc(1em + 0.25rem);
+  width: calc(1em + 0.25rem);
   object-fit: contain;
   border-radius: 100%;
 }

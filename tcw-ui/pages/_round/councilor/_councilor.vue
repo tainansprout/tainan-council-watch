@@ -1,32 +1,33 @@
 <template lang="pug">
-  .councilor.mw8.ph3.center.pv3.pv4-l
-    con-con-landing(v-if="districtMap" :map="districtMap" :round="round" :minified="!!councilor")
-    template(v-if="councilor")
-      .councilor__head.bt.b--moon-gray.mt4.pt3.pt4-l(ref="head")
-        h1.fw5.f3.f2-l.flex.flex-column.flex-row-l
-          span.mr4-l.pr3-l {{councilor.districtTitle}}
-          span.mt3.mt0-l {{councilor.townList.join('.')}}
-      .councilor__person.bt-l.bb.b--moon-gray.mt4.pb4.pb0-l(:class="{'councilor__person--misc': miscColumn}")
-        .councilor__basic.br-l.b--moon-gray
-          .aspect-ratio.aspect-ratio--1x1
-            .aspect-ratio--object.br-100.overflow-hidden
-              img(:src="councilor.bgUrl" :alt="councilor.name")
-          div
-            .f5.f4-l {{councilor.name}}
-            .f5.f4-l.mt3.mt4-l {{councilor.party}}
-        .councilor__personMeta.mt4.mt0-l
-          h2.mt0-l.f3 公職經歷
-          p(v-for="line in jobHistory" :key="line") {{line}}
-        .councilor__personMeta.mt4.mt0-l.bl-l.b--moon-gray(v-if="miscColumn")
-          h2.mt0-l.f3 {{miscColumn.title}}
-          p {{miscColumn.content}}
-      .councilor__sayit.mt4.mt5-l
-        interpellation-landing(
-          :councilor-map="counsMap"
-          :say-list="sayList"
-          :stats="sayitStats"
-          :category.sync="interpellationCategory"
-        )
+  .pageContainer
+    .councilor
+      councilor-landing(v-if="districtMap" :map="districtMap" :round="round" :minified="!!councilor")
+      template(v-if="councilor")
+        .councilor__head.bt.b--moon-gray.mt4.pt3.pt4-l(ref="head")
+          h1.fw5.f3.f2-l.flex.flex-column.flex-row-l
+            span.mr4-l.pr3-l {{councilor.districtTitle}}
+            span.mt3.mt0-l {{councilor.townList.join('.')}}
+        .councilor__person.bt-l.bb.b--moon-gray.mt4.pb4.pb0-l(:class="{'councilor__person--misc': miscColumn}")
+          .councilor__basic.br-l.b--moon-gray
+            .aspect-ratio.aspect-ratio--1x1
+              .aspect-ratio--object.br-100.overflow-hidden
+                img(:src="councilor.bgUrl" :alt="councilor.name")
+            div
+              .f5.f4-l {{councilor.name}}
+              .f5.f4-l.mt3.mt4-l {{councilor.party}}
+          .councilor__personMeta.mt4.mt0-l
+            h2.mt0-l.f3 公職經歷
+            p(v-for="line in jobHistory" :key="line") {{line}}
+          .councilor__personMeta.mt4.mt0-l.bl-l.b--moon-gray(v-if="miscColumn")
+            h2.mt0-l.f3 {{miscColumn.title}}
+            p {{miscColumn.content}}
+        .councilor__sayit.mt4.mt5-l
+          interpellation-landing(
+            :councilor-map="counsMap"
+            :say-list="sayList"
+            :stats="sayitStats"
+            :category.sync="interpellationCategory"
+          )
 </template>
 <script>
 import { get } from 'lodash'
@@ -124,6 +125,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .councilor {
+  padding: 1.75rem 0;
   &__basic {
     display: grid;
     grid-template-columns: 33vw 1fr;
@@ -131,6 +133,7 @@ export default {
     align-items: center;
   }
   @include large-screen {
+    padding: 3.5rem 0;
     &__person {
       display: grid;
       grid-template-columns: 25rem 1fr;
