@@ -418,13 +418,18 @@ export default {
     }
     &__districtList {
       margin-top: 3.5rem;
-      padding: 0 1.5rem 3.5rem;
+      padding: 0 0.5rem 3.5rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
       column-gap: 1rem;
-      row-gap: 0.75rem;
+      row-gap: 0.5rem;
       justify-content: center;
       border-bottom: 1px solid $gray-d;
+      ::v-deep {
+        .districtText__name .ls1 {
+          letter-spacing: 1px;
+        }
+      }
     }
   }
   @include large-screen {
