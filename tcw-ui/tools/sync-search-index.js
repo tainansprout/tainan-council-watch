@@ -7,7 +7,7 @@ const dayjs = require('dayjs')
 dotenv.config()
 
 const NTH = process.argv[2] || '3rd'
-const SAMPLE_RATIO = Number.parseInt(process.argv[3]) || 100
+const SAMPLE_RATIO = Number.parseInt(process.argv[3]) || 80
 
 const SAYIT_BASE = path.join(__dirname, `../content/council/${NTH}/sayit`)
 
@@ -17,8 +17,8 @@ async function main () {
   const agClient = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_DATA_API_KEY)
   const agIndex = agClient.initIndex(process.env.ALGOLIA_INDEX_NAME)
 
-  agIndex.delete()
-  agIndex.setSettings({
+  await agIndex.delete()
+  await agIndex.setSettings({
     attributesForFaceting: [
       'relatedOrgs',
       'round',
