@@ -49,7 +49,7 @@ export default {
 <style lang="scss" scoped>
 .counCard {
   border: 1px solid #D8D8D8;
-  border-top: 0.5rem solid $yellow;
+  border-top: 0.5rem solid $yellow-8;
   padding: 2rem 1.25rem;
 
   @include large-screen {

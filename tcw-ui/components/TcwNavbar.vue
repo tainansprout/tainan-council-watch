@@ -181,6 +181,9 @@ export default {
   &__item {
     color: #40404a;
     margin: 1.5rem 0;
+    &.nuxt-link-active {
+      color: $yellow-7;
+    }
   }
 
   &__search {

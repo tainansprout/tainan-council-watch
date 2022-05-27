@@ -149,7 +149,7 @@ export default {
   }
   &__card {
     border: 1px solid $gray-d;
-    border-top: 6px solid $yellow;
+    border-top: 6px solid $yellow-8;
   }
 }
 </style>

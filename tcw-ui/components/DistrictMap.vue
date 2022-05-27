@@ -271,7 +271,7 @@ export default {
       g.tooltip {
         path {
           fill: transparent;
-          stroke: #78cc61;
+          stroke: $yellow-7;
           stroke-width: 3px;
         }
       }
@@ -279,7 +279,7 @@ export default {
       .board {
         margin: 1px;
         border: solid 1px $gray-d;
-        border-top: 6px solid $yellow;
+        border-top: 6px solid $yellow-8;
         height: calc(100% - 2px);
         background: $white;
         display: flex;

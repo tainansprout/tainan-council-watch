@@ -1,23 +1,39 @@
 <template lang="pug">
-  .int.mw8.ph3.center.pv3.pv4-l
-    .mv4
-      input.w-100.int__query.br-pill(v-model.trim="query" placeholder="搜尋質詢議題" type="text")
-    .int__districtList.mv4.center.pb4.bb.b--gray
-      button.int__district.tl.pa0.pointer(
-        v-for="district in districtList"
-        :key="district.districtId"
-        @click="toggleDistrict(district)"
+  .pageContainer
+    .int
+      .int__searchBox.center
+        input.w-100.int__query.br-pill(v-model.trim="query" placeholder="搜尋質詢議題" type="text")
+      .db.dn-ns
+        b-dropdown.int__districtList.w-100(aria-role="menu")
+          template(slot="trigger")
+            button.int__districtTrigger.w-100.flex.justify-between.items-center
+              span(v-if="activeDistrict.id === 'all'") 查看全部選區
+              district-text(v-else :district="district")
+              tcw-icon(icon="chevron-down-gray")
+          b-dropdown-item(
+            v-for="district in districtList"
+            :key="district.districtId"
+            :value="district"
+            aria-role="menuitem"
+            @click="toggleDistrict(district)"
+          )
+            district-text(:district="district" :active-area="activeDistrict")
+      .int__districtList.dn.db-ns
+        button.int__district.tl.pa0.pointer(
+          v-for="district in districtList"
+          :key="district.districtId"
+          @click="toggleDistrict(district)"
+        )
+          district-text(:district="district" :active-area="activeDistrict")
+      interpellation-landing(
+        ref="main"
+        :councilor-map="councilorMap"
+        :say-list="sayList"
+        :stats="sayitStats"
+        :category.sync="category"
+        :is-static="false"
+        @infinite="loadMore"
       )
-        district-text(:district="district" :active-area="activeDistrict")
-    interpellation-landing(
-      ref="main"
-      :councilor-map="councilorMap"
-      :say-list="sayList"
-      :stats="sayitStats"
-      :category.sync="category"
-      :is-static="false"
-      @infinite="loadMore"
-    )
 </template>
 <script>
 import algoliasearch from 'algoliasearch'
@@ -338,28 +354,86 @@ export default {
 </script>
 <style lang="scss" scoped>
 .int {
+  padding: 1rem 0;
   &__districtList {
-    display: none;
-    @include not-small-screen {
-      width: 40rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 1rem;
-      row-gap: 0.75rem;
-      justify-content: center;
+    margin: 1.75rem auto 3.5rem;
+
+    &.dropdown ::v-deep {
+      .background {
+        z-index: 1000;
+      }
+      .dropdown-trigger {
+        width: 100%;
+      }
+      .dropdown-menu {
+        z-index: 1000 !important;
+      }
+      .dropdown-content {
+        padding: 0;
+        border-radius: 0;
+        border: 1px solid $gray-d;
+      }
+      .dropdown-item {
+        padding: 1rem;
+        &.is-active {
+          background: none;
+        }
+        + .dropdown-item {
+          border-top: 1px solid $gray-d;
+        }
+        .districtText__name {
+          .f5 {
+            font-size: 0.875rem;
+          }
+          + div {
+            margin-top: 0.5rem;
+          }
+        }
+      }
     }
-    @include large-screen {
-      width: 60rem;
-      grid-template-columns: 1fr 1fr 1fr;
-    }
+  }
+  &__districtTrigger {
+    padding: 0.75rem;
+    background: none;
+    border: 1px solid $yellow-8;
+    text-align: left;
   }
   &__district {
     border: none;
     background: none;
   }
+  &__searchBox {
+    padding: 0 0.5rem;
+  }
   &__query {
     border: 1px solid #d8d8d8;
     padding: 0.5rem 2rem;
+  }
+
+  @include not-small-screen {
+    padding: 4rem 0;
+
+    &__searchBox {
+      max-width: 52rem;
+      padding: 0 1rem;
+    }
+    &__districtList {
+      margin-top: 3.5rem;
+      margin-bottom: 6rem;
+      width: calc(100% - 2rem);
+      padding: 0 1.5rem 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1rem;
+      row-gap: 0.75rem;
+      justify-content: center;
+      border-bottom: 1px solid $gray-d;
+    }
+  }
+  @include large-screen {
+    &__districtList {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
   }
 }
 </style>
