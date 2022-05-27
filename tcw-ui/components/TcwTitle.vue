@@ -1,6 +1,6 @@
 <template lang="pug">
   component.tcwTitle.f3.f2-l.fw5(:is="level" :id="id")
-    .relative.bg-white.pr3.dib
+    .tcwTitle__content.relative.bg-white.dib
       slot
 </template>
 <script>
@@ -31,7 +31,12 @@ export default {
     left: 0;
     right: 0;
     top: 50%;
-    border: 1px solid #7A7C7D;
+    border: 1px solid $gray-d;
+  }
+
+  &__content {
+    padding-right: 0.75rem;
+    letter-spacing: 3px;
   }
 }
 </style>
