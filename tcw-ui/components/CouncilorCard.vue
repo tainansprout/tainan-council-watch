@@ -17,6 +17,7 @@
           :key="stats.name"
           :stats="stats"
           :plain-text="true"
+          :to="interpellationLink('org', stats.name)"
         )
 </template>
 <script>
@@ -43,6 +44,18 @@ export default {
           round: this.round,
           councilor: this.person.id
         }
+      }
+    }
+  },
+  methods: {
+    interpellationLink (catType, catValue) {
+      return {
+        name: 'round-councilor-councilor',
+        params: {
+          round: this.round,
+          councilor: this.person.id
+        },
+        query: { catType, catValue }
       }
     }
   }
