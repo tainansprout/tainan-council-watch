@@ -1,20 +1,23 @@
 <template lang="pug">
-  .counCard.br1
-    nuxt-link.counCard__main.bb.b--moon-gray.pb3.pb4-l(:to="councilorLink")
+  .counCard
+    nuxt-link.counCard__main(:to="councilorLink")
       .aspect-ratio.aspect-ratio--1x1
         .aspect-ratio--object.br-100.overflow-hidden
           img(:src="person.bgUrl" :alt="person.name")
       div
-        .f5.f4-l {{person.name}}
-        .f5.f4-l.mt3.mt4-l {{person.party}}
+        .f5.f4-l.fw5 {{person.name}}
+        party-label.f5.f4-l.pt2.mt1.mt2-l(:party="person.party")
     .counCard__statsList
-      .f5.f4-l.mt3.mb2.fw5 關注議題
+      .f4.mb2.ls3.fw5 質詢局處
       .flex.flex-wrap
+        span(v-if="!relatedOrgStats.length") 尚無質詢
         org-stats-tag(
+          v-else
           v-for="stats in relatedOrgStats"
           :key="stats.name"
           :stats="stats"
           :plain-text="true"
+          :to="interpellationLink('org', stats.name)"
         )
 </template>
 <script>
@@ -43,22 +46,35 @@ export default {
         }
       }
     }
+  },
+  methods: {
+    interpellationLink (catType, catValue) {
+      return {
+        name: 'round-councilor-councilor',
+        params: {
+          round: this.round,
+          councilor: this.person.id
+        },
+        query: { catType, catValue }
+      }
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
 .counCard {
-  border: 1px solid #D8D8D8;
-  border-top: 0.5rem solid $yellow-8;
-  padding: 2rem 1.25rem;
+  border: 1px solid $gray-d;
+  border-top: 8px solid $yellow-8;
+  padding: 2.25rem 0.5rem;
 
-  @include large-screen {
-    padding: 3rem 1.5rem;
-  }
   &__main {
+    padding: 0 0.75rem 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid $gray-d;
+
     display: grid;
-    grid-template-columns: 3fr 4fr;
-    column-gap: 4rem;
+    grid-template-columns: 6rem 1fr;
+    column-gap: 1.5rem;
     align-items: center;
     color: $black;
     img {
@@ -66,15 +82,27 @@ export default {
       height: 100%;
       width: 100%;
     }
-    @include large-screen {
-      column-gap: 4rem;
-      grid-template-columns: 3fr 4fr;
-    }
   }
   &__statsList {
+    padding: 0 0.75rem;
     .orgTag {
       margin-right: 1.5rem;
-      margin-top: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  @include large-screen {
+    padding: 2.5rem 1.5rem;
+
+    &__main {
+      padding: 0 0.75rem 3rem;
+      margin-bottom: 1.5rem;
+      column-gap: 2.5rem;
+      grid-template-columns: 8.5rem 1fr;
+    }
+
+    &__statsList {
+      padding: 0;
     }
   }
 }

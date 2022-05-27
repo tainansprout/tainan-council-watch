@@ -38,14 +38,12 @@
 <script>
 import algoliasearch from 'algoliasearch'
 import { debounce } from 'lodash'
-import { DEFAULT_ROUND } from '~/libs/defs'
+import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY as DEFAULT_CATEGORY } from '~/libs/defs'
 
 const N_PER_CAT = 4
 const N_PER_ALGOLIA_REQUEST = 30
 const SEARCH_SLOWLY = 300
 const AGGREGATE_URL_UPDATE_SLOWLY = 50
-
-const DEFAULT_CATEGORY = { type: 'org', value: 'all' }
 
 export default {
   async asyncData ({ $content, params }) {
@@ -268,6 +266,7 @@ export default {
 
       this.$router.push({
         name: this.$route.name,
+        params: this.$route.params,
         query: newParams
       })
     },

@@ -1,12 +1,11 @@
 <template lang="pug">
-  .district.mw8.ph4.center
-    .mt4.mt5-l
-    district-landing(ref="landing" :map="districtMap" :round="round" :target="target")
-      district-summary(v-if="meta" :meta="meta" :round="round" :related-stats="stats")
-    .dn.db-ns(ref="main" v-if="meta")
-      tcw-title {{meta.districtTitle}}
-      p {{meta.townList.join('.')}}
-      .mt5
+  .pageContainer
+    .district
+      district-landing(ref="landing" :map="districtMap" :round="round" :target="target")
+        district-summary(v-if="meta" :meta="meta" :round="round" :related-stats="stats")
+      .dn.db-ns(ref="main" v-if="meta")
+        tcw-title {{meta.districtTitle}}
+        .district__town.f4.f3-l.ls4 {{meta.townList.join('.')}}
         district-summary(
           :meta="meta"
           :round="round"
@@ -83,8 +82,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 .district {
+  margin-top: 1.5rem;
   h1.tcwTitle {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  &__town {
+    margin-bottom: 4.5rem;
+  }
+
+  @include not-small-screen {
+    margin-top: 3rem;
+  }
+
+  @include large-screen {
+    margin-top: 5.25rem;
   }
 }
 </style>

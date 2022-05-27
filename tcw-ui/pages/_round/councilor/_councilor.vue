@@ -25,12 +25,12 @@
           :councilor-map="counsMap"
           :say-list="sayList"
           :stats="sayitStats"
-          :category="{type: 'org', value: 'all'}"
+          :category.sync="interpellationCategory"
         )
 </template>
 <script>
 import { get } from 'lodash'
-import { DEFAULT_ROUND } from '~/libs/defs'
+import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY } from '~/libs/defs'
 import { scrollTo } from '~/libs/utils'
 
 export default {
@@ -61,8 +61,33 @@ export default {
     return { districtMap, round, councilor, counsMap, sayit }
   },
   computed: {
+    interpellationCategory: {
+      get () {
+        const type = this.$route.query.catType
+        const value = this.$route.query.catValue
+
+        if (!type || !value || !this.sayitStats[type]) {
+          return { ...DEFAULT_INTERPELLATION_CATEGORY }
+        }
+
+        if (this.sayitStats[type].find(stat => stat.name === value)) {
+          return { type, value }
+        }
+        return { ...DEFAULT_INTERPELLATION_CATEGORY }
+      },
+      set (category) {
+        this.$router.push({
+          name: this.$route.name,
+          params: this.$route.params,
+          query: {
+            catType: category.type,
+            catValue: category.value
+          }
+        })
+      }
+    },
     sayitStats () {
-      return get(this, 'sayit.stats', [])
+      return get(this, 'sayit.stats', { org: [] })
     },
     sayList () {
       const sayit = get(this, 'sayit.sayit', [])
