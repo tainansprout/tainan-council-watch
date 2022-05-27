@@ -37,6 +37,7 @@ export default {
 
     const categories = await $content('setting')
       .where({ type: 'articleCategory' })
+      .sortBy('order')
       .fetch()
 
     categories.sort((a, b) => a.order - b.order)

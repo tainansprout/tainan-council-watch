@@ -20,7 +20,8 @@
     .mt5.mt3-l
       councilor-landing(:map="consMap" :round="round")
     tcw-title(level="h2" id="讀分析" ref="讀分析") 讀分析
-    .pa3.bg-moon-gray.h3.pa4.flex.items-center.justify-center.mt5.mt3-l.w-100 施工中
+    .mt5.mt3-l
+      article-gallery(:categories="articleCategories")
 </template>
 <script>
 import { get } from 'lodash'
@@ -31,7 +32,32 @@ export default {
   async asyncData ({ $content, params, redirect }) {
     const round = params.round || DEFAULT_ROUND
     const consMap = await $content('council', round, 'district-map').fetch()
-    return { consMap, round }
+
+    let articleCategories = await $content('setting')
+      .where({ type: 'articleCategory' })
+      .sortBy('order')
+      .fetch()
+
+    let articlePerCategory = await Promise.all(articleCategories.map((category) => {
+      return $content('article')
+        .where({ category: category.name })
+        .only(['coverImage', 'category'])
+        .sortBy('createdAt', 'desc')
+        .limit(1)
+        .fetch()
+    }))
+    articlePerCategory = articlePerCategory.flatMap(articles => articles)
+
+    articleCategories.forEach((category) => {
+      const article = articlePerCategory.find(article => category.name === article.category)
+      if (article) {
+        category.coverImage = article.coverImage
+      }
+    })
+
+    articleCategories = articleCategories.filter(category => category.coverImage)
+
+    return { consMap, round, articleCategories }
   },
   computed: {
     navLinks () {
