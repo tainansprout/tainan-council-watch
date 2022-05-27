@@ -263,7 +263,7 @@ export default {
         }
       } else if (newParams.catType === 'null') {
         // make sure category is reset when no other search criteria
-        delete newParams.category
+        delete newParams.catType
       }
 
       this.$router.push({
@@ -356,7 +356,7 @@ export default {
 .int {
   padding: 1rem 0;
   &__districtList {
-    margin: 1.75rem auto 3.5rem;
+    margin: 1.75rem auto 2.25rem;
 
     &.dropdown ::v-deep {
       .background {
@@ -419,7 +419,6 @@ export default {
     }
     &__districtList {
       margin-top: 3.5rem;
-      margin-bottom: 3.5rem;
       padding: 0 1.5rem 3.5rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
