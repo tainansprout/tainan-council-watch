@@ -116,7 +116,7 @@ function parseOneLog (sheetMeta) {
         if (!sayitMap[key]) {
           sayitMap[key] = []
         }
-        const relatedOrgs = data.相關局處
+        const relatedOrgs = data.質詢相關局處
           .replace(/\n/g, '、')
           .split('、')
           .filter(org => org && org !== '無')
