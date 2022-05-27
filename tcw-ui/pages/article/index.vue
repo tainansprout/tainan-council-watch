@@ -4,7 +4,7 @@
     .articleList__desp.ls-1
       p(v-for="paragraph in desp") {{paragraph}}
     .articleList__main.relative.flex-ns
-      .articleList__catList
+      .articleList__catList.flex-none
         .categoryList
           button.categoryList__item(
             @click="showAllArticle"

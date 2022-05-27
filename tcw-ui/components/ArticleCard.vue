@@ -25,6 +25,7 @@ export default {
   border-bottom: 1px solid $gray-9;
   h2 {
     color: $black-1;
+    line-height: normal;
   }
 
   p {

@@ -250,6 +250,7 @@ export default {
         path {
           fill: white;
           stroke: #cacac9;
+          cursor: pointer;
         }
       }
 
@@ -259,6 +260,7 @@ export default {
           stroke: #8a8c8c;
           stroke-width: 1.2px;
           pointer-events: none;
+          cursor: pointer;
         }
       }
 
@@ -285,6 +287,7 @@ export default {
         justify-content: space-evenly;
         align-content: center;
         text-align: center;
+        cursor: pointer;
 
         &__title {
           font-weight: 300;
