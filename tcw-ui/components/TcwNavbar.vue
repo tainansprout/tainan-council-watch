@@ -12,8 +12,8 @@
             tcw-icon(:icon="menuOpened ? 'cancel' : 'menu'")
     .nav__bottom.dn
       nuxt-link.nav__home.black.fw6(:to="`/${round}`") 議會觀測站
-      .flex.items-center.flex-none
-        nuxt-link.nav__item.ls4(
+      .flex.items-center.justify-between
+        nuxt-link.nav__item.ls4.flex-none(
           v-for="link in navLinks"
           :key="link.label"
           :to="link.route(round)"
@@ -184,7 +184,7 @@ export default {
   }
 
   &__search {
-    padding-bottom: 0.125rem;
+    padding: 0.125rem 0;
     &--active {
       border-bottom: 1px solid $gray-d;
       padding-right: 0.75rem;
@@ -248,11 +248,13 @@ export default {
 
     &__bottom {
       max-width: 64rem;
+      // make sure left logo won't exceed top logo
       width: calc(100% - 8rem);
       height: 4rem;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 18rem auto 18rem;
+      // 33 = 8 (padding) + 25 (middle item)
+      grid-template-columns: calc(50% - 33rem / 2) 25rem calc(50% - 33rem / 2);
       column-gap: 2rem;
       align-items: center;
       justify-content: space-between;
@@ -265,9 +267,6 @@ export default {
     &__item {
       color: #282828;
       margin: 0;
-      + .nav__item {
-        margin-left: 3.5rem;
-      }
     }
   }
 }
