@@ -7,7 +7,7 @@
         .o-50(v-if="!intro.body") 待撰寫
         nuxt-content(v-else :document="intro")
       div
-        h2.f4.f3-ns.nowrap 議員質詢相關局處
+        h2.f4.f3-ns.nowrap 質詢相關局處
       .districtSum__statsList.mt3.mt0-ns
         org-stats-tag(
           v-for="stats in relatedStats.total.org"

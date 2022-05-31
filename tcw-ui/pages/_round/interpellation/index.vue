@@ -39,6 +39,7 @@
 import algoliasearch from 'algoliasearch'
 import { debounce } from 'lodash'
 import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY as DEFAULT_CATEGORY } from '~/libs/defs'
+import { friendlyHeader } from '~/libs/crawlerFriendly'
 
 const N_PER_CAT = 4
 const N_PER_ALGOLIA_REQUEST = 30
@@ -112,6 +113,9 @@ export default {
       orgFacets: null
     }
   },
+  head: friendlyHeader({
+    title: '搜質詢'
+  }),
   computed: {
     query: {
       get () {

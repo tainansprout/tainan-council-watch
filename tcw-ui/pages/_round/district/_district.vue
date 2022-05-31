@@ -13,8 +13,9 @@
         )
 </template>
 <script>
+import { friendlyHeader } from '~/libs/crawlerFriendly'
 import { DEFAULT_ROUND } from '~/libs/defs'
-import { scrollTo } from '~/libs/utils'
+import { number2zh, scrollTo, stringifyTownList } from '~/libs/utils'
 
 export default {
   async asyncData ({ $content, params, redirect }) {
@@ -59,6 +60,14 @@ export default {
 
     return { districtMap, round, meta, stats }
   },
+  head: friendlyHeader({
+    title () {
+      if (this.meta) {
+        return `${number2zh(this.meta.districtId)}選區 - ${stringifyTownList(this.meta.townList)}`
+      }
+      return '看選區'
+    }
+  }),
   computed: {
     target () {
       return this.meta ? this.meta.districtTitle : ''

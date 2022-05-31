@@ -89,8 +89,13 @@ export default {
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
     '@nuxtjs/sentry',
-    'vue-social-sharing/nuxt'
+    'vue-social-sharing/nuxt',
+    '@nuxtjs/sitemap'
   ],
+
+  sitemap: {
+    hostname: 'https://tcco.tnsprout.org'
+  },
 
   sentry: {
     dsn: isProd ? 'https://42f24b48e4a64da2ba31d2781f814f24@o190111.ingest.sentry.io/6381450' : ''
