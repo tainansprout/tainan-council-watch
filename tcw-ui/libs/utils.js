@@ -7,6 +7,14 @@ const PARTY_MAP = PARTY_LIST.reduce((accu, party) => {
   return accu
 }, {})
 
+export function stringifyTownList (townList) {
+  let townStr = townList.join('.')
+  if (!townStr.endsWith('區')) {
+    townStr += '區'
+  }
+  return townStr
+}
+
 export function normalizeParty (party) {
   if (!party) {
     return undefined

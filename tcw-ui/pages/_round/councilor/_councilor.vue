@@ -33,7 +33,8 @@
 <script>
 import { get } from 'lodash'
 import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY } from '~/libs/defs'
-import { scrollTo } from '~/libs/utils'
+import { scrollTo, stringifyTownList } from '~/libs/utils'
+import { friendlyHeader } from '~/libs/crawlerFriendly'
 
 export default {
   async asyncData ({ $content, params, redirect }) {
@@ -62,6 +63,24 @@ export default {
 
     return { districtMap, round, councilor, counsMap, sayit }
   },
+  head: friendlyHeader({
+    title () {
+      if (this.councilor) {
+        return `${this.councilor.name}議員`
+      }
+      return '找議員'
+    },
+    description () {
+      if (!this.councilor) {
+        return ''
+      }
+      return [
+        this.councilor.districtTitle,
+        stringifyTownList(this.councilor.townList),
+        this.councilor.party
+      ].join('．')
+    }
+  }),
   computed: {
     interpellationCategory: {
       get () {

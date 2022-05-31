@@ -22,8 +22,9 @@
 </template>
 <script>
 import { get } from 'lodash'
-import { scrollTo } from '~/libs/utils'
+import { number2zh, scrollTo } from '~/libs/utils'
 import { NAV_LINKS, DEFAULT_ROUND } from '~/libs/defs'
+import { friendlyHeader } from '~/libs/crawlerFriendly'
 
 export default {
   async asyncData ({ $content, params, redirect }) {
@@ -56,6 +57,11 @@ export default {
 
     return { consMap, round, articleCategories }
   },
+  head: friendlyHeader({
+    title () {
+      return `${number2zh(this.round)}屆`
+    }
+  }),
   computed: {
     navLinks () {
       return NAV_LINKS
