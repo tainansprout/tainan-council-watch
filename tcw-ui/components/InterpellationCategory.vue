@@ -3,7 +3,7 @@
     .intCat__title.flex.justify-between.items-center
       .f3.fw5 / {{name}}
       button.intCat__more.pv2.plainButton.underline.pointer.flex.items-center(v-if="hasMore" @click="showMore")
-        | 局處所有質詢
+        | 局處所有相關質詢
         tcw-icon.ml2(icon="chevron-right-gray")
     interpellation-card(
       v-for="(sayit, index) in sayList"

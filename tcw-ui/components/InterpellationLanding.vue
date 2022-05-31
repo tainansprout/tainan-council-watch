@@ -2,8 +2,8 @@
   .intLanding
     .intLanding__stats.stats
       .flex.items-center.dn-l.pb1.mb3
-        button.plainButton.stats__switch.f4.ls3 質詢局處
-      h2.f4.f3-l.mb3.dn.db-l 質詢局處
+        button.plainButton.stats__switch.f4.ls3 質詢相關局處
+      h2.f4.f3-l.mb3.dn.db-l 質詢相關局處
       long-menu(height="2.25rem")
         button.stats__item.flex-none.flex-l.justify-between.f5.f4-l.w-100-l.pointer.ls2(
           v-for="org in stats.org"

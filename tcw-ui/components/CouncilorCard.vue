@@ -8,7 +8,7 @@
         .f5.f4-l.fw5 {{person.name}}
         party-label.f5.f4-l.pt2.mt1.mt2-l(:party="person.party")
     .counCard__statsList
-      .f4.mb2.ls3.fw5 質詢局處
+      .f4.mb2.ls3.fw5 質詢相關局處
       .flex.flex-wrap
         span(v-if="!relatedOrgStats.length") 尚無質詢
         org-stats-tag(
