@@ -1,0 +1,5 @@
+User-agent: Googlebot
+Disallow: /whatever-you-can/
+
+User-agent: *
+Allow: /
