@@ -98,6 +98,7 @@ function getCouncilorId (districtId, councilorName) {
 function parseOneLog (sheetMeta) {
   return new Promise((resolve, reject) => {
     const endpoint = `${SHEET_URI}&gid=${sheetMeta.sheetId}`
+    let lastValidDate = null
     got.stream(endpoint)
       .pipe(new AutoDetectDecoderStream())
       .pipe(new CsvReadableStream({ asObject: true }))
@@ -106,6 +107,10 @@ function parseOneLog (sheetMeta) {
         const councilor = data.議員
         const src = data.議事錄頁碼開頭.replace(/[p.]/g, '').split('、').map(Number.parseInt)
         const date = dayjs(data.質詢日期).format('YYYY-MM-DD')
+
+        if (!date.startsWith('Invalid')) {
+          lastValidDate = date
+        }
 
         const key = getCouncilorId(districtId, councilor)
         if (!key) {
@@ -125,7 +130,7 @@ function parseOneLog (sheetMeta) {
           relatedOrgs,
           summary: data.質詢內容,
           say: data['發言開頭2句話'],
-          date,
+          date: lastValidDate,
           type: sheetMeta.type,
           round: sheetMeta.round,
           src
