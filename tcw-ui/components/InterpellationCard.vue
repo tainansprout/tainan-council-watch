@@ -7,6 +7,7 @@
         .f6.gray 選舉區域： {{district}}
     h2.f4.f3-ns.fw5.ls4 {{sayit.summary}}
     p.ls2 {{sayit.say}}...
+    p.ls2.f6.gray(v-if="sayit.editorNote") 編按：{{sayit.editorNote}}
     button.intCard__src.plainButton.pointer.flex.justify-between.w-100(@click="gotoPdf")
       .f6.ls1 來源出處： {{roundLabel}}
       .flex.ls2
@@ -58,7 +59,11 @@ export default {
   }
 
   p {
-    margin: 0.75rem 0 1.25rem;
+    margin: 0.75rem 0;
+
+    &:last-of-type {
+      margin-bottom: 1.25rem;
+    }
   }
 
   @include not-small-screen {
@@ -70,7 +75,11 @@ export default {
     }
 
     p {
-      margin: 1rem 0 2.25rem;
+      margin: 1rem 0;
+
+      &:last-of-type {
+        margin-bottom: 2.25rem;
+      }
     }
 
     &__src {

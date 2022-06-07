@@ -132,6 +132,7 @@ function parseOneLog (sheetMeta) {
         sayitMap[key].push({
           relatedOrgs,
           summary: data.質詢內容,
+          editorNote: data.編按 || '',
           say: data['發言開頭2句話'],
           date: lastValidDate,
           type: sheetMeta.type,
