@@ -123,7 +123,7 @@ export default {
     color: $black-1;
     text-decoration: underline;
     text-decoration-color: $black-1;
-    background: linear-gradient(180deg, #ffffff00 0%, #ffffff 50%);
+    background: linear-gradient(180deg, #fffffe00 0%, #fffffe 50%);
   }
 
   &__article ::v-deep {
