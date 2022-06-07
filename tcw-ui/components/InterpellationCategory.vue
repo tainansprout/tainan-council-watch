@@ -5,7 +5,7 @@
         img.mt1.mr3(src="~/assets/slash.svg")
         .ml2 {{name}}
       button.intCat__more.pv2.plainButton.underline.pointer.flex.items-center(v-if="hasMore" @click="showMore")
-        | 局處所有相關質詢
+        | 閱讀所有質詢局處
         tcw-icon.ml2(icon="chevron-right-gray")
     interpellation-card(
       v-for="(sayit, index) in sayList"
