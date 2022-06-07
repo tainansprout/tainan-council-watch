@@ -9,11 +9,13 @@
     p.ls2 {{sayit.say}}...
     p.ls2.f6.gray(v-if="sayit.editorNote") 編按：{{sayit.editorNote}}
     button.intCard__src.plainButton.pointer.flex.justify-between.w-100(@click="gotoPdf")
-      .f6.ls1 來源出處： {{roundLabel}}
-      .flex.ls2
+      .flex.items-center.f6.ls1
+        span 來源出處：
+        .intCard__round {{roundLabel}}
+      .flex.items-center.ls2
         .intCard__more.underline.dn.db-ns 閱讀更多
-        tcw-icon.intCard__moreIcon.db.ml2(icon="chevron-right-black")
-        tcw-icon.intCard__moreIcon.dn.ml2(icon="chevron-right-blue")
+        tcw-icon.intCard__moreIcon.dn.db-ns.ml2(icon="chevron-right-black")
+        tcw-icon.intCard__moreIcon.db.dn-ns.ml2(icon="chevron-right-blue")
 </template>
 <script>
 import { DEFAULT_ROUND } from '~/libs/defs'
@@ -59,6 +61,12 @@ export default {
     margin-bottom: 0.75rem;
   }
 
+  &__round {
+    color: $blue;
+    text-decoration: underline;
+    text-decoration-color: $blue;
+  }
+
   p {
     margin: 0.75rem 0;
 
@@ -73,6 +81,11 @@ export default {
 
     &__meta {
       margin-bottom: 1.25rem;
+    }
+
+    &__round {
+      color: $black;
+      text-decoration: none;
     }
 
     p {
@@ -90,10 +103,10 @@ export default {
           text-decoration-color: $blue;
         }
         .intCard__moreIcon {
-          &.db {
+          &.db-ns {
             display: none;
           }
-          &.dn {
+          &.dn-ns {
             display: block;
           }
         }

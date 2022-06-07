@@ -122,5 +122,10 @@ export default {
     algoliaApp: process.env.ALGOLIA_APP_ID,
     algoliaIndex: process.env.ALGOLIA_INDEX_NAME,
     algoliaKey: process.env.ALGOLIA_SEARCH_API_KEY
+  },
+
+  server: {
+    port: process.env.SERVER_PORT || 3000,
+    host: process.env.SERVER_HOST || 'localhost'
   }
 }
