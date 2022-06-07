@@ -266,7 +266,7 @@ collections:
     fields:
       - { label: '建立日期', name: 'createdAt', widget: 'datetime', date_format: "YYYY-MM-DD", time_format: false }
       - { label: '標題', name: 'title', widget: 'string' }
-      - { label: '網址', name: 'slug', widget: 'string', hint: '網址的樣子，只可英數字，不可漢字，可用「-」取代空白' }
+      - { label: '網址', name: 'slug', widget: 'string', hint: '網址的樣子，只可英數字，不可漢字，可用「-」取代空白，建立後就無法更改' }
       - { label: '社群網路封面', name: 'coverImage', widget: image, hint: '建議大小： 1200 x 628' }
       - label: 文章分類
         name: category

@@ -4,7 +4,9 @@ const got = require('got')
 const dayjs = require('dayjs')
 const CsvReadableStream = require('csv-reader')
 const AutoDetectDecoderStream = require('autodetect-decoder-stream')
-const { districtName2Id } = require('./utils')
+const { districtName2Id, enableSentry } = require('./utils')
+
+enableSentry()
 
 const NTH = '3rd'
 const SHEET_URI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2_P-mrFZt2bSBuM_U2BuJR1FeRsKp0oxcFL7RcFheCUO1K86Liq9E3vu83FpkjHdrqjy-PWUBtFzc/pub?single=true&output=csv'
@@ -71,7 +73,7 @@ function getDistrictId (districtName) {
   return districtName2Id[districtName]
 }
 
-function getCouncilorId (districtId, councilorName) {
+function getCouncilorId (districtId, councilorName, sheetMeta) {
   const district = DISTRICT_MAP[districtId]
   councilorName = councilorName.replace(/[a-zA-Z‧・·．˙、議員\n ]/g, '')
   let councilor = null
@@ -81,7 +83,8 @@ function getCouncilorId (districtId, councilorName) {
   }
 
   if (!councilor) {
-    pushMapError(`Councilor ${councilorName} in ${districtId} not existed`)
+    // missing district is acceptable
+    // pushMapError(`Councilor ${councilorName} in ${districtId} not existed`)
 
     // lookup councilor name directly
     councilor = COUNCILOR_MAP.find(councilor => councilor.abbr === councilorName)
@@ -90,7 +93,7 @@ function getCouncilorId (districtId, councilorName) {
   if (councilor) {
     return councilor.id
   } else {
-    pushMapError(`Councilor ${councilorName} not existed in any district`)
+    pushMapError(`定${sheetMeta.round} | 出現不存在的議員：${councilorName}`)
     return ''
   }
 }
@@ -98,6 +101,7 @@ function getCouncilorId (districtId, councilorName) {
 function parseOneLog (sheetMeta) {
   return new Promise((resolve, reject) => {
     const endpoint = `${SHEET_URI}&gid=${sheetMeta.sheetId}`
+    let lastValidDate = null
     got.stream(endpoint)
       .pipe(new AutoDetectDecoderStream())
       .pipe(new CsvReadableStream({ asObject: true }))
@@ -107,7 +111,11 @@ function parseOneLog (sheetMeta) {
         const src = data.議事錄頁碼開頭.replace(/[p.]/g, '').split('、').map(Number.parseInt)
         const date = dayjs(data.質詢日期).format('YYYY-MM-DD')
 
-        const key = getCouncilorId(districtId, councilor)
+        if (!date.startsWith('Invalid')) {
+          lastValidDate = date
+        }
+
+        const key = getCouncilorId(districtId, councilor, sheetMeta)
         if (!key) {
           // console.warn(`== Councilor not found in ${sheetMeta.sheetId}`)
           return
@@ -119,12 +127,14 @@ function parseOneLog (sheetMeta) {
         const relatedOrgs = data.質詢相關局處
           .replace(/\n/g, '、')
           .split('、')
-          .filter(org => org && org !== '無')
+          .map(org => org.trim())
+          .filter(org => org && org && org !== '無')
         sayitMap[key].push({
           relatedOrgs,
           summary: data.質詢內容,
+          editorNote: data.編按 || '',
           say: data['發言開頭2句話'],
-          date,
+          date: lastValidDate,
           type: sheetMeta.type,
           round: sheetMeta.round,
           src
@@ -194,10 +204,12 @@ async function parseLogs () {
 
   const errors = Object.keys(mappingErrors)
   if (errors.length) {
-    console.warn(`==== Mapping error summary x ${errors.length} ====`)
+    // eslint-disable-next-line no-console
+    console.log(`==== Mapping error summary x ${errors.length} ====`)
     errors.forEach((error) => {
-      console.warn(`[${mappingErrors[error]} times] ${error}`)
-      console.warn('------------------')
+      console.warn(`${error}，共 ${mappingErrors[error]} 次`)
+      // eslint-disable-next-line no-console
+      console.log('------------------')
     })
   }
 }

@@ -1,6 +1,6 @@
 <template lang="pug">
   .articleGallery
-    nuxt-link.articleGallery__category.bg-center.cover.relative(
+    nuxt-link.articleGallery__category.bg-center.cover.relative.br1(
       v-for="category in categories"
       :key="category.slug"
       :to="categoryLink(category)"
@@ -62,8 +62,14 @@ export default {
     column-gap: 1rem;
 
     &__category {
+      border: 2px solid transparent;
+
       + .articleGallery__category {
         margin-top: 0;
+      }
+
+      &:hover {
+        border-color: $gray-d;
       }
     }
   }

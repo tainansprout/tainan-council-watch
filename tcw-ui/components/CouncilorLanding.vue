@@ -157,6 +157,10 @@ export default {
     + .cl__party {
       margin-left: 1.5rem;
     }
+
+    .partyLabel {
+      text-decoration: underline;
+    }
   }
   @include not-small-screen {
     &__list {

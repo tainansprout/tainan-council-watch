@@ -98,7 +98,7 @@ export default {
   },
 
   sentry: {
-    dsn: isProd ? 'https://42f24b48e4a64da2ba31d2781f814f24@o190111.ingest.sentry.io/6381450' : ''
+    dsn: isProd ? process.env.SENTRY_DSN : ''
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -122,5 +122,10 @@ export default {
     algoliaApp: process.env.ALGOLIA_APP_ID,
     algoliaIndex: process.env.ALGOLIA_INDEX_NAME,
     algoliaKey: process.env.ALGOLIA_SEARCH_API_KEY
+  },
+
+  server: {
+    port: process.env.SERVER_PORT || 3000,
+    host: process.env.SERVER_HOST || 'localhost'
   }
 }

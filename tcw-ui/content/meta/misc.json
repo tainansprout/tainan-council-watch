@@ -12,7 +12,8 @@
   ],
   "footer-contact": [
     {
-      "label": "(06) 222-7926"
+      "label": "(06) 222-7926",
+      "url": "tel:06-222-7926"
     },
     {
       "label": "info@tnsprout.org",

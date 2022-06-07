@@ -3,7 +3,13 @@
     .intLanding__stats.stats
       .flex.items-center.dn-l.pb1.mb3
         button.plainButton.stats__switch.f4.ls3 質詢相關局處
-      h2.f4.f3-l.mb3.dn.db-l 質詢相關局處
+      h2.f4.f3-l.pb3.dn.db-l 質詢相關局處
+      button.stats__item.stats__item--sticky.flex-none.flex-l.justify-between.f5.f4-l.w-100-l.pointer.ls2.dn.db-l(
+        :class="{'stats__item--active': isAllSelected('org')}"
+        @click="chooseAllCategory('org')"
+      )
+        span.mr2.mr0-l 所有局處
+        span {{totalOrgCount.toLocaleString()}}
       long-menu(height="2.25rem")
         button.stats__item.flex-none.flex-l.justify-between.f5.f4-l.w-100-l.pointer.ls2(
           v-for="org in stats.org"
@@ -107,6 +113,11 @@ export default {
     }
   },
   computed: {
+    totalOrgCount () {
+      return this.stats.org.reduce((sum, org) => {
+        return sum + org.count
+      }, 0)
+    },
     targetSayList () {
       if (this.isStatic && this.targetCategory) {
         if (this.targetCategory.type === 'org') {
@@ -185,6 +196,15 @@ export default {
       this.cursor = N_ITEM_PER_PAGE
       this.infiniteId += 1
     }, RESET_LATTER),
+    isAllSelected (type) {
+      return !this.targetCategory || (
+        this.targetCategory.type === type &&
+        this.targetCategory.value === 'all'
+      )
+    },
+    chooseAllCategory (type) {
+      this.filterCategory(type, 'all')
+    },
     isCatActive (type, value) {
       return this.targetCategory &&
         this.targetCategory.type === type &&
@@ -257,6 +277,9 @@ export default {
 }
 
 .stats {
+  h2 {
+    background: $white;
+  }
   &__switch {
     padding: 0 0.625rem 0.75rem;
     border-bottom: 2px solid $gray-9;
@@ -272,15 +295,33 @@ export default {
     margin: 0 0.5rem 0.75rem 0;
     line-height: 1.125;
     text-align: left;
+    background: $white;
 
-    @include large-screen {
+    &--active,
+    &:hover {
+      color: #49b0d5;
+    }
+  }
+  @include large-screen {
+    h2 {
+      position: sticky;
+      z-index: 1;
+      top: 0;
+    }
+    .longMenu {
+      position: sticky;
+      top: 0;
+    }
+    &__item {
       border-width: 0 0 1px 0;
       margin: 0 0 0.25rem 0;
       padding: 1rem 0.75rem 1rem 0;
-    }
 
-    &--active {
-      color: #49b0d5;
+      &--sticky {
+        position: sticky;
+        top: 3.25rem;
+        z-index: 1;
+      }
     }
   }
 }

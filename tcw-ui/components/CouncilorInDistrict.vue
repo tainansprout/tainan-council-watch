@@ -152,6 +152,7 @@ export default {
   &:hover {
     color: $blue;
     text-decoration-color: $blue;
+    font-weight: 400;
   }
 }
 </style>

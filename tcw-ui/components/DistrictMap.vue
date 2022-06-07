@@ -289,6 +289,7 @@ export default {
         align-content: center;
         text-align: center;
         cursor: pointer;
+        letter-spacing: 1.67px;
 
         &__title {
           font-weight: 300;

@@ -1,9 +1,9 @@
 <template lang="pug">
   .tcwFooter.mw8
-    .f3.tracked 台南新芽
+    img.tcwFooter__logo(src="~/assets/tnsprout.png" alt="台南新芽")
     .tcwFooter__main
       .flex.flex-column.items-start
-        .tcwFooter__subheader 關於我們
+        .tcwFooter__subheader.fw4 關於我們
         a.tcwFooter__item(
           v-for="item in about"
           :key="item.label"
@@ -11,7 +11,7 @@
           target="_blank"
         ) {{item.label}}
       .flex.flex-column.items-start
-        .tcwFooter__subheader 聯絡我們
+        .tcwFooter__subheader.fw4 聯絡我們
         component.tcwFooter__item(
           v-for="item in contact"
           :key="item.label"
@@ -44,6 +44,10 @@ export default {
   padding: 2.25rem 1rem 0;
   line-height: 1.33;
 
+  &__logo {
+    width: 8.5rem;
+  }
+
   &__main {
     letter-spacing: 1.33px;
     > div {
@@ -58,9 +62,12 @@ export default {
     margin-bottom: 1rem;
   }
 
-  &__item,
-  a {
-    border-bottom: 1px solid $gray-9;
+  a.tcwFooter__item {
+    border-bottom: 1px solid $black;
+    padding-bottom: 1px;
+    &:hover {
+      font-weight: 400;
+    }
   }
 
   &__item + .tcwFooter__item {

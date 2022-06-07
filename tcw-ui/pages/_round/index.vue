@@ -96,7 +96,8 @@ export default {
   padding-top: 0.5rem;
 
   &__navLinks {
-    max-width: 35rem;
+    width: calc(100vw - 2rem);
+    max-width: 18rem;
     margin: 3.5rem auto;
 
     a {
@@ -120,6 +121,7 @@ export default {
     padding-top: 2.25rem;
 
     &__navLinks {
+      max-width: 35rem;
       margin: 2.25rem auto 8.25rem;
       font-size: 1.75rem;
       letter-spacing: 2.33px;
