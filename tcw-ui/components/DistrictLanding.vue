@@ -2,13 +2,14 @@
   .districtLanding
     .districtLanding__list
       .district(v-for="district in districtList")
-        nuxt-link.district__card.db.dn-ns.pa3(:to="districtLink(district)" :id="districtId(district)")
+        nuxt-link.district__card.db.dn-ns.pa3.relative(:to="districtLink(district)" :id="districtId(district)")
           district-text(
             :district="districtMeta(district)"
             :active-area.sync="focusedArea"
             :is-single-element="true"
             :is-quota-visible="true"
           )
+          tcw-icon.absolute.top-0.right-0.mt3.mr3(icon="chevron-down-gray")
         nuxt-link.district__interact.dn.db-ns(:to="districtLink(district)" :id="districtId(district)")
           district-text(
             :district="districtMeta(district)"
