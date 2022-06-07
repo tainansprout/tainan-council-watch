@@ -3,7 +3,7 @@
     .f3.tracked 台南新芽
     .tcwFooter__main
       .flex.flex-column.items-start
-        .tcwFooter__subheader 關於我們
+        .tcwFooter__subheader.fw4 關於我們
         a.tcwFooter__item(
           v-for="item in about"
           :key="item.label"
@@ -11,7 +11,7 @@
           target="_blank"
         ) {{item.label}}
       .flex.flex-column.items-start
-        .tcwFooter__subheader 聯絡我們
+        .tcwFooter__subheader.fw4 聯絡我們
         component.tcwFooter__item(
           v-for="item in contact"
           :key="item.label"
@@ -58,9 +58,11 @@ export default {
     margin-bottom: 1rem;
   }
 
-  &__item,
-  a {
-    border-bottom: 1px solid $gray-9;
+  a.tcwFooter__item {
+    border-bottom: 1px solid $black;
+    &:hover {
+      font-weight: 400;
+    }
   }
 
   &__item + .tcwFooter__item {

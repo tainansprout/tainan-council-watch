@@ -118,6 +118,7 @@ export default {
 
   &--active {
     color: $blue;
+    font-weight: 400;
     text-decoration-color: $blue;
   }
 
@@ -131,6 +132,7 @@ export default {
     &--active {
       color: $blue;
       text-decoration-color: $blue;
+      font-weight: 400;
     }
   }
 }

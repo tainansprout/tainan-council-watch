@@ -184,6 +184,9 @@ export default {
     color: #40404a;
     margin: 1.5rem 0;
     &.nuxt-link-active {
+      color: $black;
+    }
+    &:hover {
       color: $yellow-7;
     }
   }
