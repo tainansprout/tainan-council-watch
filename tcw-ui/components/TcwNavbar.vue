@@ -220,6 +220,7 @@ export default {
     input {
       border: none;
       font-size: 0.875rem;
+      padding: 0.75rem 0;
       &:focus {
         border: none;
         box-shadow: none;

@@ -297,7 +297,8 @@ export default {
     text-align: left;
     background: $white;
 
-    &--active {
+    &--active,
+    &:hover {
       color: #49b0d5;
     }
   }

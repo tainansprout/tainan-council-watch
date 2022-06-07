@@ -442,12 +442,11 @@ export default {
       padding: 0 0.5rem 3.5rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      column-gap: 1rem;
       row-gap: 0.5rem;
       justify-content: center;
       border-bottom: 1px solid $gray-d;
       ::v-deep {
-        .districtText__name .ls1 {
+        .districtText {
           letter-spacing: 1px;
         }
       }
@@ -456,6 +455,7 @@ export default {
   @include large-screen {
     &__districtList {
       width: calc(100% - 2rem);
+      padding: 0 0 3.5rem;
       margin-bottom: 6rem;
       grid-template-columns: 1fr 1fr 1fr;
     }

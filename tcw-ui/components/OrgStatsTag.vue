@@ -71,6 +71,7 @@ export default {
 
   &:hover {
     color: $blue;
+    font-weight: 400;
     .orgTag__info {
       display: none;
       &--hover {
