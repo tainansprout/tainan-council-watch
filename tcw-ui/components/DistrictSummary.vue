@@ -201,8 +201,8 @@ export default {
   }
 
   @include not-small-screen {
-    margin-top: 5.5rem;
-    padding-top: 5.5rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
 
     h2 {
       margin-bottom: 3.5rem;

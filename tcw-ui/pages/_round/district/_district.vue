@@ -97,7 +97,7 @@ export default {
   }
 
   &__town {
-    margin-bottom: 4.5rem;
+    margin-bottom: 3rem;
   }
 
   @include not-small-screen {
