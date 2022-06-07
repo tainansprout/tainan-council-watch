@@ -8,13 +8,14 @@
         nuxt-content(v-else :document="intro")
       div
         h2.f4.f3-ns.nowrap 質詢相關局處
-      .districtSum__statsList.mt3.mt0-ns
+      .districtSum__statsList.relative.mt3.mt0-ns(:class="{'districtSum__statsList--all': isShowingAllStats}")
         org-stats-tag(
           v-for="stats in relatedStats.total.org"
           :key="stats.name"
           :stats="stats"
           :to="orgInterpellationLink(stats.name)"
         )
+        button.districtSum__showMore.pointer(@click="showAllStats") 顯示所有局處
     .counSum
       h2.fw5.f3.f2-l.ls4.lh-normal 應屆議員
       .counSum__list
@@ -43,12 +44,20 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      isShowingAllStats: false
+    }
+  },
   computed: {
     intro () {
       return this.meta.intro
     }
   },
   methods: {
+    showAllStats () {
+      this.isShowingAllStats = true
+    },
     orgInterpellationLink (org) {
       return {
         name: 'round-interpellation',
@@ -87,6 +96,34 @@ export default {
     grid-template-columns: 1fr 1fr;
     column-gap: 0.5rem;
     row-gap: 0.5rem;
+
+    .orgTag:nth-child(n+7) {
+      display: none;
+    }
+
+    &--all {
+      .orgTag:nth-child(n+7) {
+        display: flex;
+      }
+      .districtSum__showMore {
+        display: none;
+      }
+    }
+  }
+
+  &__showMore {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: none;
+    width: 100%;
+    padding-top: 2rem;
+    font-size: 0.875rem;
+    color: $black-1;
+    text-decoration: underline;
+    text-decoration-color: $black-1;
+    background: linear-gradient(180deg, #ffffff00 0%, #ffffff 50%);
   }
 
   &__article ::v-deep {
@@ -139,6 +176,18 @@ export default {
     }
     &__statsList {
       grid-template-columns: repeat(4, 1fr);
+      .orgTag:nth-child(n+7) {
+        display: flex;
+      }
+      .orgTag:nth-child(n+13) {
+        display: none;
+      }
+
+      &--all {
+        .orgTag:nth-child(n+13) {
+          display: flex;
+        }
+      }
     }
   }
 }
