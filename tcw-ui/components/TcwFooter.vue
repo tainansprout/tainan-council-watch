@@ -1,6 +1,6 @@
 <template lang="pug">
   .tcwFooter.mw8
-    .f3.tracked 台南新芽
+    img.tcwFooter__logo(src="~/assets/tnsprout.png" alt="台南新芽")
     .tcwFooter__main
       .flex.flex-column.items-start
         .tcwFooter__subheader.fw4 關於我們
@@ -44,6 +44,10 @@ export default {
   padding: 2.25rem 1rem 0;
   line-height: 1.33;
 
+  &__logo {
+    width: 8.5rem;
+  }
+
   &__main {
     letter-spacing: 1.33px;
     > div {
@@ -60,6 +64,7 @@ export default {
 
   a.tcwFooter__item {
     border-bottom: 1px solid $black;
+    padding-bottom: 1px;
     &:hover {
       font-weight: 400;
     }
