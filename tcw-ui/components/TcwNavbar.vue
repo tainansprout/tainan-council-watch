@@ -6,12 +6,16 @@
       .nav__top.flex.justify-between.items-center(
         :class="{'nav__top--sticky': isMobileSticky}"
       )
-        nuxt-link.nav__home.black.fw6(:to="`/${round}`") 議會觀測站
+        nuxt-link.nav__home(:to="`/${round}`")
+          img(src="~/assets/site-logo.svg")
+          | 台南市議會觀測站
         button.plainButton.f4.db.dn-l(@click="toggleMenu")
           .pa1
             tcw-icon(:icon="menuOpened ? 'cancel' : 'menu'")
     .nav__bottom.dn
-      nuxt-link.nav__home.black.fw6(:to="`/${round}`") 議會觀測站
+      nuxt-link.nav__home(:to="`/${round}`")
+        img(src="~/assets/site-logo.svg")
+        | 台南市議會觀測站
       .flex.items-center.justify-between
         nuxt-link.nav__item.ls4.flex-none(
           v-for="link in navLinks"
@@ -180,6 +184,19 @@ export default {
     }
   }
 
+  &__home {
+    font-size: 0.75rem;
+    color: #282828;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    letter-spacing: 1.67px;
+    img {
+      width: 3.25rem;
+      margin-right: 0.5rem;
+    }
+  }
+
   &__item {
     color: #40404a;
     margin: 1.5rem 0;
@@ -241,16 +258,27 @@ export default {
     min-width: 64rem;
     margin: 0 auto;
     border-bottom: 1px solid $gray-a;
-    top: -6.25rem;
+    top: -9.125rem;
 
     &--desktopSticky {
-      .nav__bottom .nav__home {
-        opacity: 1;
+      .nav__bottom {
+        height: 5rem;
+        .nav__home {
+          opacity: 1;
+        }
+      }
+    }
+
+    &__home {
+      font-size: 1rem;
+      img {
+        width: 4.5rem;
+        margin-right: 0.625rem;
       }
     }
 
     &__top {
-      padding: 1.75rem 0 2.375rem 4rem;
+      padding: 1.75rem 0 2.25rem 4rem;
       border-bottom-width: 1px;
     }
 
@@ -269,6 +297,11 @@ export default {
 
       .nav__home {
         opacity: 0;
+
+        img {
+          width: 3rem;
+          margin-right: 0.5rem;
+        }
       }
     }
 
