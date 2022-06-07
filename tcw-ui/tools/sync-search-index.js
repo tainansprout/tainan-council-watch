@@ -38,7 +38,11 @@ async function main () {
   const indexName = process.env.ALGOLIA_INDEX_NAME
   const tempIndexName = `${indexName}-new`
   const agIndex = agClient.initIndex(tempIndexName)
-
+  await agIndex.saveSynonyms([{
+    objectID: 'tai-tai',
+    type: 'synonym',
+    synonyms: ['台', '臺']
+  }])
   await agIndex.setSettings({
     attributesForFaceting: [
       'relatedOrgs',
