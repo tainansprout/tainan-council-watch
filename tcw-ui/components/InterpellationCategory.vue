@@ -1,7 +1,9 @@
 <template lang="pug">
   .intCat
     .intCat__title.flex.justify-between.items-center
-      .f3.fw5 / {{name}}
+      .f3.fw5.flex.items-center
+        img.mt1.mr3(src="~/assets/slash.svg")
+        .ml2 {{name}}
       button.intCat__more.pv2.plainButton.underline.pointer.flex.items-center(v-if="hasMore" @click="showMore")
         | 局處所有相關質詢
         tcw-icon.ml2(icon="chevron-right-gray")
@@ -47,6 +49,10 @@ export default {
     padding-bottom: 1.5rem;
     border-bottom: 4px solid $gray-9;
     margin-bottom: 3.5rem;
+
+    img {
+      width: 0.625rem;
+    }
   }
 }
 </style>

@@ -12,7 +12,8 @@
       .f6.ls1 來源出處： {{roundLabel}}
       .flex.ls2
         .intCard__more.underline.dn.db-ns 閱讀更多
-        tcw-icon.ml2(icon="chevron-right-gray")
+        tcw-icon.intCard__moreIcon.db.ml2(icon="chevron-right-black")
+        tcw-icon.intCard__moreIcon.dn.ml2(icon="chevron-right-blue")
 </template>
 <script>
 import { DEFAULT_ROUND } from '~/libs/defs'
@@ -87,6 +88,14 @@ export default {
         .intCard__more {
           color: $blue;
           text-decoration-color: $blue;
+        }
+        .intCard__moreIcon {
+          &.db {
+            display: none;
+          }
+          &.dn {
+            display: block;
+          }
         }
       }
     }
