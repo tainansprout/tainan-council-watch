@@ -1,3 +1,26 @@
+require('dotenv').config()
+
+const Sentry = require('@sentry/node')
+// Importing @sentry/tracing patches the global hub for tracing to work.
+require('@sentry/tracing')
+
+const { CaptureConsole: CaptureConsoleIntegration } = require('@sentry/integrations')
+
+function enableSentry () {
+  if (process.env.SENTRY_DSN) {
+    Sentry.init({
+      dsn: process.env.SENTRY_DSN,
+      tracesSampleRate: 1.0,
+      integrations: [
+        new CaptureConsoleIntegration({
+          levels: ['error', 'warn']
+        })
+      ]
+    })
+  }
+  return Sentry
+}
+
 const DISTRICT_MAP = {
   第一選區: '1st',
   第二選區: '2nd',
@@ -22,5 +45,6 @@ function districtName2Id (districtName) {
 }
 
 module.exports = {
-  districtName2Id
+  districtName2Id,
+  enableSentry
 }

@@ -7,6 +7,22 @@
 1. Nuxt / Vue v2
 2. Netlify CMS
 
+### 環境準備
+
+本專案支援 [dotenv](https://www.npmjs.com/package/dotenv)，開發時，可在 `tcw_ui` 裡放一個 `.env` 檔
+
+必要設定：
+
+- ALGOLIA_APP_ID: 搜尋服務的 App ID
+- ALGOLIA_DATA_API_KEY: 更新搜尋服務使用的金鑰
+- ALGOLIA_SEARCH_API_KEY: 執行搜尋使用的金鑰
+- ALGOLIA_INDEX_NAME: 搜尋服務的索引名稱
+
+選填設定：
+
+- SENTRY_DSN: [Sentry](sentry.io/) 的 DSN ，會用在前後端的所有錯誤回報中
+
+
 ### 開發步驟
 
 ```sh

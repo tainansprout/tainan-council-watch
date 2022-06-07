@@ -4,8 +4,11 @@ const algoliasearch = require('algoliasearch')
 const dotenv = require('dotenv')
 const md5 = require('md5')
 const dayjs = require('dayjs')
+const { enableSentry } = require('./utils')
 
 dotenv.config()
+
+enableSentry()
 
 const NTH = process.argv[2] || '3rd'
 const SAMPLE_RATIO = Number.parseInt(process.argv[3]) || 80
@@ -114,7 +117,7 @@ async function main () {
     const { items } = await agClient.listIndices()
     const targetIndex = items.find(item => item.name === indexName)
     if (!targetIndex) {
-      console.error('Index disappear')
+      console.error('Algolia index not found')
     } else if (targetIndex.entries !== total) {
       console.error(`Algolia entries mismatch. Local (${total}) vs Algolia (${targetIndex.entries})`)
     }
