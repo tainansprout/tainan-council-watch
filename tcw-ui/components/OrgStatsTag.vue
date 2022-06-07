@@ -1,5 +1,5 @@
 <template lang="pug">
-  nuxt-link.orgTag.flex.items-center.justify-between.mw-100.pointer(
+  nuxt-link.orgTag.flex.items-center.justify-between.mw-100.pointer.relative(
     :to="to"
     :class="{'orgTag--plain': plainText}"
   )
@@ -12,7 +12,7 @@
       :multilined="true"
       :triggers="['focus', 'hover']"
     )
-      button.plainButton.flex.items-center(tabindex="-1")
+      button.plainButton.flex.items-center.justify-center(tabindex="-1" @click.stop.prevent)
         tcw-icon.orgTag__info(icon="info-black")
         tcw-icon.orgTag__info.orgTag__info--hover(icon="info-blue")
 </template>
@@ -78,6 +78,14 @@ export default {
         display: block;
       }
     }
+  }
+
+  .plainButton {
+    position: absolute;
+    right: -1rem;
+    top: -1.625rem;
+    width: 3.25rem;
+    height: 3.25rem;
   }
 
   ::v-deep {
