@@ -6,6 +6,11 @@
       h2.f4.f3-l.mb3.dn.db-l 質詢相關局處
       long-menu(height="2.25rem")
         button.stats__item.flex-none.flex-l.justify-between.f5.f4-l.w-100-l.pointer.ls2(
+          :class="{'stats__item--active': isAllSelected('org')}"
+          @click="chooseAllCategory('org')"
+        )
+          span 所有局處
+        button.stats__item.flex-none.flex-l.justify-between.f5.f4-l.w-100-l.pointer.ls2(
           v-for="org in stats.org"
           :key="org.name"
           :class="{'stats__item--active': isCatActive('org', org.name)}"
@@ -185,6 +190,15 @@ export default {
       this.cursor = N_ITEM_PER_PAGE
       this.infiniteId += 1
     }, RESET_LATTER),
+    isAllSelected (type) {
+      return !this.targetCategory || (
+        this.targetCategory.type === type &&
+        this.targetCategory.value === 'all'
+      )
+    },
+    chooseAllCategory (type) {
+      this.filterCategory(type, 'all')
+    },
     isCatActive (type, value) {
       return this.targetCategory &&
         this.targetCategory.type === type &&
