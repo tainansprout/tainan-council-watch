@@ -1,23 +1,27 @@
 ---
 councilor-E4C9B92F:
   job-history: |-
-    劉米山公職經歷0
-    劉米山公職經歷1
-    劉米山公職經歷2
+    第3屆台南市議員
+    台南市白河區區長
+    台南縣白河鎮鎮長
+  job-period: 完整
 councilor-FD1153AA:
-  job-history: |-
-    張世賢公職經歷0
-    張世賢公職經歷1
-  job-period: 提早中止
-  misc-title: 補充欄範例標題
+  job-history: 台南市議會第1、2、3屆議員。
+  job-period: 完整
+  misc-title: ""
   misc-content: |-
     補充欄範例補充欄範例補充欄範例補充欄範例
     補充欄範例
+councilor-822C2918:
+  job-history: 第3屆台南市議員
 councilor-63ECF425:
-  job-history: 台南市議會第1、2、3屆議員
+  job-history: 台南市議會第1、2、3屆議員。
+  misc-title: 議會相關職務
+  misc-content: |-
+    台南市議會國民黨黨團書記長
+    2018/12/14-2020/1/16
+  job-period: 完整
 ---
-
-
-* 第一選區情報0
-* **第一選區情報1**
-* 第一選區情報2
+* **第一選區由原（第2屆）第一選區與第二選區合併。**
+* **共6席應選名額，1席婦女保障名額。**
+* **前議員賴美惠未參與第3屆議員選舉，其子李宗翰於第3屆參選並首度當選。**
