@@ -13,6 +13,8 @@ councilor-FD1153AA:
   misc-content: |-
     補充欄範例補充欄範例補充欄範例補充欄範例
     補充欄範例
+councilor-63ECF425:
+  job-history: 台南市議會第1、2、3屆議員
 ---
 
 
