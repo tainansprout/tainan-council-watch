@@ -23,5 +23,7 @@ councilor-D8EE7C84:
 councilor-47FECB54:
   job-history: 台南市議會第3屆議員
   job-period: 完整
+  misc-content: 立法委員林俊憲辦公室主任、民主進步黨全國黨代表、台南市黨員代表
+  misc-title: 政治關係｜黨職
 ---
 共5席應選名額、1席婦女保障名額。
