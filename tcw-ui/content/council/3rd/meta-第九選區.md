@@ -6,7 +6,9 @@ councilor-C74D9364:
   job-history: 台南市議會第3屆議員
   misc-content: |
     父親為前台南市議員周明德
+
     前台南市議員周明德服務處助理
+
     民進黨台南市第2屆黨員代表、第12屆全國黨代表
   misc-title: 政治關係
   job-period: 完整
