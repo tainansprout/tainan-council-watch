@@ -5,7 +5,7 @@ councilor-4E55DF62:
     父親為前新化區長姚溪海（李偉智從母姓）
     民主進步黨第17屆全國黨代表
   job-period: 完整
-  misc-title: 政治關係/黨職
+  misc-title: 政治關係｜黨職
 councilor-C724FF9C:
   job-history: |-
     台南市議會第3屆議員
