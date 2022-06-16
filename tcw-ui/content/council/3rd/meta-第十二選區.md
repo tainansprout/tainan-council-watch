@@ -5,4 +5,4 @@ councilor-7928278A:
   misc-content: 母親為前台南市議員蔡玉枝。
   misc-title: 親屬相關
 ---
-應選平地原住民議員1席。
+共1席應選名額
