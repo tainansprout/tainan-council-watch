@@ -5,7 +5,8 @@ councilor-1E2BC486:
   job-period: 完整
 councilor-A9594FE7:
   job-history: |-
-    台南市議會第1、2、3屆議員
+    台南市議會第3屆副議長 
+    台南市議會第1、2屆議員
     台南市議會（改制前）第14、15、16屆議員
   job-period: 完整
 councilor-3B7EB972:
