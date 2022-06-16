@@ -22,7 +22,7 @@ councilor-CFCEC42A:
   misc-content: |-
     時代力量台南黨部組織部主任
     時代力量台南黨部執行長
-  misc-title: 政治關係/黨職
+  misc-title: 政治關係｜黨職
   job-period: 完整
 councilor-5EB6A667:
   job-history: 台南市議會第1、2、3屆議員
@@ -30,7 +30,7 @@ councilor-5EB6A667:
   misc-content: |-
     中國國民黨第20屆中央委員
     中國國民黨台南市議會黨團副書記長
-  misc-title: 政治關係/黨職
+  misc-title: 政治關係｜黨職
 councilor-19B08661:
   job-history: |-
     台南市議會第2、3屆議員
