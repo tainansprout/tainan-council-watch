@@ -19,7 +19,9 @@ councilor-F83155EE:
   job-history: 台南市議會第2、3屆議員
   job-period: 完整
 councilor-81CBE99D:
-  misc-content: 台南市議員林慶鎮服務處秘書
+  misc-content: |-
+    丈夫為前台南市議員林慶鎮
+    台南市議員林慶鎮服務處秘書
   misc-title: 政治關係
   job-history: 台南市議會第3屆議員
   job-period: 完整
