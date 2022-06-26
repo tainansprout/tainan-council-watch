@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1080px" height="617px" viewBox="0 0 1080 617" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>img-home</title>
+    <g id="home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="home--v2" transform="translate(-180.000000, -259.000000)">
+            <g id="img-home" transform="translate(180.500000, 259.600000)">
+                <path d="M287,45.9 L287,52.9 L10.1928346,52.9 C8.49028606,52.9 7.09898187,54.2325956 7.0050543,55.9116546 L7,56.0928346 L7,332.9 L0,332.9 L0,56.0928346 C0,50.55731 4.41263889,46.0524123 9.91227168,45.9037867 L10.1928346,45.9 L287,45.9 Z" id="Path" fill="#8DEE72" fill-rule="nonzero"></path>
+                <path d="M1079,265.9 L1079,272.9 L802.192835,272.9 C800.490286,272.9 799.098982,274.232596 799.005054,275.911655 L799,276.092835 L799,552.9 L792,552.9 L792,276.092835 C792,270.55731 796.412639,266.052412 801.912272,265.903787 L802.192835,265.9 L1079,265.9 Z" id="Path" fill="#8DEE72" fill-rule="nonzero" transform="translate(935.500000, 409.400000) scale(-1, -1) translate(-935.500000, -409.400000) "></path>
+                <polygon id="Line" fill="#00000F" fill-rule="nonzero" points="715.9 -3.41060513e-13 715.9 615.8 715.1 615.8 715.1 -3.41060513e-13"></polygon>
+                <polygon id="Line-2" fill="#00000F" fill-rule="nonzero" points="1008.9 388 1008.9 388.8 208.1 388.8 208.1 388"></polygon>
+                <g id="Group" transform="translate(883.500000, 133.400000) rotate(90.000000) translate(-883.500000, -133.400000) translate(783.500000, 121.400000)">
+                    <polygon id="Line-2-Copy" fill="#00000F" fill-rule="nonzero" points="192.4 11.6 192.4 12.4 7.6 12.4 7.6 11.6"></polygon>
+                    <polygon id="Triangle" fill="#8DEE72" transform="translate(8.000000, 12.000000) rotate(90.000000) translate(-8.000000, -12.000000) " points="8 4 20 20 -4 20"></polygon>
+                    <polygon id="Triangle-Copy" fill="#8DEE72" transform="translate(192.000000, 12.000000) scale(-1, 1) rotate(90.000000) translate(-192.000000, -12.000000) " points="192 4 204 20 180 20"></polygon>
+                </g>
+                <g id="Group-Copy" transform="translate(83.500000, 486.400000)">
+                    <polygon id="Line-2-Copy" fill="#00000F" fill-rule="nonzero" points="192.4 11.6 192.4 12.4 7.6 12.4 7.6 11.6"></polygon>
+                    <polygon id="Triangle" fill="#8DEE72" transform="translate(8.000000, 12.000000) rotate(90.000000) translate(-8.000000, -12.000000) " points="8 4 20 20 -4 20"></polygon>
+                    <polygon id="Triangle-Copy" fill="#8DEE72" transform="translate(192.000000, 12.000000) scale(-1, 1) rotate(90.000000) translate(-192.000000, -12.000000) " points="192 4 204 20 180 20"></polygon>
+                </g>
+                <g id="Group-Copy-2" transform="translate(939.500000, 121.400000)">
+                    <polygon id="Line-2-Copy" fill="#00000F" fill-rule="nonzero" points="136.4 12.1 136.4 12.9 -0.4 12.9 -0.4 12.1"></polygon>
+                    <polygon id="Triangle-Copy" fill="#8DEE72" transform="translate(128.000000, 12.000000) scale(-1, 1) rotate(90.000000) translate(-128.000000, -12.000000) " points="128 4 140 20 116 20"></polygon>
+                </g>
+                <g id="Group-Copy" transform="translate(131.500000, 492.400000) rotate(90.000000) translate(-131.500000, -492.400000) translate(74.500000, 480.400000)">
+                    <polygon id="Line-2-Copy" fill="#00000F" fill-rule="nonzero" points="108.4 11.6 108.4 12.4 7.6 12.4 7.6 11.6"></polygon>
+                    <polygon id="Triangle" fill="#8DEE72" transform="translate(8.000000, 12.000000) rotate(90.000000) translate(-8.000000, -12.000000) " points="8 4 20 20 -4 20"></polygon>
+                    <polygon id="Triangle-Copy" fill="#8DEE72" transform="translate(106.000000, 12.000000) scale(-1, 1) rotate(90.000000) translate(-106.000000, -12.000000) " points="106 4 118 20 94 20"></polygon>
+                </g>
+                <rect id="Rectangle" fill="#8DEE72" transform="translate(715.500000, 388.400000) rotate(45.000000) translate(-715.500000, -388.400000) " x="697.5" y="370.4" width="36" height="36"></rect>
+                <path d="M764.5,339.4 L666.5,339.4 L666.5,437.4 L764.5,437.4 L764.5,339.4 Z M762.5,341.399 L762.5,435.399 L668.5,435.399 L668.5,341.399 L762.5,341.399 Z" id="Rectangle" fill="#8DEE72" fill-rule="nonzero" transform="translate(715.500000, 388.400000) rotate(45.000000) translate(-715.500000, -388.400000) "></path>
+                <path d="M794.5,309.4 L636.5,309.4 L636.5,467.4 L794.5,467.4 L794.5,309.4 Z M792.5,311.399 L792.5,465.399 L638.5,465.399 L638.5,311.399 L792.5,311.399 Z" id="Rectangle" fill="#8DEE72" fill-rule="nonzero" transform="translate(715.500000, 388.400000) rotate(45.000000) translate(-715.500000, -388.400000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>
