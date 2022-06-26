@@ -89,6 +89,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    'vue-plausible',
     '@nuxtjs/sentry',
     'vue-social-sharing/nuxt',
     '@nuxtjs/sitemap'
@@ -105,6 +106,10 @@ export default {
 
   sentry: {
     dsn: isProd ? process.env.SENTRY_DSN : ''
+  },
+
+  plausible: {
+    domain: 'tcco.tnsprout.org'
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
