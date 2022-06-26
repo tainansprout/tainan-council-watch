@@ -1,7 +1,8 @@
 <template lang="pug">
   .landingCover.relative
-    img.w-100.db.dn-ns(src="~/assets/cover.svg")
-    img.w-100.dn.db-ns(src="~/assets/cover-ns.svg")
+    .landingCover__cover
+      img.aspect-ratio--object.db.dn-ns(src="~/assets/cover.svg")
+      img.aspect-ratio--object.dn.db-ns(src="~/assets/cover-ns.svg")
     .landingCover__header.absolute
       h1.landingCover__title.fw5 台南市議會觀測站
       .landingCover__subtitle(role="doc-subtitle") {{roundLabel}}
@@ -9,7 +10,6 @@
 </template>
 <script>
 import { number2zh } from '~/libs/utils'
-import { NUMBER_2_ZH } from '~/libs/defs'
 
 const START_YEAR = 2010
 const YEAR_PER_ROUND = 4
@@ -24,7 +24,7 @@ export default {
   computed: {
     roundLabel () {
       const roundZh = number2zh(this.round)
-      const roundNumber = NUMBER_2_ZH.indexOf(roundZh)
+      const roundNumber = Number.parseInt(this.round, 10) || 3
 
       const yearStart = START_YEAR + (roundNumber - 1) * YEAR_PER_ROUND
       const yearEnd = yearStart + YEAR_PER_ROUND
@@ -53,12 +53,19 @@ export default {
     top: 13vw;
     left: 7vw;
   }
+  &__cover {
+    width: 100%;
+    padding-top: 74.394%;
+  }
   @include not-small-screen {
     &__title {
       letter-spacing: 4px;
     }
     &__subtitle {
       letter-spacing: 3px;
+    }
+    &__cover {
+      padding-top: 57.13%
     }
   }
   @media screen and (min-width: 70em) {
