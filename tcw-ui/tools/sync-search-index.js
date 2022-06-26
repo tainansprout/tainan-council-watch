@@ -11,7 +11,7 @@ dotenv.config()
 enableSentry()
 
 const NTH = process.argv[2] || '3rd'
-const SAMPLE_RATIO = Number.parseInt(process.argv[3]) || 80
+const SAMPLE_RATIO = Number.parseInt(process.argv[3]) || 100
 
 const SAYIT_BASE = path.join(__dirname, `../content/council/${NTH}/sayit`)
 
