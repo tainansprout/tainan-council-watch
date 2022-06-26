@@ -128,8 +128,7 @@ export default {
     buildTime: dayjs().unix(),
     algoliaApp: process.env.ALGOLIA_APP_ID,
     algoliaIndex: process.env.ALGOLIA_INDEX_NAME,
-    algoliaKey: process.env.ALGOLIA_SEARCH_API_KEY,
-    gaId: process.env.GOOGLE_ANALYTICS_ID
+    algoliaKey: process.env.ALGOLIA_SEARCH_API_KEY
   },
 
   server: {
