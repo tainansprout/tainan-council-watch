@@ -1,4 +1,21 @@
-/*! algoliasearch.umd.js | 4.13.1 | © Algolia, inc. | https://github.com/algolia/algoliasearch-client-javascript */
+/*!
+  * vue-router v3.5.3
+  * (c) 2021 Evan You
+  * @license MIT
+  */
+
+/*!
+ * Vue.js v2.6.14
+ * (c) 2014-2021 Evan You
+ * Released under the MIT License.
+ */
+
+
+/*!
+ * vue-infinite-loading v2.4.5
+ * (c) 2016-2020 PeachScript
+ * MIT License
+ */
 
 
 /*!
@@ -29,6 +46,9 @@ PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
 
+/*! algoliasearch.umd.js | 4.13.1 | © Algolia, inc. | https://github.com/algolia/algoliasearch-client-javascript */
+
+
 /**
  * @license
  * Lodash <https://lodash.com/>
@@ -36,24 +56,4 @@ PERFORMANCE OF THIS SOFTWARE.
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-
-/*!
- * vue-infinite-loading v2.4.5
- * (c) 2016-2020 PeachScript
- * MIT License
- */
-
-
-/*!
-  * vue-router v3.5.3
-  * (c) 2021 Evan You
-  * @license MIT
-  */
-
-/*!
- * Vue.js v2.6.14
- * (c) 2014-2021 Evan You
- * Released under the MIT License.
  */
