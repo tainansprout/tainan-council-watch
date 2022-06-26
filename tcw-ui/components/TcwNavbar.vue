@@ -15,7 +15,7 @@
     .nav__bottom.dn
       nuxt-link.nav__home(:to="`/${round}`")
         img(src="~/assets/site-logo.svg")
-        | 台南市議會觀測站
+        .nowrap 台南市議會觀測站
       .flex.items-center.justify-between
         nuxt-link.nav__item.ls4.flex-none(
           v-for="link in navLinks"
