@@ -7,8 +7,6 @@ import { friendlyHeader } from './libs/crawlerFriendly'
 
 const isProd = process.env.NODE_ENV === 'production'
 
-console.warn('===== DEBUG =====', process.env.GOOGLE_ANALYTICS_ID, '------')
-
 const defaultHeader = friendlyHeader({
   title: '台南市議會觀測站',
   description: '',
