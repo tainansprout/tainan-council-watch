@@ -26,7 +26,7 @@
       .nav__search.flex.items-center.justify-center(
         :class="{'nav__search--active': searchOpened}"
       )
-        input.flex-auto(
+        input.flex-auto.ls3(
           ref="desktopSearch"
           type="text"
           v-model.trim="query"
@@ -169,6 +169,7 @@ export default {
   &--opened {
     min-height: 100vh;
     position: fixed;
+    z-index: 1100;
     top: 0;
     bottom: 0;
     left: 0;
@@ -189,7 +190,7 @@ export default {
     color: #282828;
     display: flex;
     align-items: center;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 1.67px;
     img {
       width: 3.25rem;
@@ -200,11 +201,10 @@ export default {
   &__item {
     color: #40404a;
     margin: 1.5rem 0;
-    &.nuxt-link-active {
-      color: $black;
-    }
+    &.nuxt-link-active,
     &:hover {
       color: $yellow-7;
+      font-weight: 400;
     }
   }
 
@@ -216,11 +216,17 @@ export default {
     }
     button {
       color: #40404a;
+      font-weight: 300;
     }
     input {
       border: none;
       font-size: 0.875rem;
       padding: 0.75rem 0;
+      font-weight: 300;
+      color: #40404a;
+      &::placeholder {
+        color: $gray-9;
+      }
       &:focus {
         border: none;
         box-shadow: none;

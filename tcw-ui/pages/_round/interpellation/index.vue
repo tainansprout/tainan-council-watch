@@ -2,12 +2,12 @@
   .pageContainer
     .int
       .int__searchBox.center
-        input.w-100.int__query.br-pill(v-model.trim="query" placeholder="搜尋質詢議題" type="text")
+        input.w-100.int__query.br-pill.ls3(v-model.trim="query" placeholder="搜尋質詢議題" type="text")
         .int__algolia.mt2.tr
           a.f6.inline-flex.items-center.underline(href="https://www.algolia.com" target="_blank")
             | 搜尋服務使用
             img.ml1(src="~/assets/algolia.svg")
-      .db.dn-ns
+      .int__districtListWrapper.bg-white.db.dn-ns
         b-dropdown.int__districtList.w-100(aria-role="menu")
           template(slot="trigger")
             button.int__districtTrigger.w-100.flex.justify-between.items-center
@@ -362,18 +362,18 @@ export default {
 <style lang="scss" scoped>
 .int {
   padding: 1rem 0;
-  &__districtList {
+  &__districtListWrapper {
     margin: 1.75rem auto 2.25rem;
-
+    position: sticky;
+    top: 5.25rem;
+    width: calc(100% + 1rem);
+    padding: 0.5rem 1rem 0.5rem 0;
+    z-index: 1000;
+  }
+  &__districtList {
     &.dropdown ::v-deep {
-      .background {
-        z-index: 1000;
-      }
       .dropdown-trigger {
         width: 100%;
-      }
-      .dropdown-menu {
-        z-index: 1000 !important;
       }
       .dropdown-content {
         padding: 0;
@@ -408,6 +408,11 @@ export default {
   &__district {
     border: none;
     background: none;
+
+    .districtText:hover {
+      color: $blue;
+      text-decoration-color: $blue;
+    }
   }
   &__searchBox {
     padding: 0 0.5rem;
@@ -438,7 +443,7 @@ export default {
       padding: 0 1rem;
     }
     &__districtList {
-      margin-top: 3.5rem;
+      margin: 3.5rem auto 2.25rem;
       padding: 0 0.5rem 3.5rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
