@@ -78,7 +78,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/google-analytics'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -94,7 +95,12 @@ export default {
   ],
 
   sitemap: {
-    hostname: 'https://tcco.tnsprout.org'
+    hostname: 'https://tcco.tnsprout.org',
+    gzip: true
+  },
+
+  googleAnalytics: {
+    id: process.env.GOOGLE_ANALYTICS_ID
   },
 
   sentry: {
@@ -127,5 +133,10 @@ export default {
   server: {
     port: process.env.SERVER_PORT || 3000,
     host: process.env.SERVER_HOST || 'localhost'
+  },
+
+  generate: {
+    concurrency: 10,
+    fallback: '404.html'
   }
 }
