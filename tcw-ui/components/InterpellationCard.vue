@@ -7,7 +7,7 @@
         .f6.gray 選舉區域： {{district}}
     h2.f4.f3-ns.fw5.ls4 {{sayit.summary}}
     p.ls2 {{sayit.say}}...
-    p.ls2.f6.gray(v-if="sayit.editorNote") 編按：{{sayit.editorNote}}
+    p.ls2.f6.gray(v-if="sayit.editorNote") 新芽補充： {{sayit.editorNote}}
     button.intCard__src.plainButton.pointer.flex.justify-between.w-100(@click="gotoPdf")
       .flex.items-center.f6.ls1
         span 來源出處：
