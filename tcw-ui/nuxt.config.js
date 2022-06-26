@@ -91,8 +91,9 @@ export default {
     '@nuxt/content',
     'vue-plausible',
     '@nuxtjs/sentry',
-    'vue-social-sharing/nuxt',
-    '@nuxtjs/sitemap'
+    'vue-social-sharing/nuxt'
+    // remove it for now as it failed in github action
+    // '@nuxtjs/sitemap'
   ],
 
   sitemap: {
