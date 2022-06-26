@@ -78,7 +78,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/google-analytics'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -88,17 +89,27 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    'vue-plausible',
     '@nuxtjs/sentry',
     'vue-social-sharing/nuxt',
     '@nuxtjs/sitemap'
   ],
 
   sitemap: {
-    hostname: 'https://tcco.tnsprout.org'
+    hostname: 'https://tcco.tnsprout.org',
+    gzip: true
+  },
+
+  googleAnalytics: {
+    id: process.env.GOOGLE_ANALYTICS_ID
   },
 
   sentry: {
     dsn: isProd ? process.env.SENTRY_DSN : ''
+  },
+
+  plausible: {
+    domain: 'tcco.tnsprout.org'
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -127,5 +138,10 @@ export default {
   server: {
     port: process.env.SERVER_PORT || 3000,
     host: process.env.SERVER_HOST || 'localhost'
+  },
+
+  generate: {
+    concurrency: 10,
+    fallback: '404.html'
   }
 }

@@ -21,7 +21,7 @@
 選填設定：
 
 - SENTRY_DSN: [Sentry](sentry.io/) 的 DSN ，會用在前後端的所有錯誤回報中
-
+- GOOGLE_ANALYTICS_ID: GA 的 ID
 
 ### 開發步驟
 

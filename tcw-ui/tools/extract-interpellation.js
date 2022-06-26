@@ -93,7 +93,11 @@ function getCouncilorId (districtId, councilorName, sheetMeta) {
   if (councilor) {
     return councilor.id
   } else {
-    pushMapError(`定${sheetMeta.round} | 出現不存在的議員：${councilorName}`)
+    let category = `定${sheetMeta.round}`
+    if (sheetMeta.postfix) {
+      category += `-${sheetMeta.postfix}`
+    }
+    pushMapError(`${category} | 出現不存在的議員：${councilorName}`)
     return ''
   }
 }
@@ -149,7 +153,9 @@ function parseOneLog (sheetMeta) {
 async function parseLogs () {
   const sheetList = [
     { sheetId: '1909562558', type: '定期會', round: 1 },
+    { sheetId: '956807492', type: '定期會', round: 1, postfix: '業務' },
     { sheetId: '1969300134', type: '定期會', round: 2 },
+    { sheetId: '314210118', type: '定期會', round: 2, postfix: '業務' },
     { sheetId: '67860742', type: '定期會', round: 3 },
     { sheetId: '1585934193', type: '定期會', round: 4 },
     { sheetId: '618060648', type: '定期會', round: 5 }
