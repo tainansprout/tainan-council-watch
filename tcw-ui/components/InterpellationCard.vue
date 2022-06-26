@@ -1,5 +1,5 @@
 <template lang="pug">
-  .intCard
+  .intCard.pointer(@click="gotoPdf")
     .intCard__meta.flex-ns.flex-row-reverse.justify-between.ls3
       .f6.gray {{sayit.date}}
       .mt3.mt0-ns
@@ -8,7 +8,7 @@
     h2.f4.f3-ns.fw5.ls4 {{sayit.summary}}
     p.ls2 {{sayit.say}}...
     p.ls2.f6.gray(v-if="sayit.editorNote") 新芽補充： {{sayit.editorNote}}
-    button.intCard__src.plainButton.pointer.flex.justify-between.w-100(@click="gotoPdf")
+    button.intCard__src.plainButton.flex.justify-between.w-100(@click.stop="gotoPdf")
       .flex.items-center.f6.ls1
         span 來源出處：
         .intCard__round {{roundLabel}}
@@ -96,8 +96,8 @@ export default {
       }
     }
 
-    &__src {
-      &:hover {
+    &:hover {
+      .intCard__src {
         .intCard__more {
           color: $blue;
           text-decoration-color: $blue;

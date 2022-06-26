@@ -12,7 +12,7 @@
         ) {{item.label}}
       .flex.flex-column.items-start
         .tcwFooter__subheader.fw4 聯絡我們
-        component.tcwFooter__item(
+        component.tcwFooter__item.tcwFooter__item--en(
           v-for="item in contact"
           :key="item.label"
           :is="item.url ? 'a' : 'div'"
@@ -67,6 +67,9 @@ export default {
     padding-bottom: 1px;
     &:hover {
       font-weight: 400;
+    }
+    &--en:hover {
+      letter-spacing: 1px;
     }
   }
 

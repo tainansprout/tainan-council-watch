@@ -4,7 +4,7 @@
       .f3.fw5.flex.items-center
         img.intCat__slash.mt1.mr3(src="~/assets/slash.svg")
         .ml2 {{name}}
-      button.intCat__more.pv2.plainButton.underline.pointer.flex.items-center(v-if="hasMore" @click="showMore")
+      button.intCat__more.pv2.ls3.plainButton.underline.pointer.flex.items-center(v-if="hasMore" @click="showMore")
         | 閱讀所有質詢局處
         tcw-icon.ml2(icon="chevron-right-black")
     interpellation-card(
