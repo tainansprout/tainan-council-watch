@@ -78,8 +78,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@nuxtjs/style-resources',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/style-resources'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -99,10 +98,6 @@ export default {
   sitemap: {
     hostname: 'https://tcco.tnsprout.org',
     gzip: true
-  },
-
-  googleAnalytics: {
-    id: process.env.GOOGLE_ANALYTICS_ID
   },
 
   sentry: {
@@ -133,7 +128,8 @@ export default {
     buildTime: dayjs().unix(),
     algoliaApp: process.env.ALGOLIA_APP_ID,
     algoliaIndex: process.env.ALGOLIA_INDEX_NAME,
-    algoliaKey: process.env.ALGOLIA_SEARCH_API_KEY
+    algoliaKey: process.env.ALGOLIA_SEARCH_API_KEY,
+    gaId: process.env.GOOGLE_ANALYTICS_ID
   },
 
   server: {
