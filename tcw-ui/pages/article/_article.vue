@@ -62,12 +62,22 @@ export default {
 
   .nuxt-content-container ::v-deep {
     line-height: normal;
+    h1, h2, h3 {
+      margin: 2rem 0 1rem;
+      a:first-child {
+        display: none;
+      }
+    }
     h1, h2 {
       font-size: 1.25rem;
     }
 
     h3 {
       font-size: 1rem;
+    }
+
+    p + p {
+      margin-top: 1rem;
     }
   }
 
