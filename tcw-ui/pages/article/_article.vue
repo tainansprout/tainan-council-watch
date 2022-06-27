@@ -60,7 +60,7 @@ export default {
     }
   }
 
-  .nuxt-content-container ::v-deep {
+  ::v-deep .nuxt-content {
     line-height: normal;
     h1, h2, h3 {
       margin: 2rem 0 1rem;
