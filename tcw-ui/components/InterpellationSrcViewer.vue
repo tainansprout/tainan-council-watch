@@ -1,14 +1,14 @@
 <template lang="pug">
-  .intViewer
-    .intViewer__pageWrappera(ref="container")
-      .intViewer__page(ref="page")
+  .intViewer.dn(:class="{db: isOpened}")
+    .intViewer__pageWrapper(ref="container" @click="hide")
+      .intViewer__page(ref="page" @click.stop="handlePageClick")
 </template>
 <script>
 const PDFJS_BASE = '//cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
 const PDF_SRC_BASE = 'https://tainansprout.github.io/tainan-council-data/interpellation/round'
 const PAGE_PER_CHUNK = 10
 
-let isLibLoaded = false
+const CHECK_PDF_LIB_SOMETIME = 500
 
 export default {
   props: {
@@ -35,8 +35,11 @@ export default {
   },
   data () {
     return {
-      isLibLoaded,
+      isLibLoaded: false,
       isPageMounted: false,
+      isOpenedPending: false,
+      isOpened: false,
+      pdfLibTimer: null,
 
       pageChunk: {}
     }
@@ -44,7 +47,7 @@ export default {
   head () {
     const once = { skip: this.isLibLoaded, once: true }
     return {
-      link: [{ hid: 'pdf-css', ...once, rel: 'stylesheet', href: `${PDFJS_BASE}/web/pdf_viewer.css` }],
+      link: [{ rel: 'stylesheet', href: `${PDFJS_BASE}/web/pdf_viewer.css` }],
       script: [
         { hid: 'pdf-js', ...once, src: `${PDFJS_BASE}/build/pdf.js` },
         { hid: 'pdf-viewer-js', ...once, src: `${PDFJS_BASE}/web/pdf_viewer.js`, callback: this.initPdfLibSetting }
@@ -62,19 +65,57 @@ export default {
   },
   watch: {
     isRenderReady () {
-      console.warn('Ready?!', window, window.pdfjsLib, window.pdfjsViewer)
-      // this.renderPdf(this.startPage, this.highlight)
+      if (this.isOpenedPending) {
+        this.renderPdf(this.startPage, this.highlight)
+        this.isOpenedPending = false
+      }
     }
   },
   mounted () {
+    this.isLibLoaded = this.checkPdfLibReadiness()
     this.isPageMounted = true
+  },
+  beforeDestroy () {
+    clearTimeout(this.pdfLibTimer)
   },
   methods: {
     initPdfLibSetting () {
-      isLibLoaded = true
       this.isLibLoaded = true
     },
-    renderPdf (pageIndex, highlight) {
+    handlePageClick (e) {
+      // hide when not clicking pdf
+      if (!e.target.closest('.textLayer')) {
+        this.hide()
+      }
+    },
+    show () {
+      this.isOpened = true
+      if (!this.isRenderReady) {
+        this.isOpenedPending = true
+        // vue-meta onload trigger only once, we need to do it ourselves
+        this.keepCheckingPdfLibRediness()
+      } else {
+        this.$nextTick(() => {
+          this.renderPdf(this.startPage, this.highlight)
+        })
+      }
+    },
+    hide () {
+      this.isOpened = false
+      this.isOpenedPending = false
+    },
+    checkPdfLibReadiness () {
+      return !!window && !!window.pdfjsLib && !!window.pdfjsViewer
+    },
+    keepCheckingPdfLibRediness () {
+      this.pdfLibTimer = setTimeout(() => {
+        this.isLibLoaded = this.checkPdfLibReadiness()
+        if (!this.isLibLoaded) {
+          this.keepCheckingPdfLibRediness()
+        }
+      }, CHECK_PDF_LIB_SOMETIME)
+    },
+    async renderPdf (pageIndex, highlight) {
       const pdfjsLib = window.pdfjsLib
       const pdfjsViewer = window.pdfjsViewer
 
@@ -90,6 +131,10 @@ export default {
         linkService: pdfLinkService
       })
 
+      // page 10 => 10
+      // page  1 =>  1
+      const pageOffset = pageIndex % PAGE_PER_CHUNK || PAGE_PER_CHUNK
+
       const pdfSinglePageViewer = new pdfjsViewer.PDFSinglePageViewer({
         container: this.$refs.container,
         eventBus,
@@ -104,13 +149,23 @@ export default {
 
         // We can try searching for things.
         if (highlight) {
-          console.warn('highlight!', highlight)
+          // pdf break sentence when get line break, try to avoid that in simple way.
+          let highlightHead = highlight.split(/[，。！？]/)[0]
+          if (highlightHead.length < 6) {
+            highlightHead = highlight.slice(0, 6)
+          }
           eventBus.dispatch('find', {
             type: '',
-            query: highlight,
+            query: highlightHead,
             phraseSearch: true,
             highlightAll: true
           })
+        }
+      })
+
+      eventBus.on('updatetextlayermatches', () => {
+        if (pdfSinglePageViewer.currentPageNumber !== pageOffset) {
+          pdfSinglePageViewer.currentPageNumber = pageOffset
         }
       })
 
@@ -125,17 +180,18 @@ export default {
         })
       }
 
-      this.pageChunk[chunkIndex].promise.then(function (pdfDocument) {
-        // Document loaded, specifying document for the viewer and
-        // the (optional) linkService.
-        pdfSinglePageViewer.setDocument(pdfDocument)
-        console.warn('done~~', pdfSinglePageViewer, pdfSinglePageViewer.setPage)
-        pdfLinkService.setDocument(pdfDocument, null)
-      })
+      const pdfDocument = await this.pageChunk[chunkIndex].promise
+
+      // const targetPage = await pdfDocument.getPage(pageIndex % PAGE_PER_CHUNK)
+      // pdfSinglePageViewer.setPdfPage(targetPage)
+      pdfSinglePageViewer.setDocument(pdfDocument)
+      pdfLinkService.setDocument(pdfDocument, null)
     },
     getPageChunkIndex (pageIndex) {
+      //  1 -> return 001
+      // 10 -> return 001
+      // 11 -> return 002
       const chunkIndex = Math.ceil(pageIndex / PAGE_PER_CHUNK)
-      // return 004
       return `${chunkIndex}`.padStart(3, '0')
     }
   }
@@ -143,13 +199,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .intViewer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
   &__pageWrapper {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 1000;
+    overflow-y: auto;
+    // padding: 2rem;
     background: #000a;
   }
 }
