@@ -16,6 +16,12 @@
         .intCard__more.underline.dn.db-ns 閱讀更多
         tcw-icon.intCard__moreIcon.dn.db-ns.ml2(icon="chevron-right-black")
         tcw-icon.intCard__moreIcon.db.dn-ns.ml2(icon="chevron-right-blue")
+    interpellation-src-viewer(
+      :start-page="sayit.src[0]"
+      :councilor-round="sayit.councilorRound"
+      :meeting-round="sayit.round"
+      :highlight="sayit.say"
+    )
 </template>
 <script>
 import { DEFAULT_ROUND } from '~/libs/defs'
