@@ -1,12 +1,14 @@
 <template lang="pug">
   .intViewer
-    .intViewer__pageWrapper(ref="container")
+    .intViewer__pageWrappera(ref="container")
       .intViewer__page(ref="page")
 </template>
 <script>
 const PDFJS_BASE = '//cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
 const PDF_SRC_BASE = 'https://tainansprout.github.io/tainan-council-data/interpellation/round'
 const PAGE_PER_CHUNK = 10
+
+let isLibLoaded = false
 
 export default {
   props: {
@@ -33,19 +35,19 @@ export default {
   },
   data () {
     return {
-      isLibLoaded: false,
+      isLibLoaded,
       isPageMounted: false,
 
       pageChunk: {}
     }
   },
   head () {
-    // TODO: make it really once
+    const once = { skip: this.isLibLoaded, once: true }
     return {
-      link: [{ hid: 'pdf-css', once: true, rel: 'stylesheet', href: `${PDFJS_BASE}/web/pdf_viewer.css` }],
+      link: [{ hid: 'pdf-css', ...once, rel: 'stylesheet', href: `${PDFJS_BASE}/web/pdf_viewer.css` }],
       script: [
-        { hid: 'pdf-js', once: true, src: `${PDFJS_BASE}/build/pdf.js` },
-        { hid: 'pdf-viewer-js', once: true, src: `${PDFJS_BASE}/web/pdf_viewer.js`, callback: this.initPdfLibSetting }
+        { hid: 'pdf-js', ...once, src: `${PDFJS_BASE}/build/pdf.js` },
+        { hid: 'pdf-viewer-js', ...once, src: `${PDFJS_BASE}/web/pdf_viewer.js`, callback: this.initPdfLibSetting }
       ]
     }
   },
@@ -60,7 +62,8 @@ export default {
   },
   watch: {
     isRenderReady () {
-      this.renderPdf(this.startPage, this.highlight)
+      console.warn('Ready?!', window, window.pdfjsLib, window.pdfjsViewer)
+      // this.renderPdf(this.startPage, this.highlight)
     }
   },
   mounted () {
@@ -68,7 +71,7 @@ export default {
   },
   methods: {
     initPdfLibSetting () {
-      console.warn('Ready!', window, window.pdfjsLib, window.pdfjsViewer)
+      isLibLoaded = true
       this.isLibLoaded = true
     },
     renderPdf (pageIndex, highlight) {
@@ -87,7 +90,6 @@ export default {
         linkService: pdfLinkService
       })
 
-      console.warn('??', this.$refs.container)
       const pdfSinglePageViewer = new pdfjsViewer.PDFSinglePageViewer({
         container: this.$refs.container,
         eventBus,
