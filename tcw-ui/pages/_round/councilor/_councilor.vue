@@ -14,7 +14,8 @@
                 img(:src="councilor.bgUrl" :alt="councilor.name")
             div
               .f5.f4-ns.fw5.ls3 {{councilor.name}}
-              .f5.pt2-ns.mt3
+              // .councilor__jobPeriod.f5.mt2(v-if="jobPeriod") {{jobPeriod}}
+              .f5.mt3
                 party-label(:party="councilor.party")
           .councilor__personMeta
             h2.f3 公職經歷
@@ -145,6 +146,13 @@ export default {
         }
       }
       return undefined
+    },
+    jobPeriod () {
+      const period = this.councilor['job-period']
+      if (period === '完整') {
+        return ''
+      }
+      return period
     }
   },
   mounted () {
@@ -195,6 +203,10 @@ export default {
     p + p {
       margin-top: 0.25rem;
     }
+  }
+
+  &__jobPeriod {
+    color: $gray-9;
   }
   @include not-small-screen {
     padding: 3.5rem 0;
