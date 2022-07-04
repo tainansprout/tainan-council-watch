@@ -12,7 +12,7 @@
       button.intCard__src.plainButton.flex.justify-between.w-100(@click.stop="gotoPdf")
         .flex.items-center.f6.ls1
           span 來源出處：
-          .intCard__round {{roundLabel}} {{sayit.src[0]}}
+          .intCard__round {{roundLabel}}
         .flex.items-center.ls2.dn
           .intCard__more.underline.dn.db-ns 閱讀更多
           tcw-icon.intCard__moreIcon.dn.db-ns.ml2(icon="chevron-right-black")

@@ -1,7 +1,6 @@
 <template lang="pug">
-  .intViewer.dn(:class="{db: isOpened}")
-    .intViewer__pageWrapper(ref="container" @click="hide")
-      .intViewer__page(ref="page" @click.stop="handlePageClick")
+  .intViewer.items-center(:class="{flex: isOpened, dn: !isOpened}" @click="hide")
+    single-interpellation-pdf(v-if="mainPage" v-bind="mainPage" @click.native.stop="handlePageClick")
 </template>
 <script>
 const PDFJS_BASE = '//cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
@@ -9,6 +8,7 @@ const PDF_SRC_BASE = 'https://tainansprout.github.io/tainan-council-data/interpe
 const PAGE_PER_CHUNK = 10
 
 const CHECK_PDF_LIB_SOMETIME = 500
+const MIN_SEARCH_LEN = 12
 
 export default {
   props: {
@@ -41,7 +41,9 @@ export default {
       isOpened: false,
       pdfLibTimer: null,
 
-      pageChunk: {}
+      pageChunk: {},
+
+      mainPage: null
     }
   },
   head () {
@@ -61,12 +63,19 @@ export default {
     pdfLinkBase () {
       const meetingRoundStr = `${this.meetingRound}`.padStart(2, '0')
       return `${PDF_SRC_BASE}/${this.councilorRound}/${this.meetingType}/${meetingRoundStr}`
+    },
+    highlightHead () {
+      let head = this.highlight.split(/[，。！？]/)[0]
+      if (head.length < MIN_SEARCH_LEN) {
+        head = this.highlight.slice(0, MIN_SEARCH_LEN)
+      }
+      return head
     }
   },
   watch: {
     isRenderReady () {
       if (this.isOpenedPending) {
-        this.renderPdf(this.startPage, this.highlight)
+        this.renderMainPage()
         this.isOpenedPending = false
       }
     }
@@ -81,6 +90,7 @@ export default {
   methods: {
     initPdfLibSetting () {
       this.isLibLoaded = true
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_BASE}/build/pdf.worker.js`
     },
     handlePageClick (e) {
       // hide when not clicking pdf
@@ -96,7 +106,7 @@ export default {
         this.keepCheckingPdfLibRediness()
       } else {
         this.$nextTick(() => {
-          this.renderPdf(this.startPage, this.highlight)
+          this.renderMainPage()
         })
       }
     },
@@ -115,62 +125,13 @@ export default {
         }
       }, CHECK_PDF_LIB_SOMETIME)
     },
-    async renderPdf (pageIndex, highlight) {
+    async preparePdf (pageIndex) {
       const pdfjsLib = window.pdfjsLib
-      const pdfjsViewer = window.pdfjsViewer
-
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_BASE}/build/pdf.worker.js`
-
       const CMAP_URL = `${PDFJS_BASE}/cmaps/`
-      const eventBus = new pdfjsViewer.EventBus()
-      const pdfLinkService = new pdfjsViewer.PDFLinkService({
-        eventBus
-      })
-      const pdfFindController = new pdfjsViewer.PDFFindController({
-        eventBus,
-        linkService: pdfLinkService
-      })
 
-      // page 10 => 10
-      // page  1 =>  1
       const pageOffset = pageIndex % PAGE_PER_CHUNK || PAGE_PER_CHUNK
-
-      const pdfSinglePageViewer = new pdfjsViewer.PDFSinglePageViewer({
-        container: this.$refs.container,
-        eventBus,
-        linkService: pdfLinkService,
-        findController: pdfFindController
-      })
-      pdfLinkService.setViewer(pdfSinglePageViewer)
-
-      eventBus.on('pagesinit', () => {
-        // We can use pdfSinglePageViewer now, e.g. let's change default scale.
-        // pdfSinglePageViewer.currentScaleValue = "page-width";
-
-        // We can try searching for things.
-        if (highlight) {
-          // pdf break sentence when get line break, try to avoid that in simple way.
-          let highlightHead = highlight.split(/[，。！？]/)[0]
-          if (highlightHead.length < 6) {
-            highlightHead = highlight.slice(0, 6)
-          }
-          eventBus.dispatch('find', {
-            type: '',
-            query: highlightHead,
-            phraseSearch: true,
-            highlightAll: true
-          })
-        }
-      })
-
-      eventBus.on('updatetextlayermatches', () => {
-        if (pdfSinglePageViewer.currentPageNumber !== pageOffset) {
-          pdfSinglePageViewer.currentPageNumber = pageOffset
-        }
-      })
-
-      // Loading document.
       const chunkIndex = this.getPageChunkIndex(pageIndex)
+
       if (!this.pageChunk[chunkIndex]) {
         this.pageChunk[chunkIndex] = pdfjsLib.getDocument({
           url: `${this.pdfLinkBase}/${chunkIndex}.pdf`,
@@ -182,10 +143,19 @@ export default {
 
       const pdfDocument = await this.pageChunk[chunkIndex].promise
 
-      // const targetPage = await pdfDocument.getPage(pageIndex % PAGE_PER_CHUNK)
-      // pdfSinglePageViewer.setPdfPage(targetPage)
-      pdfSinglePageViewer.setDocument(pdfDocument)
-      pdfLinkService.setDocument(pdfDocument, null)
+      return {
+        document: pdfDocument,
+        page: pageOffset
+      }
+    },
+    async renderMainPage () {
+      const pdf = await this.preparePdf(this.startPage)
+      let highlightHead = this.highlight.split(/[，。！？]/)[0]
+      if (highlightHead.length < MIN_SEARCH_LEN) {
+        highlightHead = this.highlight.slice(0, MIN_SEARCH_LEN)
+      }
+      pdf.highlight = highlightHead
+      this.mainPage = pdf
     },
     getPageChunkIndex (pageIndex) {
       //  1 -> return 001
@@ -205,15 +175,24 @@ export default {
   top: 0;
   bottom: 0;
   z-index: 1000;
+  padding: 2rem 0.5rem;
+  overflow: auto;
+  background: #000a;
+
   &__pageWrapper {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    overflow-y: auto;
-    // padding: 2rem;
-    background: #000a;
+    width: 100vw;
+    max-width: 62rem;
+    transform: translateX(-50%);
+    left: 50%;
+    top: 2rem;
+    padding-bottom: 2rem;
+
+    ::v-deep {
+      .pdfViewer .page {
+        box-sizing: content-box;
+      }
+    }
   }
 }
 </style>
