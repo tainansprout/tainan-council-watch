@@ -365,7 +365,7 @@ export default {
   &__districtListWrapper {
     margin: 1.75rem auto 2.25rem;
     position: sticky;
-    top: 5.25rem;
+    top: 4.875rem;
     width: calc(100% + 1rem);
     padding: 0.5rem 1rem 0.5rem 0;
     z-index: 1000;

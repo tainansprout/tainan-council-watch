@@ -183,10 +183,24 @@ export default {
     .cl__cid {
       margin: 0;
     }
+    position: sticky;
+    top: 4.875rem;
+    width: calc(100% + 1rem);
+    padding: 0.5rem 1rem 0.5rem 0;
+    z-index: 1000;
+    background: white;
+
     @media (hover: hover) {
       .cl__partyList {
         display: none;
       }
+    }
+
+    @include not-small-screen {
+      position: inherit;
+      top: auto;
+      width: 100%;
+      padding: 0;
     }
   }
 }
