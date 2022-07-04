@@ -13,3 +13,12 @@ export const partyMixin = {
     }
   }
 }
+
+export const dropdownMenuMiixin = {
+  beforeDestroy () {
+    const html = document.querySelector('html')
+    if (html.classList.contains('is-clipped-touch')) {
+      html.classList.remove('is-clipped-touch')
+    }
+  }
+}
