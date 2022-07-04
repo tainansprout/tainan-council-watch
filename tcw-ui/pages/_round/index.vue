@@ -38,7 +38,7 @@ export default {
 
     let articlePerCategory = await Promise.all(articleCategories.map((category) => {
       return $content('article')
-        .where({ category: category.name })
+        .where({ category: category.slug })
         .only(['coverImage', 'category'])
         .sortBy('createdAt', 'desc')
         .limit(1)
@@ -47,7 +47,7 @@ export default {
     articlePerCategory = articlePerCategory.flatMap(articles => articles)
 
     articleCategories.forEach((category) => {
-      const article = articlePerCategory.find(article => category.name === article.category)
+      const article = articlePerCategory.find(article => category.slug === article.category)
       if (article) {
         category.coverImage = article.coverImage
       }

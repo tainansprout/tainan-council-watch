@@ -272,7 +272,8 @@ collections:
         name: category
         widget: relation
         collection: articleCategory
-        value_field: name
+        value_field: slug
+        display_fields: ['name']
         search_fields: ['name']
         required: false
       - { label: 簡介, name: summary, widget: string, hint: 用在Google、社群分享、文章清單，建議 100 字以內 }
