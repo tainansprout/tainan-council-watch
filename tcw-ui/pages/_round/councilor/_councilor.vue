@@ -19,9 +19,9 @@
           .councilor__personMeta
             h2.f3 公職經歷
             p.ls2(v-for="line in jobHistory" :key="line") {{line}}
-          .councilor__personMeta.bl-ns.b--gray-9(v-if="miscColumn")
+          .councilor__personMeta(v-if="miscColumn")
             h2.f3 {{miscColumn.title}}
-            p.ls2 {{miscColumn.content}}
+            p.ls2(v-for="(line, index) in miscColumn.content" :key="index") {{line}}
         .councilor__sayit
           interpellation-landing(
             :councilor-map="counsMap"
@@ -141,7 +141,7 @@ export default {
       if (title && content) {
         return {
           title,
-          content
+          content: content.split('\n')
         }
       }
       return undefined
@@ -191,6 +191,9 @@ export default {
     line-height: normal;
     h2 {
       margin: 0 0 0.5rem;
+    }
+    p + p {
+      margin-top: 0.25rem;
     }
   }
   @include not-small-screen {
