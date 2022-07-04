@@ -1,9 +1,8 @@
 <template lang="pug">
-  .sip(ref="container")
-    .sip__viewer.pdfViewer
+  .sip.pdfViewer(ref="page")
 </template>
 <script>
-const DEFAULT_SCALE = 1
+const DEFAULT_SCALE = 0.95
 
 export default {
   props: {
@@ -18,6 +17,10 @@ export default {
     highlight: {
       type: String,
       default: ''
+    },
+    noScroll: {
+      type: Boolean,
+      default: true
     }
   },
   mounted () {
@@ -30,7 +33,8 @@ export default {
       const eventBus = new pdfjsViewer.EventBus()
 
       const viewerConfig = {
-        container: this.$refs.container,
+        container: this.$refs.page.parentElement,
+        viewer: this.$refs.page,
         eventBus
       }
 
@@ -49,9 +53,7 @@ export default {
       viewerConfig.linkService.setViewer(pdfSinglePageViewer)
 
       eventBus.on('pagesinit', () => {
-        // We can use pdfSinglePageViewer now, e.g. let's change default scale.
-        // pdfSinglePageViewer.currentScaleValue = 'auto'
-        pdfSinglePageViewer.currentScaleValue = DEFAULT_SCALE
+        pdfSinglePageViewer._setScale(DEFAULT_SCALE, this.noScroll)
 
         if (this.highlight) {
           // TODO: handle search not found
@@ -63,13 +65,14 @@ export default {
             highlightAll: true
           })
         } else {
-          pdfSinglePageViewer.currentPageNumber = this.page
+          pdfSinglePageViewer._setCurrentPageNumber(this.page, !this.noScroll)
         }
+        this.$emit('loaded')
       })
 
       eventBus.on('updatetextlayermatches', () => {
         if (pdfSinglePageViewer.currentPageNumber !== this.page) {
-          pdfSinglePageViewer.currentPageNumber = this.page
+          pdfSinglePageViewer._setCurrentPageNumber(this.page, !this.noScroll)
         }
       })
 
@@ -81,14 +84,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .sip {
-  position: absolute;
-  width: 100vw;
-  max-width: 62rem;
-  transform: translateX(-50%);
-  left: 50%;
-  top: 2rem;
-  padding-bottom: 2rem;
-
   ::v-deep {
     .pdfViewer .page {
       box-sizing: content-box;

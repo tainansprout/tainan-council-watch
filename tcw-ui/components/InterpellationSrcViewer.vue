@@ -1,16 +1,55 @@
 <template lang="pug">
-  .intViewer.items-center(:class="{flex: isOpened, dn: !isOpened}" @click="hide")
-    single-interpellation-pdf(v-if="mainPage" v-bind="mainPage" @click.native.stop="handlePageClick")
+  .intViewer(:class="{db: isOpened, dn: !isOpened}" @click="hide")
+    .intViewer__container(v-if="mainPage && isOpened")
+      .intViewer__close.flex.justify-end
+        button.plainButton.f4.cursor(@click="hide")
+          i.fas.fa-times-circle
+      client-only
+        infinite-loading(v-if="mainPage" @infinite="loadMore(false, $event)" :distance="0" direction="top")
+          div(slot="no-more")
+          div(slot="no-results")
+      .h3
+      single-interpellation-pdf(
+        v-for="page in headPages"
+        :key="page.id"
+        v-bind="page.pdf"
+        @loaded="markLoadingDone(false)"
+        @click.native.stop="handlePageClick"
+      )
+      single-interpellation-pdf(
+        v-bind="mainPage"
+        :no-scroll="false"
+        @click.native.stop="handlePageClick"
+      )
+      single-interpellation-pdf(
+        v-for="page in tailPages"
+        :key="page.id"
+        v-bind="page.pdf"
+        @loaded="markLoadingDone(true)"
+        @click.native.stop="handlePageClick"
+      )
+      .h3
+      client-only
+        infinite-loading(v-if="mainPage" @infinite="loadMore(true, $event)" :distance="0")
+          div(slot="no-more")
+          div(slot="no-results")
+      .h3
 </template>
 <script>
+import InfiniteLoading from 'vue-infinite-loading'
+
 const PDFJS_BASE = '//cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
 const PDF_SRC_BASE = 'https://tainansprout.github.io/tainan-council-data/interpellation/round'
 const PAGE_PER_CHUNK = 10
+const RENDER_SLOWLY = 300
 
-const CHECK_PDF_LIB_SOMETIME = 500
+const CHECK_PDF_LIB_SOMETIME = 100
 const MIN_SEARCH_LEN = 12
 
 export default {
+  components: {
+    InfiniteLoading
+  },
   props: {
     startPage: {
       type: Number,
@@ -43,7 +82,13 @@ export default {
 
       pageChunk: {},
 
-      mainPage: null
+      mainPage: null,
+
+      headPages: [],
+      headLoadingState: null,
+
+      tailPages: [],
+      tailLoadingState: null
     }
   },
   head () {
@@ -163,6 +208,38 @@ export default {
       // 11 -> return 002
       const chunkIndex = Math.ceil(pageIndex / PAGE_PER_CHUNK)
       return `${chunkIndex}`.padStart(3, '0')
+    },
+    markLoadingDone (isTail) {
+      if (isTail && this.tailLoadingState) {
+        // TODO: handle end of pdf properly
+        this.tailLoadingState.loaded()
+        this.tailLoadingState = null
+      } else if (!isTail && this.headLoadingState) {
+        this.headLoadingState.loaded()
+        this.headLoadingState = null
+      }
+    },
+    async loadMore (isTail, $state) {
+      let nextPage = this.startPage
+      if (isTail) {
+        nextPage += this.tailPages.length + 1
+      } else {
+        nextPage = nextPage - this.headPages.length - 1
+      }
+      const pdf = await this.preparePdf(nextPage)
+      const page = {
+        id: nextPage,
+        pdf
+      }
+      setTimeout(() => {
+        if (isTail) {
+          this.tailPages.push(page)
+          this.tailLoadingState = $state
+        } else {
+          this.headPages.unshift(page)
+          this.headLoadingState = $state
+        }
+      }, RENDER_SLOWLY)
     }
   }
 }
@@ -175,11 +252,15 @@ export default {
   top: 0;
   bottom: 0;
   z-index: 1000;
-  padding: 2rem 0.5rem;
+  padding: 2rem 0;
   overflow: auto;
   background: #000a;
 
-  &__pageWrapper {
+  @include large-screen {
+    padding: 2rem;
+  }
+
+  &__container {
     position: absolute;
     width: 100vw;
     max-width: 62rem;
@@ -187,12 +268,21 @@ export default {
     left: 50%;
     top: 2rem;
     padding-bottom: 2rem;
+  }
 
-    ::v-deep {
-      .pdfViewer .page {
-        box-sizing: content-box;
-      }
+  &__close {
+    position: sticky;
+    top: 0rem;
+    z-index: 1;
+    padding: 0 1rem;
+    button {
+      color: #999;
+      padding: 1rem;
     }
+  }
+
+  .sip + .sip {
+    margin-top: 2rem;
   }
 }
 </style>
