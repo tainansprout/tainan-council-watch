@@ -36,8 +36,10 @@ import { get } from 'lodash'
 import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY } from '~/libs/defs'
 import { scrollTo, stringifyTownList } from '~/libs/utils'
 import { friendlyHeader } from '~/libs/crawlerFriendly'
+import { dropdownMenuMiixin } from '~/libs/mixins'
 
 export default {
+  mixins: [dropdownMenuMiixin],
   async asyncData ({ $content, params, redirect }) {
     const round = params.round || DEFAULT_ROUND
     const districtMap = await $content('council', round, 'district-map').fetch()

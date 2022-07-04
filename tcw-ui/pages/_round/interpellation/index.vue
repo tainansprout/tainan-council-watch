@@ -44,6 +44,7 @@ import algoliasearch from 'algoliasearch'
 import { debounce } from 'lodash'
 import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY as DEFAULT_CATEGORY } from '~/libs/defs'
 import { friendlyHeader } from '~/libs/crawlerFriendly'
+import { dropdownMenuMiixin } from '~/libs/mixins'
 
 const N_PER_CAT = 4
 const N_PER_ALGOLIA_REQUEST = 30
@@ -51,6 +52,7 @@ const SEARCH_SLOWLY = 300
 const AGGREGATE_URL_UPDATE_SLOWLY = 50
 
 export default {
+  mixins: [dropdownMenuMiixin],
   async asyncData ({ $content, params }) {
     const round = params.round || DEFAULT_ROUND
     const districtMap = await $content('council', round, 'district-map').fetch()
