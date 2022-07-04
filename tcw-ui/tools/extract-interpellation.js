@@ -93,13 +93,18 @@ function getCouncilorId (districtId, councilorName, sheetMeta) {
   if (councilor) {
     return councilor.id
   } else {
-    let category = `定${sheetMeta.round}`
-    if (sheetMeta.postfix) {
-      category += `-${sheetMeta.postfix}`
-    }
+    const category = getErrorCategory(sheetMeta)
     pushMapError(`${category} | 出現不存在的議員：${councilorName}`)
     return ''
   }
+}
+
+function getErrorCategory (sheetMeta) {
+  let category = `定${sheetMeta.round}`
+  if (sheetMeta.postfix) {
+    category += `-${sheetMeta.postfix}`
+  }
+  return category
 }
 
 function parseOneLog (sheetMeta) {
@@ -112,8 +117,13 @@ function parseOneLog (sheetMeta) {
       .on('data', (data) => {
         const districtId = getDistrictId(data.選區)
         const councilor = data.議員
-        const src = data.議事錄頁碼開頭.replace(/[p.]/g, '').split('、').map(Number.parseInt)
+        const src = data.議事錄頁碼開頭.replace(/[Ｐp. ]/ig, '').split('、').map(Number.parseInt)
         const date = dayjs(data.質詢日期).format('YYYY-MM-DD')
+
+        if (!src.length || !src[0]) {
+          const category = getErrorCategory(sheetMeta)
+          pushMapError(`${category} | 無法認得的頁碼開頭： ${data.質詢內容}`)
+        }
 
         if (!date.startsWith('Invalid')) {
           lastValidDate = date
