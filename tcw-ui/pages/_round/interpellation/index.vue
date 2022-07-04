@@ -3,8 +3,8 @@
     .int
       .int__searchBox.center
         input.w-100.int__query.br-pill.ls3(v-model.trim="query" placeholder="搜尋質詢議題" type="text")
-        .int__algolia.mt2.tr
-          a.f6.inline-flex.items-center.underline(href="https://www.algolia.com" target="_blank")
+        .int__algolia.mt1.tr
+          a.f7.inline-flex.items-center.underline(href="https://www.algolia.com" target="_blank")
             | 搜尋服務使用
             img.ml1(src="~/assets/algolia.svg")
       .int__districtListWrapper.bg-white.db.dn-ns
@@ -365,7 +365,7 @@ export default {
   &__districtListWrapper {
     margin: 1.75rem auto 2.25rem;
     position: sticky;
-    top: 5.25rem;
+    top: 4.875rem;
     width: calc(100% + 1rem);
     padding: 0.5rem 1rem 0.5rem 0;
     z-index: 1000;
@@ -431,7 +431,7 @@ export default {
       }
     }
     img {
-      width: 4rem;
+      width: 3.5rem;
     }
   }
 

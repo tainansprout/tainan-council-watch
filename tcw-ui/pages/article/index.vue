@@ -62,7 +62,7 @@ export default {
   computed: {
     visibleArticles () {
       if (this.activeCategory) {
-        return this.articles.filter(article => article.category === this.activeCategory.name)
+        return this.articles.filter(article => article.category === this.activeCategory.slug)
       }
       return this.articles
     },
@@ -134,6 +134,7 @@ export default {
     cursor: pointer;
     &--active {
       color: $blue;
+      font-weight: 400;
     }
   }
 

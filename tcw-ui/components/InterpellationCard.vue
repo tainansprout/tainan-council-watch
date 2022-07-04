@@ -1,21 +1,29 @@
 <template lang="pug">
-  .intCard.pointer(@click="gotoPdf")
-    .intCard__meta.flex-ns.flex-row-reverse.justify-between.ls3
-      .f6.gray {{sayit.date}}
-      .mt3.mt0-ns
-        .f6.gray.mb1 質詢議員： {{councilor.name}}
-        .f6.gray 選舉區域： {{district}}
-    h2.f4.f3-ns.fw5.ls4 {{sayit.summary}}
-    p.ls2 {{sayit.say}}...
-    p.ls2.f6.gray(v-if="sayit.editorNote") 新芽補充： {{sayit.editorNote}}
-    button.intCard__src.plainButton.flex.justify-between.w-100(@click.stop="gotoPdf")
-      .flex.items-center.f6.ls1
-        span 來源出處：
-        .intCard__round {{roundLabel}}
-      .flex.items-center.ls2.dn
-        .intCard__more.underline.dn.db-ns 閱讀更多
-        tcw-icon.intCard__moreIcon.dn.db-ns.ml2(icon="chevron-right-black")
-        tcw-icon.intCard__moreIcon.db.dn-ns.ml2(icon="chevron-right-blue")
+  div
+    .intCard.pointer(@click="gotoPdf")
+      .intCard__meta.flex-ns.flex-row-reverse.justify-between.ls3
+        .f6.gray {{sayit.date}}
+        .mt3.mt0-ns
+          .f6.gray.mb1 質詢議員： {{councilor.name}}
+          .f6.gray 選舉區域： {{district}}
+      h2.f4.f3-ns.fw5.ls4 {{sayit.summary}}
+      p.ls2 {{sayit.say}}...
+      p.ls2.f6.gray(v-if="sayit.editorNote") 新芽補充： {{sayit.editorNote}}
+      button.intCard__src.plainButton.flex.justify-between.w-100(@click.stop="gotoPdf")
+        .flex.items-center.f6.ls1
+          span 來源出處：
+          .intCard__round {{roundLabel}}
+        .flex.items-center.ls2.dn
+          .intCard__more.underline.dn.db-ns 閱讀更多
+          tcw-icon.intCard__moreIcon.dn.db-ns.ml2(icon="chevron-right-black")
+          tcw-icon.intCard__moreIcon.db.dn-ns.ml2(icon="chevron-right-blue")
+    interpellation-src-viewer(
+      ref="srcViewer"
+      :start-page="sayit.src[0]"
+      :councilor-round="sayit.councilorRound"
+      :meeting-round="sayit.round"
+      :highlight="sayit.say"
+    )
 </template>
 <script>
 import { DEFAULT_ROUND } from '~/libs/defs'
@@ -46,7 +54,7 @@ export default {
   },
   methods: {
     gotoPdf () {
-      alert('待做')
+      this.$refs.srcViewer.show()
     }
   }
 }

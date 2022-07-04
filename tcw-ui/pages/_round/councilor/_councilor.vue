@@ -14,14 +14,15 @@
                 img(:src="councilor.bgUrl" :alt="councilor.name")
             div
               .f5.f4-ns.fw5.ls3 {{councilor.name}}
-              .f5.pt2-ns.mt3
+              // .councilor__jobPeriod.f5.mt2(v-if="jobPeriod") {{jobPeriod}}
+              .f5.mt3
                 party-label(:party="councilor.party")
           .councilor__personMeta
             h2.f3 公職經歷
             p.ls2(v-for="line in jobHistory" :key="line") {{line}}
-          .councilor__personMeta.bl-ns.b--gray-9(v-if="miscColumn")
+          .councilor__personMeta(v-if="miscColumn")
             h2.f3 {{miscColumn.title}}
-            p.ls2 {{miscColumn.content}}
+            p.ls2(v-for="(line, index) in miscColumn.content" :key="index") {{line}}
         .councilor__sayit
           interpellation-landing(
             :councilor-map="counsMap"
@@ -141,10 +142,17 @@ export default {
       if (title && content) {
         return {
           title,
-          content
+          content: content.split('\n')
         }
       }
       return undefined
+    },
+    jobPeriod () {
+      const period = this.councilor['job-period']
+      if (period === '完整') {
+        return ''
+      }
+      return period
     }
   },
   mounted () {
@@ -192,6 +200,13 @@ export default {
     h2 {
       margin: 0 0 0.5rem;
     }
+    p + p {
+      margin-top: 0.25rem;
+    }
+  }
+
+  &__jobPeriod {
+    color: $gray-9;
   }
   @include not-small-screen {
     padding: 3.5rem 0;
