@@ -33,8 +33,9 @@
       template(v-else)
         interpellation-card(
           v-for="(sayit, index) in visibleSayList"
-          :key="sayit.objectID || index"
-          :councilor-map="councilorMap" :sayit="sayit"
+          :key="`${sayit.objectID}-${index}`"
+          :councilor-map="councilorMap"
+          :sayit="sayit"
         )
         client-only
           infinite-loading(@infinite="loadMoreSayList" :identifier="infiniteId")

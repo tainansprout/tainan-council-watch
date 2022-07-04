@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    .intCard.pointer(@click="gotoPdf")
+    .intCard(@click="gotoPdf" :class="{pointer: canViewPdf}")
       .intCard__meta.flex-ns.flex-row-reverse.justify-between.ls3
         .f6.gray {{sayit.date}}
         .mt3.mt0-ns
@@ -13,11 +13,12 @@
         .flex.items-center.f6.ls1
           span 來源出處：
           .intCard__round {{roundLabel}}
-        .flex.items-center.ls2.dn
+        .flex.items-center.ls2.dn(v-if="canViewPdf")
           .intCard__more.underline.dn.db-ns 閱讀更多
           tcw-icon.intCard__moreIcon.dn.db-ns.ml2(icon="chevron-right-black")
           tcw-icon.intCard__moreIcon.db.dn-ns.ml2(icon="chevron-right-blue")
     interpellation-src-viewer(
+      v-if="canViewPdf"
       ref="srcViewer"
       :start-page="sayit.src[0]"
       :councilor-round="sayit.councilorRound"
@@ -50,11 +51,16 @@ export default {
       const councilorRound = number2zh(this.sayit.councilorRound || DEFAULT_ROUND)
       const meetingRound = number2zh(this.sayit.round)
       return `${councilorRound}屆第${meetingRound}次${this.sayit.type}`
+    },
+    canViewPdf () {
+      return !!this.sayit.src[0]
     }
   },
   methods: {
     gotoPdf () {
-      this.$refs.srcViewer.show()
+      if (this.canViewPdf) {
+        this.$refs.srcViewer.show()
+      }
     }
   }
 }

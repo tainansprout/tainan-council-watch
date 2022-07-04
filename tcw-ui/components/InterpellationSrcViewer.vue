@@ -57,7 +57,7 @@ export default {
     },
     councilorRound: {
       type: String,
-      default: '3th'
+      default: '3rd'
     },
     meetingRound: {
       type: Number,
