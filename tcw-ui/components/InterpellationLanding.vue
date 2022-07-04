@@ -300,6 +300,7 @@ export default {
     &--active,
     &:hover {
       color: #49b0d5;
+      font-weight: 400;
     }
   }
   @include large-screen {

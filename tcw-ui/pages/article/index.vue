@@ -134,6 +134,7 @@ export default {
     cursor: pointer;
     &--active {
       color: $blue;
+      font-weight: 400;
     }
   }
 
