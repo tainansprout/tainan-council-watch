@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="64px" viewBox="0 0 72 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo 2</title>
+    <g id="logo-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Stacked-Group">
+            <g id="logo2">
+                <polygon id="Path" fill="#8DEE72" fill-rule="nonzero" points="26 8 22.2666667 11.7333333 3.73333333 11.7333333 3.73333333 40.2666667 0 44 0 8"></polygon>
+                <polygon id="Path" fill="#8DEE72" fill-rule="nonzero" transform="translate(59.000000, 38.000000) scale(-1, -1) translate(-59.000000, -38.000000) " points="72 20 68.2666667 23.7333333 49.7333333 23.7333333 49.7333333 52.2666667 46 56 46 20"></polygon>
+                <polygon id="Path-2" fill="#AFAFB0" fill-rule="nonzero" points="62.5 32 62.5 33 9.5 33 9.5 32"></polygon>
+                <polygon id="Path-3" fill="#979797" fill-rule="nonzero" points="36.5 0 36.5 64 35.5 64 35.5 0"></polygon>
+                <polygon id="Rectangle-Copy-6" stroke="#8DEE72" stroke-width="2" fill-opacity="0" fill="#8DEE72" transform="translate(36.000000, 32.500000) rotate(45.000000) translate(-36.000000, -32.500000) " points="24.6862915 21.1862915 47.3137085 21.1862915 47.3137085 43.8137085 24.6862915 43.8137085"></polygon>
+                <polygon id="Rectangle-Copy-6" fill="#8DEE72" transform="translate(36.000000, 32.500000) rotate(45.000000) translate(-36.000000, -32.500000) " points="30.3431458 26.8431458 41.6568542 26.8431458 41.6568542 38.1568542 30.3431458 38.1568542"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
