@@ -5,7 +5,7 @@ backend:
   branch: main
 councilor: &councilor
   - { label: 公職經歷, name: job-history, widget: text, required: false }
-  - { label: 任期狀態, name: job-period, widget: select, options: [完整, 提早中止, 遞補任職, 補選任職], default: 完整, required: false }
+  - { label: 任期狀態, name: job-period, widget: select, options: [完整, 已辭職, 已停職, 已解職, 遞補任職, 補選任職], default: 完整, required: false }
   - { label: 補充欄 | 標題, name: misc-title, widget: string, hint: 若空白則整欄隱藏, required: false }
   - { label: 補充欄 | 內文, name: misc-content, widget: text, hint: 一行個段落, required: false }
 
