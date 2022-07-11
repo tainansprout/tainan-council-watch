@@ -14,7 +14,7 @@
                 img(:src="councilor.bgUrl" :alt="councilor.name")
             div
               .f5.f4-ns.fw5.ls3 {{councilor.name}}
-              // .councilor__jobPeriod.f5.mt2(v-if="jobPeriod") {{jobPeriod}}
+              .councilor__jobPeriod.f5.mt2(v-if="jobPeriod") {{jobPeriod}}
               .f5.mt3
                 party-label(:party="councilor.party")
           .councilor__personMeta
