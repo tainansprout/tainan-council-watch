@@ -102,7 +102,33 @@ export default {
   },
 
   sentry: {
-    dsn: isProd ? process.env.SENTRY_DSN : ''
+    dsn: isProd ? process.env.SENTRY_DSN : '',
+    disableServerSide: true,
+    clientIntegrations: {
+      CaptureConsole: { levels: ['error', 'warn'] }
+    },
+
+    // always inject sentry methods in all env
+    logMockCalls: true,
+    disabled: !isProd,
+    publishRelease: {
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      // Attach commits to the release (requires that the build triggered within a git repository).
+      setCommits: {
+        auto: true,
+        ignoreMissing: true,
+        ignoreEmpty: true
+      }
+    },
+    sourceMapStyle: 'hidden-source-map',
+
+    config: {
+      // Add native Sentry config here
+      // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/
+      release: process.env.GITHUB_SHA || 'dev'
+    }
   },
 
   plausible: {

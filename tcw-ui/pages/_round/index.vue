@@ -29,7 +29,13 @@ import { friendlyHeader } from '~/libs/crawlerFriendly'
 export default {
   async asyncData ({ $content, params, redirect }) {
     const round = params.round || DEFAULT_ROUND
-    const consMap = await $content('council', round, 'district-map').fetch()
+    let consMap = {}
+
+    try {
+      consMap = await $content('council', round, 'district-map').fetch()
+    } catch {
+      redirect(`/${DEFAULT_ROUND}`)
+    }
 
     let articleCategories = await $content('setting')
       .where({ type: 'articleCategory' })

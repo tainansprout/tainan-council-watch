@@ -4,7 +4,7 @@ const algoliasearch = require('algoliasearch')
 const dotenv = require('dotenv')
 const md5 = require('md5')
 const dayjs = require('dayjs')
-const { enableSentry } = require('./utils')
+const { enableSentry, notifyJandi } = require('./utils')
 
 dotenv.config()
 
@@ -110,7 +110,9 @@ async function main () {
   await Promise.all(promises)
   await agClient.moveIndex(tempIndexName, indexName)
   if (Object.keys(errorStats).length) {
-    console.error('Invalid round: \n', JSON.stringify(errorStats, null, '  '))
+    const msg = `Algolia 搜尋同步錯誤: \n ${JSON.stringify(errorStats, null, '  ')}`
+    console.error(msg)
+    notifyJandi(msg)
   }
 
   setTimeout(async () => {

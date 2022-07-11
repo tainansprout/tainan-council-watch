@@ -1,10 +1,25 @@
 require('dotenv').config()
 
 const Sentry = require('@sentry/node')
+const axios = require('axios')
 // Importing @sentry/tracing patches the global hub for tracing to work.
 require('@sentry/tracing')
 
 const { CaptureConsole: CaptureConsoleIntegration } = require('@sentry/integrations')
+
+function notifyJandi (msg) {
+  if (!process.env.JANDI_HOOK) {
+    return
+  }
+  const headers = {
+    Accept: 'application/vnd.tosslab.jandi-v2+json',
+    'Content-Type': 'application/json'
+  }
+  const params = {
+    body: `**錯誤回報 | 議會觀測站機器人** \n\n${msg}`
+  }
+  return axios.post(process.env.JANDI_HOOK, params, { headers })
+}
 
 function enableSentry () {
   if (process.env.SENTRY_DSN) {
@@ -46,5 +61,6 @@ function districtName2Id (districtName) {
 
 module.exports = {
   districtName2Id,
-  enableSentry
+  enableSentry,
+  notifyJandi
 }

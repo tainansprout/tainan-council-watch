@@ -14,7 +14,7 @@
                 img(:src="councilor.bgUrl" :alt="councilor.name")
             div
               .f5.f4-ns.fw5.ls3 {{councilor.name}}
-              // .councilor__jobPeriod.f5.mt2(v-if="jobPeriod") {{jobPeriod}}
+              .councilor__jobPeriod.f5.mt2(v-if="jobPeriod") {{jobPeriod}}
               .f5.mt3
                 party-label(:party="councilor.party")
           .councilor__personMeta
@@ -42,8 +42,14 @@ export default {
   mixins: [dropdownMenuMiixin],
   async asyncData ({ $content, params, redirect }) {
     const round = params.round || DEFAULT_ROUND
-    const districtMap = await $content('council', round, 'district-map').fetch()
-    const counsMap = await $content('council', round, 'councilor-map').fetch()
+    let districtMap = {}
+    let counsMap = {}
+    try {
+      districtMap = await $content('council', round, 'district-map').fetch()
+      counsMap = await $content('council', round, 'councilor-map').fetch()
+    } catch {
+      redirect(`/${DEFAULT_ROUND}/councilor`)
+    }
     const councilorId = params.councilor
     let councilor = counsMap[councilorId]
     let sayit

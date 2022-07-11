@@ -4,7 +4,7 @@ const got = require('got')
 const dayjs = require('dayjs')
 const CsvReadableStream = require('csv-reader')
 const AutoDetectDecoderStream = require('autodetect-decoder-stream')
-const { districtName2Id, enableSentry } = require('./utils')
+const { districtName2Id, enableSentry, notifyJandi } = require('./utils')
 
 enableSentry()
 
@@ -94,7 +94,7 @@ function getCouncilorId (districtId, councilorName, sheetMeta) {
     return councilor.id
   } else {
     const category = getErrorCategory(sheetMeta)
-    pushMapError(`${category} | 出現不存在的議員：${councilorName}`)
+    pushMapError(`${category} | 出現不存在的議員："${councilorName}"`)
     return ''
   }
 }
@@ -122,7 +122,7 @@ function parseOneLog (sheetMeta) {
 
         if (!src.length || !src[0]) {
           const category = getErrorCategory(sheetMeta)
-          pushMapError(`${category} | 無法認得的頁碼開頭： ${data.質詢內容}`)
+          pushMapError(`${category} | 無法認得的頁碼開頭："${data.質詢內容}"`)
         }
 
         if (!date.startsWith('Invalid')) {
@@ -221,12 +221,13 @@ async function parseLogs () {
   const errors = Object.keys(mappingErrors)
   if (errors.length) {
     // eslint-disable-next-line no-console
-    console.log(`==== Mapping error summary x ${errors.length} ====`)
+    let msg = [`==== 發現 ${errors.length} 類錯誤 | 議事錄試算表 ====`]
     errors.forEach((error) => {
-      console.warn(`${error}，共 ${mappingErrors[error]} 次`)
-      // eslint-disable-next-line no-console
-      console.log('------------------')
+      msg.push(`${error}，共 ${mappingErrors[error]} 次`)
     })
+    msg = msg.join('\n')
+    console.error(msg)
+    notifyJandi(msg)
   }
 }
 

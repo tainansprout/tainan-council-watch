@@ -15,6 +15,9 @@ env:
   ALGOLIA_SEARCH_API_KEY: ${{ secrets.ALGOLIA_SEARCH_API_KEY }}
   ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
   SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+  SENTRY_ORG: ${{secrets.SENTRY_ORG}}
+  SENTRY_PROJECT: ${{secrets.SENTRY_PROJECT}}
 
 jobs:
   cd:

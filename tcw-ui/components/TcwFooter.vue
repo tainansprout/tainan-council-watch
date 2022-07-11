@@ -4,12 +4,11 @@
     .tcwFooter__main
       .flex.flex-column.items-start
         .tcwFooter__subheader.fw4 關於我們
-        a.tcwFooter__item(
-          v-for="item in about"
-          :key="item.label"
-          :href="item.url"
-          target="_blank"
-        ) {{item.label}}
+        template(v-for="item in about")
+          a.tcwFooter__item(v-if="isExt(item)" :href="item.url" target="_blank")
+            | {{item.label}}
+          nuxt-link.tcwFooter__item(v-else :to="item.url")
+            | {{item.label}}
       .flex.flex-column.items-start
         .tcwFooter__subheader.fw4 聯絡我們
         component.tcwFooter__item.tcwFooter__item--en(
@@ -33,6 +32,11 @@ export default {
     },
     contact () {
       return misc['footer-contact']
+    }
+  },
+  methods: {
+    isExt (about) {
+      return about.url.match(/^https?:\/\//)
     }
   }
 }
