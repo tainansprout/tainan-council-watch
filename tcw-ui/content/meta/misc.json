@@ -2,6 +2,10 @@
   "article-desp": "「議員問政速寫」側在個別議員質詢的個別新聞或內容接要。\n\n「事件議題探討」為議會運作之相關事件，包括府會互動等層面。\n\n「新芽議會評論」則為台南新芽協會以公民團體角度，對議會運作提出看法及建言。",
   "footer-about": [
     {
+      "label": "關於本站",
+      "url": "/about"
+    },
+    {
       "label": "臉書專頁",
       "url": "https://www.facebook.com/tainansprout/"
     },
