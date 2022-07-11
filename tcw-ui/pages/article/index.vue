@@ -10,11 +10,12 @@
           :class="{'categoryList__item--active': !activeCategory}"
         )
           | 所有分析
-        button.categoryList__item.nowrap(
+        nuxt-link.categoryList__item.nowrap(
           v-for="category in categories"
           :key="category.name"
+          role="button"
           :class="{'categoryList__item--active': isCategoryActive(category)}"
-          @click="switchCategory(category)"
+          :to="categoryLink(category)"
         )
           | {{category.name}}
       .articleList__list.flex-auto
@@ -78,13 +79,13 @@ export default {
       }
       return category.name === this.activeCategory.name
     },
-    switchCategory (category) {
-      this.$router.push({
+    categoryLink (category) {
+      return {
         name: 'article-category-category',
         params: {
           category: category.slug
         }
-      })
+      }
     },
     showAllArticle () {
       this.$router.push({ name: 'article' })
