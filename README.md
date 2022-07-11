@@ -21,6 +21,10 @@
 選填設定：
 
 - SENTRY_DSN: [Sentry](sentry.io/) 的 DSN ，會用在前後端的所有錯誤回報中
+- source map 相關：
+  - SENTRY_AUTH_TOKEN
+  - SENTRY_ORG
+  - SENTRY_PROJECT
 
 ### 開發步驟
 
