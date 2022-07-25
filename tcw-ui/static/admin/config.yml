@@ -213,7 +213,7 @@ collections:
         editor:
           preview: false
         fields:
-          - label: 局處簡短說明
+          - label: 局處設定
             name: departmentBrief
             widget: list
             fields:
@@ -223,10 +223,12 @@ collections:
               - label: 簡短說明
                 name: brief
                 widget: string
+                optional: true
                 hint: 一兩句話的說明，簡單介紹局處性質，讓讀者了解
               - label: 局處全名、別名
                 name: synonym
                 hint: 列在這裡的名字，都會被替換為簡稱
+                optional: true
                 summary: '{{name}}'
                 widget: list
                 field:

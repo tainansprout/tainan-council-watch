@@ -12,8 +12,10 @@ on:
 
 env:
   ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+  ALGOLIA_DATA_API_KEY: ${{ secrets.ALGOLIA_DATA_API_KEY }}
   ALGOLIA_SEARCH_API_KEY: ${{ secrets.ALGOLIA_SEARCH_API_KEY }}
   ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+  JANDI_HOOK: ${{ secrets.JANDI_HOOK }}
   SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
   SENTRY_ORG: ${{secrets.SENTRY_ORG}}
@@ -54,6 +56,9 @@ jobs:
  
       - name: Build UI
         run: npm run generate:gh
+      
+      - name: Sync search index
+        run: node ./tools/sync-search-index.js
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.8.0

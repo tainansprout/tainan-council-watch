@@ -4,6 +4,8 @@ const algoliasearch = require('algoliasearch')
 const dotenv = require('dotenv')
 const md5 = require('md5')
 const dayjs = require('dayjs')
+const departmentMeta = require('../content/meta/departmentBrief.json')
+const synonym = require('../content/meta/synonym.json')
 const { enableSentry, notifyJandi } = require('./utils')
 
 dotenv.config()
@@ -36,16 +38,36 @@ function appendError (say, reason) {
   }
 }
 
+function genSynonymList () {
+  const depList = departmentMeta.departmentBrief
+    .filter(dep => dep.synonym && dep.synonym.length)
+    .map((dep) => {
+      return {
+        objectID: `department-${dep.abbr}`,
+        type: 'synonym',
+        synonyms: [dep.abbr, ...dep.synonym]
+      }
+    })
+
+  const generalList = synonym.synonym
+    .filter(syn => syn.tokens && syn.tokens.length > 1)
+    .map((syn) => {
+      return {
+        objectID: `general-${syn.name}`,
+        type: 'synonym',
+        synonyms: syn.tokens
+      }
+    })
+
+  return [...depList, ...generalList]
+}
+
 async function main () {
   const agClient = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_DATA_API_KEY)
   const indexName = process.env.ALGOLIA_INDEX_NAME
   const tempIndexName = `${indexName}-new`
   const agIndex = agClient.initIndex(tempIndexName)
-  await agIndex.saveSynonyms([{
-    objectID: 'tai-tai',
-    type: 'synonym',
-    synonyms: ['台', '臺']
-  }])
+  await agIndex.saveSynonyms(genSynonymList())
   await agIndex.setSettings({
     attributesForFaceting: [
       'relatedOrgs',
