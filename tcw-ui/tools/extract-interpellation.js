@@ -4,6 +4,7 @@ const got = require('got')
 const dayjs = require('dayjs')
 const CsvReadableStream = require('csv-reader')
 const AutoDetectDecoderStream = require('autodetect-decoder-stream')
+const departmentMeta = require('../content/meta/departmentBrief.json')
 const { districtName2Id, enableSentry, notifyJandi } = require('./utils')
 
 enableSentry()
@@ -21,6 +22,15 @@ const number2zh = ['零', '一', '二', '三', '四', '五', '六', '七', '八'
 
 const sayitMap = {}
 const mappingErrors = {}
+const orgSynonyms = {}
+
+departmentMeta.departmentBrief.forEach((dep) => {
+  if (dep.synonym && dep.synonym.length) {
+    dep.synonym.forEach((name) => {
+      orgSynonyms[name] = dep.abbr
+    })
+  }
+})
 
 function pushMapError (msg) {
   if (!mappingErrors[msg]) {
@@ -142,6 +152,7 @@ function parseOneLog (sheetMeta) {
           .replace(/\n/g, '、')
           .split('、')
           .map(org => org.trim())
+          .map(org => orgSynonyms[org] || org)
           .filter(org => org && org && org !== '無')
         sayitMap[key].push({
           relatedOrgs,
