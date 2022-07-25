@@ -224,6 +224,34 @@ collections:
                 name: brief
                 widget: string
                 hint: 一兩句話的說明，簡單介紹局處性質，讓讀者了解
+              - label: 局處全名、別名
+                name: synonym
+                hint: 列在這裡的名字，都會被替換為簡稱
+                summary: '{{name}}'
+                widget: list
+                field:
+                  label: 名稱
+                  name: name
+                  widget: string
+      - label: 同義詞
+        name: synonym
+        file: 'tcw-ui/content/meta/synonym.json'
+        format: 'json'
+        editor:
+          preview: false
+        fields:
+          - label: 同義詞
+            name: synonym
+            widget: list
+            symmary: '{{name}}-{{tokens}}'
+            fields:
+              - label: 名稱
+                name: name
+                widget: string
+              - label: 詞
+                name: tokens
+                widget: list
+                hint: 用半形逗號「,」分隔能夠互相替換的詞，例如「台,臺」
       - label: 文 | 關於觀測站
         name: about-page
         file: tcw-ui/content/meta/about.md
