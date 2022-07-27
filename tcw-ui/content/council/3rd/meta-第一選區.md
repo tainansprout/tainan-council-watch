@@ -23,7 +23,7 @@ councilor-63ECF425:
   job-history: |-
     台南市議會第1（遞補）、2、3屆議員。
     台南縣議會第15、16屆議員。
-  misc-title: 議會相關職務
+  misc-title: 政治關係｜黨職
   misc-content: |-
     台南市議會國民黨黨團書記長
     2018/12/14-2020/1/16
