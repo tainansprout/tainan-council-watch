@@ -126,6 +126,7 @@ export default {
     letter-spacing: 1.66px;
     padding: 0 0 1rem 0;
     height: 2.5rem;
+    line-height: 1;
     background: none;
     text-align: left;
     border: none;
