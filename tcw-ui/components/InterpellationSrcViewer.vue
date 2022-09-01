@@ -1,6 +1,7 @@
 <template lang="pug">
   .intViewer(:class="{db: isOpened, dn: !isOpened}" @click="hide")
-    .intViewer__container(v-if="mainPage && isOpened")
+    b-loading(:is-full-page="true" :active="!isMainReady")
+    .intViewer__container(v-if="isMainReady")
       .intViewer__close.flex.justify-end
         button.plainButton.f4.cursor(@click="hide")
           i.fas.fa-times-circle
@@ -97,6 +98,9 @@ export default {
     }
   },
   computed: {
+    isMainReady () {
+      return this.mainPage && this.isOpened
+    },
     isRenderReady () {
       return this.isPageMounted && this.isLibLoaded
     },
