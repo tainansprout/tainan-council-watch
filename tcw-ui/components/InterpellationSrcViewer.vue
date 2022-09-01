@@ -38,7 +38,7 @@
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 
-const PDFJS_BASE = '//cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
+const PDFJS_BASE = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
 const PDF_SRC_BASE = 'https://tainansprout.github.io/tainan-council-data/interpellation/round'
 const PAGE_PER_CHUNK = 10
 const RENDER_SLOWLY = 300
