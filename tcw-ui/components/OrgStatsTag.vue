@@ -20,7 +20,7 @@
 import BRIEF_LIST from '~/content/meta/departmentBrief.json'
 
 const BRIEF_MAP = BRIEF_LIST.departmentBrief.reduce((accu, org) => {
-  accu[org.abbr] = org.brief
+  accu[org.abbr] = (org.brief || '').trim()
   return accu
 }, {})
 
@@ -89,8 +89,11 @@ export default {
   }
 
   ::v-deep {
-    .tooltip-content {
+    .b-tooltip.is-multiline.is-medium .tooltip-content {
       text-align: left;
+      width: 10rem;
+      margin-left: -0.625rem;
+      bottom: 1rem;
     }
   }
 }

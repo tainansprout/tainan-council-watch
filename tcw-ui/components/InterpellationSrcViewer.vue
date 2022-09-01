@@ -1,6 +1,7 @@
 <template lang="pug">
   .intViewer(:class="{db: isOpened, dn: !isOpened}" @click="hide")
-    .intViewer__container(v-if="mainPage && isOpened")
+    b-loading(:is-full-page="true" :active="!isMainReady")
+    .intViewer__container(v-if="isMainReady")
       .intViewer__close.flex.justify-end
         button.plainButton.f4.cursor(@click="hide")
           i.fas.fa-times-circle
@@ -38,7 +39,7 @@
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 
-const PDFJS_BASE = '//cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
+const PDFJS_BASE = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
 const PDF_SRC_BASE = 'https://tainansprout.github.io/tainan-council-data/interpellation/round'
 const PAGE_PER_CHUNK = 10
 const RENDER_SLOWLY = 300
@@ -92,16 +93,14 @@ export default {
     }
   },
   head () {
-    const once = { skip: this.isLibLoaded, once: true }
     return {
-      link: [{ rel: 'stylesheet', href: `${PDFJS_BASE}/web/pdf_viewer.css` }],
-      script: [
-        { hid: 'pdf-js', ...once, src: `${PDFJS_BASE}/build/pdf.js` },
-        { hid: 'pdf-viewer-js', ...once, src: `${PDFJS_BASE}/web/pdf_viewer.js`, callback: this.initPdfLibSetting }
-      ]
+      link: [{ rel: 'stylesheet', href: `${PDFJS_BASE}/web/pdf_viewer.css` }]
     }
   },
   computed: {
+    isMainReady () {
+      return this.mainPage && this.isOpened
+    },
     isRenderReady () {
       return this.isPageMounted && this.isLibLoaded
     },
@@ -133,10 +132,6 @@ export default {
     clearTimeout(this.pdfLibTimer)
   },
   methods: {
-    initPdfLibSetting () {
-      this.isLibLoaded = true
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_BASE}/build/pdf.worker.js`
-    },
     handlePageClick (e) {
       // hide when not clicking pdf
       if (!e.target.closest('.textLayer')) {
@@ -167,6 +162,8 @@ export default {
         this.isLibLoaded = this.checkPdfLibReadiness()
         if (!this.isLibLoaded) {
           this.keepCheckingPdfLibRediness()
+        } else {
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_BASE}/build/pdf.worker.js`
         }
       }, CHECK_PDF_LIB_SOMETIME)
     },

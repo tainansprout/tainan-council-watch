@@ -65,7 +65,10 @@ export default {
             highlightAll: true
           })
         } else {
-          pdfSinglePageViewer._setCurrentPageNumber(this.page, !this.noScroll)
+          const scrollEle = pdfSinglePageViewer.container.parentElement
+          const top = scrollEle.scrollTop
+          pdfSinglePageViewer.currentPageNumber = this.page
+          pdfSinglePageViewer.container.parentElement.scrollTo({ top })
         }
         this.$emit('loaded')
       })

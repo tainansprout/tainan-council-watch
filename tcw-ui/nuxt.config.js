@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import { friendlyHeader } from './libs/crawlerFriendly'
 
 const isProd = process.env.NODE_ENV === 'production'
+const PDFJS_BASE = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
 
 const defaultHeader = friendlyHeader({
   title: '台南市議會觀測站',
@@ -50,7 +51,11 @@ export default {
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&display=swap' }
-      // { rel: 'stylesheet', href: '//cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305/web/pdf_viewer.css' }
+    ],
+    script: [
+      // #186, load in global scope to avoid pdf.js init error
+      { hid: 'pdf-js', src: `${PDFJS_BASE}/build/pdf.js` },
+      { hid: 'pdf-viewer-js', src: `${PDFJS_BASE}/web/pdf_viewer.js` }
     ]
   },
 
