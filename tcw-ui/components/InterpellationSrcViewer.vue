@@ -92,13 +92,8 @@ export default {
     }
   },
   head () {
-    const once = { skip: this.isLibLoaded, once: true }
     return {
-      link: [{ rel: 'stylesheet', href: `${PDFJS_BASE}/web/pdf_viewer.css` }],
-      script: [
-        { hid: 'pdf-js', ...once, src: `${PDFJS_BASE}/build/pdf.js` },
-        { hid: 'pdf-viewer-js', ...once, src: `${PDFJS_BASE}/web/pdf_viewer.js`, callback: this.initPdfLibSetting }
-      ]
+      link: [{ rel: 'stylesheet', href: `${PDFJS_BASE}/web/pdf_viewer.css` }]
     }
   },
   computed: {
@@ -133,10 +128,6 @@ export default {
     clearTimeout(this.pdfLibTimer)
   },
   methods: {
-    initPdfLibSetting () {
-      this.isLibLoaded = true
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_BASE}/build/pdf.worker.js`
-    },
     handlePageClick (e) {
       // hide when not clicking pdf
       if (!e.target.closest('.textLayer')) {
@@ -167,6 +158,8 @@ export default {
         this.isLibLoaded = this.checkPdfLibReadiness()
         if (!this.isLibLoaded) {
           this.keepCheckingPdfLibRediness()
+        } else {
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_BASE}/build/pdf.worker.js`
         }
       }, CHECK_PDF_LIB_SOMETIME)
     },
