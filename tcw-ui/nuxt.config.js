@@ -84,7 +84,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '~/modules/sitemapRouteGenerator'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -96,9 +97,8 @@ export default {
     '@nuxt/content',
     'vue-plausible',
     '@nuxtjs/sentry',
-    'vue-social-sharing/nuxt'
-    // remove it for now as it failed in github action
-    // '@nuxtjs/sitemap'
+    'vue-social-sharing/nuxt',
+    '@nuxtjs/sitemap'
   ],
 
   sitemap: {
