@@ -10,7 +10,7 @@ const { districtName2Id, enableSentry, notifyJandi } = require('./utils')
 enableSentry()
 
 const NTH = '3rd'
-const SHEET_URI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2_P-mrFZt2bSBuM_U2BuJR1FeRsKp0oxcFL7RcFheCUO1K86Liq9E3vu83FpkjHdrqjy-PWUBtFzc/pub?single=true&output=csv'
+const DEFAULT_SHEET_URI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2_P-mrFZt2bSBuM_U2BuJR1FeRsKp0oxcFL7RcFheCUO1K86Liq9E3vu83FpkjHdrqjy-PWUBtFzc/pub?single=true&output=csv'
 
 const DISTRICT_MAP = JSON.parse(
   fs.readFileSync(path.join(__dirname, `../content/council/${NTH}/district-map.json`))
@@ -119,7 +119,7 @@ function getErrorCategory (sheetMeta) {
 
 function parseOneLog (sheetMeta) {
   return new Promise((resolve, reject) => {
-    const endpoint = `${SHEET_URI}&gid=${sheetMeta.sheetId}`
+    const endpoint = sheetMeta.sheetUri || `${DEFAULT_SHEET_URI}&gid=${sheetMeta.sheetId}`
     let lastValidDate = null
     got.stream(endpoint)
       .pipe(new AutoDetectDecoderStream())
@@ -179,7 +179,8 @@ async function parseLogs () {
     { sheetId: '314210118', type: '定期會', round: 2, postfix: '業務' },
     { sheetId: '67860742', type: '定期會', round: 3 },
     { sheetId: '1585934193', type: '定期會', round: 4 },
-    { sheetId: '618060648', type: '定期會', round: 5 }
+    { sheetId: '618060648', type: '定期會', round: 5 },
+    { type: '定期會', round: 6, sheetUri: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQMMal5SnyXJxMVyauHK9f34r30SOJHyvOs7UnAiuBWh58nK6ocstA_lh_76RRUC7a9P9fmjHmpgtVK/pub?gid=0&single=true&output=csv' }
   ]
 
   const statsPerDistricts = Object.values(DISTRICT_MAP).reduce((ret, district) => {
