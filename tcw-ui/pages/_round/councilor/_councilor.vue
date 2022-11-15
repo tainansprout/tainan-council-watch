@@ -60,6 +60,10 @@ export default {
       // noop
     }
 
+    sayit.sayit.sort((a, b) => {
+      return b.date.localeCompare(a.date)
+    })
+
     try {
       const cmsContent = await $content('council', round, `meta-${councilor.districtTitle}`).fetch()
       councilor = {
