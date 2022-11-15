@@ -52,17 +52,19 @@ export default {
     }
     const councilorId = params.councilor
     let councilor = counsMap[councilorId]
-    let sayit
+    let sayit = { sayit: [] }
 
-    try {
-      sayit = await $content('council', round, 'sayit', councilorId).fetch()
-    } catch {
-      // noop
+    if (councilorId) {
+      try {
+        sayit = await $content('council', round, 'sayit', councilorId).fetch()
+      } catch {
+        // noop
+      }
+
+      sayit.sayit.sort((a, b) => {
+        return b.date.localeCompare(a.date)
+      })
     }
-
-    sayit.sayit.sort((a, b) => {
-      return b.date.localeCompare(a.date)
-    })
 
     try {
       const cmsContent = await $content('council', round, `meta-${councilor.districtTitle}`).fetch()
