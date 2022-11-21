@@ -21,6 +21,16 @@
  */
 
 
+/*! algoliasearch.umd.js | 4.13.1 | © Algolia, inc. | https://github.com/algolia/algoliasearch-client-javascript */
+
+
+/*!
+ * vue-infinite-loading v2.4.5
+ * (c) 2016-2020 PeachScript
+ * MIT License
+ */
+
+
 /*!
  * vue-client-only v0.0.0-semantic-release
  * (c) 2021-present egoist <0x142857@gmail.com>
@@ -47,13 +57,3 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-
-
-/*! algoliasearch.umd.js | 4.13.1 | © Algolia, inc. | https://github.com/algolia/algoliasearch-client-javascript */
-
-
-/*!
- * vue-infinite-loading v2.4.5
- * (c) 2016-2020 PeachScript
- * MIT License
- */
