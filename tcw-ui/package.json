@@ -50,7 +50,7 @@
     "csv-reader": "^1.0.8",
     "eslint": "^8.17.0",
     "eslint-plugin-nuxt": "^3.2.0",
-    "eslint-plugin-vue": "^8.7.1",
+    "eslint-plugin-vue": "^9.8.0",
     "got": "^11.8.2",
     "md5": "^2.3.0",
     "pug": "^3.0.2",
