@@ -69,6 +69,16 @@ async function main () {
   const agIndex = agClient.initIndex(tempIndexName)
   await agIndex.saveSynonyms(genSynonymList())
   await agIndex.setSettings({
+    ranking: [
+      'desc(timestamp)',
+      'typo',
+      'words',
+      'filters',
+      'proximity',
+      'attribute',
+      'exact',
+      'custom'
+    ],
     attributesForFaceting: [
       'relatedOrgs',
       'councilRound',
