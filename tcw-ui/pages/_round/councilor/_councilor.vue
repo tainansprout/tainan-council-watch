@@ -4,7 +4,7 @@
       councilor-landing(v-if="districtMap" :map="districtMap" :round="round" :minified="!!councilor")
       template(v-if="councilor")
         .councilor__head.bt.b--gray-d(ref="head")
-          h1.fw5.flex.flex-column.flex-row-ns
+          .councilor__district.fw5.flex.flex-column.flex-row-ns
             span {{councilor.districtTitle}}
             span {{townLabel}}
         .councilor__person.bb.bt-ns.b--gray-d.b--gray-9-ns(:class="{'councilor__person--misc': miscColumn}")
@@ -13,7 +13,7 @@
               .aspect-ratio--object.br-100.overflow-hidden
                 img(:src="councilor.bgUrl" :alt="councilor.name")
             div
-              .f5.f4-ns.fw5.ls3 {{councilor.name}}
+              h1.f3.fw5.ls3.mv0 {{councilor.name}}
               .councilor__jobPeriod.f5.mt2(v-if="jobPeriod") {{jobPeriod}}
               .f5.mt3
                 party-label(:party="councilor.party")
@@ -185,7 +185,7 @@ export default {
     padding-top: 1.5rem;
   }
 
-  h1 {
+  &__district {
     font-size: 1.5rem;
     letter-spacing: 2px;
     line-height: normal;
@@ -230,7 +230,7 @@ export default {
       padding-top: 3.5rem;
     }
 
-    h1 {
+    &__district {
       font-size: 1.75rem;
       letter-spacing: 2.33px;
 
