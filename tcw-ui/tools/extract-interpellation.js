@@ -85,7 +85,7 @@ function getDistrictId (districtName) {
 
 function getCouncilorId (districtId, councilorName, sheetMeta) {
   const district = DISTRICT_MAP[districtId]
-  councilorName = councilorName.replace(/[a-zA-Z‧・·．˙、議員\n ]/g, '')
+  councilorName = councilorName.replace(/[a-zA-Z‧・·．˙、議員\n ]/g, '').trim()
   let councilor = null
 
   if (district) {
@@ -141,7 +141,7 @@ function parseOneLog (sheetMeta) {
 
         const key = getCouncilorId(districtId, councilor, sheetMeta)
         if (!key) {
-          // console.warn(`== Councilor not found in ${sheetMeta.sheetId}`)
+          // console.warn(`== Councilor not found in ${data.質詢內容}`)
           return
         }
 
@@ -180,7 +180,7 @@ async function parseLogs () {
     { sheetId: '67860742', type: '定期會', round: 3 },
     { sheetId: '1585934193', type: '定期會', round: 4 },
     { sheetId: '618060648', type: '定期會', round: 5 },
-    { type: '定期會', round: 6, sheetUri: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQMMal5SnyXJxMVyauHK9f34r30SOJHyvOs7UnAiuBWh58nK6ocstA_lh_76RRUC7a9P9fmjHmpgtVK/pub?gid=0&single=true&output=csv' }
+    { sheetId: '8326131', type: '定期會', round: 6 }
   ]
 
   const statsPerDistricts = Object.values(DISTRICT_MAP).reduce((ret, district) => {
