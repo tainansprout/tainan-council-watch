@@ -6,6 +6,7 @@
 
 1. Nuxt / Vue v2
 2. Netlify CMS
+3. node 16+
 
 ### 環境準備
 
@@ -39,7 +40,7 @@ npm run dev
 1. 議員基本資料
    ```
    cd tcw-ui
-   node tools/get-councilors.js 3rd
+   node tools/get-councilors.mjs -r 3rd -i 09243431-6616-4608-989D-6A156949F929
    ```
 2. 質詢編碼資料（僅限第三屆）
    ```
