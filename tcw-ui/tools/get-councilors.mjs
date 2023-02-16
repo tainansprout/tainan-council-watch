@@ -159,7 +159,15 @@ function dumpDistrictInfo (quota, nth) {
 
 function startCrawling (nth, orcaId) {
   const pathBase = path.join(__dirname, '../content/council/', `${nth}`)
-  const missingCouncilorList = JSON.parse(fs.readFileSync(path.join(pathBase, 'missing-councilor-list.json')))
+  if (!fs.existsSync(pathBase)) {
+    fs.mkdirSync(pathBase)
+  }
+
+  let missingCouncilorList = {}
+  const missingPath = path.join(pathBase, 'missing-councilor-list.json')
+  if (fs.existsSync(missingPath)) {
+    missingCouncilorList = JSON.parse(fs.readFileSync())
+  }
 
   const imgDir = path.join(IMG_CACHE_BASE.path, nth)
   if (!fs.existsSync(imgDir)) {
