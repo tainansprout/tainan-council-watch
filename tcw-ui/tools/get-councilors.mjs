@@ -22,12 +22,42 @@ const IMG_CACHE_BASE = {
 const MAX_IMG_WIDTH = 640
 const ACCEPTED_IMAGE_TYPE = ['png', 'jpg', 'webp', 'gif']
 
+const PARTY_LIST = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../content/meta/partyList.json'))
+).partyList
+
+const PARTY_MAP = PARTY_LIST.reduce((accu, party) => {
+  accu[party.abbr || party.name] = party
+  return accu
+}, {})
+
 const councilorsInDistrict = {}
 
 function prettyName (name) {
   return name
     .replace(/\(.*\)/g, '')
     .replace(/([a-z])([^ a-zA-Z])/g, '$1 $2')
+}
+
+// TODO: duplicated code in libs/utils, find some way to share this
+function normalizeParty (party) {
+  if (!party) {
+    return undefined
+  }
+  if (party.name && party.avatar) {
+    return party
+  }
+  let theParty = PARTY_MAP[party]
+  if (!theParty) {
+    theParty = PARTY_LIST.find((p) => {
+      const isInAlias = (p.alias || []).includes(party)
+      return p.name === party || isInAlias
+    })
+  }
+  if (!theParty) {
+    throw new Error(`Undefined party: ${party}`)
+  }
+  return theParty
 }
 
 async function hostImage (originalUrl, round, maxWidth = MAX_IMG_WIDTH) {
@@ -148,7 +178,8 @@ function dumpDistrictInfo (quota, nth) {
         id,
         name,
         abbr,
-        party,
+        // eslint-disable-next-line import/no-named-as-default-member
+        party: normalizeParty(party).name,
         bgUrl: localBgUrl,
         pageLink
       })

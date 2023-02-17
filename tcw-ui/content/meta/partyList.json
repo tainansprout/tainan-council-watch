@@ -19,7 +19,12 @@
       "avatar": "/content-img/party-無.png"
     },
     {
+      "name": "無黨團結聯盟",
+      "avatar": "/content-img/party-無盟.jpg"
+    },
+    {
       "name": "台灣基進",
+      "alias": ["台灣基進黨"],
       "avatar": "/content-img/party-基.png"
     },
     {
