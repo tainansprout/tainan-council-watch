@@ -61,7 +61,7 @@
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
     "sass-loader": "^10.2.0",
-    "sharp": "^0.30.7",
+    "sharp": "^0.31.3",
     "stream": "0.0.2",
     "topojson-server": "^3.0.1"
   }
