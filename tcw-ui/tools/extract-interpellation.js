@@ -7,11 +7,9 @@ const CsvReadableStream = require('csv-reader')
 const AutoDetectDecoderStream = require('autodetect-decoder-stream')
 const departmentMeta = require('../content/meta/departmentBrief.json')
 const { districtName2Id, enableSentry, notifyJandi } = require('./utils')
-const interpellationData = require('./interpellation-data')
+const roundDefs = require('./round-defs')
 
 enableSentry()
-
-const DEFAULT_SHEET_URI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2_P-mrFZt2bSBuM_U2BuJR1FeRsKp0oxcFL7RcFheCUO1K86Liq9E3vu83FpkjHdrqjy-PWUBtFzc/pub?single=true&output=csv'
 
 const number2zh = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
 
@@ -175,7 +173,17 @@ async function parseLogs (nth) {
     JSON.parse(fs.readFileSync(path.join(__dirname, `../content/council/${nth}/councilor-map.json`)))
   )
 
-  const sheetList = interpellationData[nth].sheetList
+  const roundMeta = roundDefs[nth]
+
+  if (!roundMeta) {
+    throw new Error(`Cannot find round-defs[${nth}]`)
+  }
+
+  if (!roundMeta.sheetList || !roundMeta.sheetUri) {
+    console.warn(`Missing sheetUri / sheetList in round-defs[${nth}], create empty stats only.`)
+  }
+
+  const sheetList = roundMeta.sheetList || []
 
   const statsPerDistricts = Object.values(districtMap).reduce((ret, district) => {
     ret.set(district.districtId, new Map())
@@ -184,7 +192,7 @@ async function parseLogs (nth) {
 
   for (let sheetMeta of sheetList) {
     sheetMeta = {
-      sheetUri: interpellationData[nth].sheetUri,
+      sheetUri: roundMeta.sheetUri,
       ...sheetMeta
     }
     await parseOneLog(sheetMeta, districtMap, councilorMap)
@@ -221,10 +229,7 @@ async function parseLogs (nth) {
     org: dumpRelatedOrgs(sortedStatsPerDistricts.all)
   }
 
-  const overallStatsPath = path.join(
-    __dirname,
-    `../content/council/${nth}/sayit/stats.json`
-  )
+  const overallStatsPath = path.join(__dirname, `../content/council/${nth}/sayit/stats.json`)
 
   fs.writeFileSync(overallStatsPath, JSON.stringify(sortedStatsPerDistricts))
 
@@ -251,6 +256,11 @@ function main () {
   if (!args.round) {
     console.error('round is required, ex: 3rd, 4th')
     return 1
+  }
+
+  const statsBase = path.join(__dirname, `../content/council/${args.round}/sayit`)
+  if (!fs.existsSync(statsBase)) {
+    fs.mkdirSync(statsBase)
   }
 
   parseLogs(args.round)

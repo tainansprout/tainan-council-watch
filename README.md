@@ -45,7 +45,7 @@ npm run dev
 2. 質詢編碼資料（僅限第三屆）
    ```
    cd tcw-ui
-   node tools/extract-interpellation.js
+   node tools/extract-interpellation.js -r 3rd
    ```
 3. 產生台南選區地圖 (geojson)
    ```
