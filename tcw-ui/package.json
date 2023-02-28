@@ -20,7 +20,7 @@
     "@nuxtjs/sitemap": "^2.4.0",
     "@sentry/webpack-plugin": "^1.19.0",
     "algoliasearch": "^4.13.1",
-    "core-js": "^3.23.3",
+    "core-js": "^3.29.0",
     "d3": "^6.7.0",
     "dayjs": "^1.11.3",
     "dotenv": "^16.0.1",
