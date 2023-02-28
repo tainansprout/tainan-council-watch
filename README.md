@@ -40,7 +40,7 @@ npm run dev
 1. 議員基本資料
    ```
    cd tcw-ui
-   node tools/get-councilors.mjs -r 3rd -i 09243431-6616-4608-989D-6A156949F929
+   node tools/get-councilors.mjs -r 3rd
    ```
 2. 質詢編碼資料（僅限第三屆）
    ```

@@ -40,7 +40,7 @@
         "id": "8EE343F5",
         "name": "張世賢",
         "abbr": "張世賢",
-        "party": "中國國民黨",
+        "party": "無黨籍",
         "bgUrl": "/img/4th/996ac98abbcba8562545c13ac19fcb3e.jpg",
         "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=8EE343F5-3009-4A2E-88DE-E8E51CB7C8D1"
       },
@@ -192,7 +192,7 @@
         "id": "515CF62D",
         "name": "李文俊",
         "abbr": "李文俊",
-        "party": "中國國民黨",
+        "party": "無黨籍",
         "bgUrl": "/img/4th/003f45780ec472d15a219ded9ad52e85.jpg",
         "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=515CF62D-E56F-4E3D-A58C-B810B625F603"
       },
@@ -324,7 +324,7 @@
         "id": "2D11ECEC",
         "name": "李鎮國",
         "abbr": "李鎮國",
-        "party": "中國國民黨",
+        "party": "無黨籍",
         "bgUrl": "/img/4th/ad93375c56e11d46f1f400062dc5f677.jpg",
         "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=2D11ECEC-6836-44E4-8CF8-C3D9B2C8EED4"
       },
@@ -600,6 +600,15 @@
     ],
     "districtId": "13th",
     "districtQuota": "1",
-    "councilors": []
+    "councilors": [
+      {
+        "id": "1CEB4D19",
+        "name": "施余興望Tjakumay Tagaw",
+        "abbr": "施余興望",
+        "party": "無黨籍",
+        "bgUrl": "/img/4th/be5eac8679cae1b20a82c40a23896527.jpg",
+        "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=1CEB4D19-F20A-4C42-BCAB-1F1CC678D11E"
+      }
+    ]
   }
 }

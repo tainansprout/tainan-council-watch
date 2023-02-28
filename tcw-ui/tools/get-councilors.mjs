@@ -12,6 +12,7 @@ import imageminPngquant from 'imagemin-pngquant'
 import parseArgs from 'command-line-args'
 import NodeCrawler from 'crawler'
 import { districtName2Id } from './utils.js'
+import roundDefs from './round-defs.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const SITE_BASE = 'https://www.tncc.gov.tw'
@@ -126,7 +127,7 @@ async function hostImage (originalUrl, round, maxWidth = MAX_IMG_WIDTH) {
 }
 
 function dumpDistrictInfo (quota, nth) {
-  return (error, res, done) => {
+  return async (error, res, done) => {
     if (error) {
       console.error('Fail on get district', error)
       done()
@@ -158,7 +159,7 @@ function dumpDistrictInfo (quota, nth) {
     }
 
     // councilor list
-    $('.col-lg-3 .image-box').each(async function () {
+    await Promise.all($('.col-lg-3 .image-box').map(async function () {
       const ele = $(this)
       const pageUri = ele.find('a').attr('href')
       const pageLink = `${SITE_BASE}/${pageUri}`
@@ -183,7 +184,7 @@ function dumpDistrictInfo (quota, nth) {
         bgUrl: localBgUrl,
         pageLink
       })
-    })
+    }).get())
     done()
   }
 }
@@ -197,7 +198,7 @@ function startCrawling (nth, orcaId) {
   let missingCouncilorList = {}
   const missingPath = path.join(pathBase, 'missing-councilor-list.json')
   if (fs.existsSync(missingPath)) {
-    missingCouncilorList = JSON.parse(fs.readFileSync())
+    missingCouncilorList = JSON.parse(fs.readFileSync(missingPath))
   }
 
   const imgDir = path.join(IMG_CACHE_BASE.path, nth)
@@ -270,18 +271,22 @@ function main () {
   ]
 
   const args = parseArgs(argOpts)
+  const nth = args.round
 
-  if (!args.round) {
+  if (!nth) {
     console.error('round is required, ex: 3rd, 4th')
     return 1
   }
 
-  if (!args.orcaId) {
-    console.error('orcaId is required, see 台南市議會官網 / 議員資訊網')
+  const roundMeta = roundDefs[nth]
+
+  if (!roundMeta || !roundMeta.councilorPageId) {
+    console.error(`Missing councilorPageId in round-defs[${nth}], see 台南市議會官網 / 議員資訊網`)
     return 2
   }
+  const orcaId = roundMeta.councilorPageId
 
-  startCrawling(args.round, args.orcaId)
+  startCrawling(args.round, orcaId)
 }
 
 main()
