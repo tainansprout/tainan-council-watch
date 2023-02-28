@@ -2,22 +2,15 @@ const fs = require('fs')
 const path = require('path')
 const got = require('got')
 const dayjs = require('dayjs')
+const parseArgs = require('command-line-args')
 const CsvReadableStream = require('csv-reader')
 const AutoDetectDecoderStream = require('autodetect-decoder-stream')
 const departmentMeta = require('../content/meta/departmentBrief.json')
 const { districtName2Id, enableSentry, notifyJandi } = require('./utils')
+const roundDefs = require('./round-defs')
 
 enableSentry()
 
-const NTH = '3rd'
-const DEFAULT_SHEET_URI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2_P-mrFZt2bSBuM_U2BuJR1FeRsKp0oxcFL7RcFheCUO1K86Liq9E3vu83FpkjHdrqjy-PWUBtFzc/pub?single=true&output=csv'
-
-const DISTRICT_MAP = JSON.parse(
-  fs.readFileSync(path.join(__dirname, `../content/council/${NTH}/district-map.json`))
-)
-const COUNCILOR_MAP = Object.values(
-  JSON.parse(fs.readFileSync(path.join(__dirname, `../content/council/${NTH}/councilor-map.json`)))
-)
 const number2zh = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
 
 const sayitMap = {}
@@ -83,8 +76,8 @@ function getDistrictId (districtName) {
   return districtName2Id[districtName]
 }
 
-function getCouncilorId (districtId, councilorName, sheetMeta) {
-  const district = DISTRICT_MAP[districtId]
+function getCouncilorId (districtId, councilorName, sheetMeta, districtMap, councilorMap) {
+  const district = districtMap[districtId]
   councilorName = councilorName.replace(/[a-zA-Z‧・·．˙、議員\n ]/g, '').trim()
   let councilor = null
 
@@ -97,7 +90,7 @@ function getCouncilorId (districtId, councilorName, sheetMeta) {
     // pushMapError(`Councilor ${councilorName} in ${districtId} not existed`)
 
     // lookup councilor name directly
-    councilor = COUNCILOR_MAP.find(councilor => councilor.abbr === councilorName)
+    councilor = councilorMap.find(councilor => councilor.abbr === councilorName)
   }
 
   if (councilor) {
@@ -117,9 +110,9 @@ function getErrorCategory (sheetMeta) {
   return category
 }
 
-function parseOneLog (sheetMeta) {
+function parseOneLog (sheetMeta, districtMap, councilorMap) {
   return new Promise((resolve, reject) => {
-    const endpoint = sheetMeta.sheetUri || `${DEFAULT_SHEET_URI}&gid=${sheetMeta.sheetId}`
+    const endpoint = `${sheetMeta.sheetUri}&gid=${sheetMeta.sheetId}`
     let lastValidDate = null
     got.stream(endpoint)
       .pipe(new AutoDetectDecoderStream())
@@ -139,7 +132,7 @@ function parseOneLog (sheetMeta) {
           lastValidDate = date
         }
 
-        const key = getCouncilorId(districtId, councilor, sheetMeta)
+        const key = getCouncilorId(districtId, councilor, sheetMeta, districtMap, councilorMap)
         if (!key) {
           // console.warn(`== Councilor not found in ${data.質詢內容}`)
           return
@@ -171,33 +164,46 @@ function parseOneLog (sheetMeta) {
   })
 }
 
-async function parseLogs () {
-  const sheetList = [
-    { sheetId: '1909562558', type: '定期會', round: 1 },
-    { sheetId: '956807492', type: '定期會', round: 1, postfix: '業務' },
-    { sheetId: '1969300134', type: '定期會', round: 2 },
-    { sheetId: '314210118', type: '定期會', round: 2, postfix: '業務' },
-    { sheetId: '67860742', type: '定期會', round: 3 },
-    { sheetId: '1585934193', type: '定期會', round: 4 },
-    { sheetId: '618060648', type: '定期會', round: 5 },
-    { sheetId: '8326131', type: '定期會', round: 6 }
-  ]
+async function parseLogs (nth) {
+  const districtMap = JSON.parse(
+    fs.readFileSync(path.join(__dirname, `../content/council/${nth}/district-map.json`))
+  )
 
-  const statsPerDistricts = Object.values(DISTRICT_MAP).reduce((ret, district) => {
+  const councilorMap = Object.values(
+    JSON.parse(fs.readFileSync(path.join(__dirname, `../content/council/${nth}/councilor-map.json`)))
+  )
+
+  const roundMeta = roundDefs[nth]
+
+  if (!roundMeta) {
+    throw new Error(`Cannot find round-defs[${nth}]`)
+  }
+
+  if (!roundMeta.sheetList || !roundMeta.sheetUri) {
+    console.warn(`Missing sheetUri / sheetList in round-defs[${nth}], create empty stats only.`)
+  }
+
+  const sheetList = roundMeta.sheetList || []
+
+  const statsPerDistricts = Object.values(districtMap).reduce((ret, district) => {
     ret.set(district.districtId, new Map())
     return ret
   }, new Map())
 
-  for (const sheetMeta of sheetList) {
-    await parseOneLog(sheetMeta)
+  for (let sheetMeta of sheetList) {
+    sheetMeta = {
+      sheetUri: roundMeta.sheetUri,
+      ...sheetMeta
+    }
+    await parseOneLog(sheetMeta, districtMap, councilorMap)
   }
 
   Object.keys(sayitMap).forEach((councilorId) => {
     const filename = path.join(
       __dirname,
-      `../content/council/${NTH}/sayit/${councilorId}.json`
+      `../content/council/${nth}/sayit/${councilorId}.json`
     )
-    const councilor = COUNCILOR_MAP.find(person => person.id === councilorId)
+    const councilor = councilorMap.find(person => person.id === councilorId)
     const sayit = sayitMap[councilorId]
     const orgStats = countRelatedOrgs(sayit)
     mergeRelatedOrgs(statsPerDistricts.get(councilor.districtId), orgStats)
@@ -223,10 +229,7 @@ async function parseLogs () {
     org: dumpRelatedOrgs(sortedStatsPerDistricts.all)
   }
 
-  const overallStatsPath = path.join(
-    __dirname,
-    `../content/council/${NTH}/sayit/stats.json`
-  )
+  const overallStatsPath = path.join(__dirname, `../content/council/${nth}/sayit/stats.json`)
 
   fs.writeFileSync(overallStatsPath, JSON.stringify(sortedStatsPerDistricts))
 
@@ -243,4 +246,24 @@ async function parseLogs () {
   }
 }
 
-parseLogs()
+function main () {
+  const argOpts = [
+    { name: 'round', alias: 'r', type: String }
+  ]
+
+  const args = parseArgs(argOpts)
+
+  if (!args.round) {
+    console.error('round is required, ex: 3rd, 4th')
+    return 1
+  }
+
+  const statsBase = path.join(__dirname, `../content/council/${args.round}/sayit`)
+  if (!fs.existsSync(statsBase)) {
+    fs.mkdirSync(statsBase)
+  }
+
+  parseLogs(args.round)
+}
+
+main()

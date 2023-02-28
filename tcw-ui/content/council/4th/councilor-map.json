@@ -1,0 +1,860 @@
+{
+  "15677049": {
+    "id": "15677049",
+    "name": "曾之婕",
+    "abbr": "曾之婕",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/7b8fd377bb45299d13a57f63f28a79da.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=15677049-A73F-4E15-BB58-E47358888738",
+    "districtId": "10th",
+    "districtTitle": "第十選區",
+    "townList": [
+      "東區"
+    ]
+  },
+  "65656674": {
+    "id": "65656674",
+    "name": "林冠維",
+    "abbr": "林冠維",
+    "party": "無黨團結聯盟",
+    "bgUrl": "/img/4th/107f7c4dbe3bcddc5640e2ecb8009286.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=65656674-B399-41A6-9858-05ADE70BC884",
+    "districtId": "7th",
+    "districtTitle": "第七選區",
+    "townList": [
+      "永康"
+    ]
+  },
+  "053E553A": {
+    "id": "053E553A",
+    "name": "蔡育輝",
+    "abbr": "蔡育輝",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/5fb7cfece700df5006d8918e655b61da.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=053E553A-B244-4F42-9BF5-0716C40A7EAD",
+    "districtId": "1st",
+    "districtTitle": "第一選區",
+    "townList": [
+      "後壁",
+      "白河",
+      "東山",
+      "鹽水",
+      "新營",
+      "柳營"
+    ]
+  },
+  "12DCAEB1": {
+    "id": "12DCAEB1",
+    "name": "趙昆原",
+    "abbr": "趙昆原",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/e5241d60cf70ef44324d73507709d509.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=12DCAEB1-3B15-4767-86BF-CAC0FF4CD1C7",
+    "districtId": "1st",
+    "districtTitle": "第一選區",
+    "townList": [
+      "後壁",
+      "白河",
+      "東山",
+      "鹽水",
+      "新營",
+      "柳營"
+    ]
+  },
+  "C7939C21": {
+    "id": "C7939C21",
+    "name": "王宣貿",
+    "abbr": "王宣貿",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/caf496d86d43c0c7f670baf6ad35d9d3.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=C7939C21-E9F9-4C8C-85F1-8400A042C863",
+    "districtId": "1st",
+    "districtTitle": "第一選區",
+    "townList": [
+      "後壁",
+      "白河",
+      "東山",
+      "鹽水",
+      "新營",
+      "柳營"
+    ]
+  },
+  "8EE343F5": {
+    "id": "8EE343F5",
+    "name": "張世賢",
+    "abbr": "張世賢",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/996ac98abbcba8562545c13ac19fcb3e.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=8EE343F5-3009-4A2E-88DE-E8E51CB7C8D1",
+    "districtId": "1st",
+    "districtTitle": "第一選區",
+    "townList": [
+      "後壁",
+      "白河",
+      "東山",
+      "鹽水",
+      "新營",
+      "柳營"
+    ]
+  },
+  "0B1C3F9A": {
+    "id": "0B1C3F9A",
+    "name": "李宗翰",
+    "abbr": "李宗翰",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/18eb1e7b8927b1f555b056f7bb3ed0dd.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=0B1C3F9A-92E8-42E4-A419-7EEDC7BC8B17",
+    "districtId": "1st",
+    "districtTitle": "第一選區",
+    "townList": [
+      "後壁",
+      "白河",
+      "東山",
+      "鹽水",
+      "新營",
+      "柳營"
+    ]
+  },
+  "EF4DD312": {
+    "id": "EF4DD312",
+    "name": "沈家鳳",
+    "abbr": "沈家鳳",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/68da063a4e4b8272d49a08bdc5b31f37.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=EF4DD312-3189-4C86-A724-59982456F7A8",
+    "districtId": "1st",
+    "districtTitle": "第一選區",
+    "townList": [
+      "後壁",
+      "白河",
+      "東山",
+      "鹽水",
+      "新營",
+      "柳營"
+    ]
+  },
+  "5ABA0B90": {
+    "id": "5ABA0B90",
+    "name": "方一峰",
+    "abbr": "方一峰",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/8763338aadbeb224392fd4ff34f65479.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=5ABA0B90-9FD2-4B3E-BA48-FA776C993C02",
+    "districtId": "2nd",
+    "districtTitle": "第二選區",
+    "townList": [
+      "北門",
+      "學甲",
+      "將軍",
+      "七股",
+      "佳里",
+      "西港"
+    ]
+  },
+  "7B6B9344": {
+    "id": "7B6B9344",
+    "name": "蔡蘇秋金",
+    "abbr": "蔡蘇秋金",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/c67ec4c316f3ed96208a1a987cb5653a.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=7B6B9344-76BA-4C91-9501-BAB7F0B20013",
+    "districtId": "2nd",
+    "districtTitle": "第二選區",
+    "townList": [
+      "北門",
+      "學甲",
+      "將軍",
+      "七股",
+      "佳里",
+      "西港"
+    ]
+  },
+  "0986A206": {
+    "id": "0986A206",
+    "name": "謝舒凡",
+    "abbr": "謝舒凡",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/2a334b60ced773eb9e7fa015ac2e7b7e.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=0986A206-7F6A-4880-A070-3992A80B0B74",
+    "districtId": "2nd",
+    "districtTitle": "第二選區",
+    "townList": [
+      "北門",
+      "學甲",
+      "將軍",
+      "七股",
+      "佳里",
+      "西港"
+    ]
+  },
+  "69EC5C76": {
+    "id": "69EC5C76",
+    "name": "陳昆和",
+    "abbr": "陳昆和",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/f1c147cc23986b0fe54ebddea5f8bf5e.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=69EC5C76-C1C1-4EE4-B464-C45B381D64F6",
+    "districtId": "2nd",
+    "districtTitle": "第二選區",
+    "townList": [
+      "北門",
+      "學甲",
+      "將軍",
+      "七股",
+      "佳里",
+      "西港"
+    ]
+  },
+  "8E537876": {
+    "id": "8E537876",
+    "name": "蔡秋蘭",
+    "abbr": "蔡秋蘭",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/7a3df7f2866485d6c91e09f3316f970e.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=8E537876-DF09-4EA3-9325-60896B1E86F1",
+    "districtId": "2nd",
+    "districtTitle": "第二選區",
+    "townList": [
+      "北門",
+      "學甲",
+      "將軍",
+      "七股",
+      "佳里",
+      "西港"
+    ]
+  },
+  "9CBCB90A": {
+    "id": "9CBCB90A",
+    "name": "陳秋宏",
+    "abbr": "陳秋宏",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/ccf24ea40937d287594dad9f50453bf1.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=9CBCB90A-A821-4FAD-A45D-79491B3EE5B2",
+    "districtId": "3rd",
+    "districtTitle": "第三選區",
+    "townList": [
+      "下營",
+      "六甲",
+      "麻豆",
+      "官田",
+      "大內"
+    ]
+  },
+  "D673DBCE": {
+    "id": "D673DBCE",
+    "name": "尤榮智",
+    "abbr": "尤榮智",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/f7f26a2458aa928bd3066dab52095cf7.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=D673DBCE-2556-45EC-AABE-B138E06A57A2",
+    "districtId": "3rd",
+    "districtTitle": "第三選區",
+    "townList": [
+      "下營",
+      "六甲",
+      "麻豆",
+      "官田",
+      "大內"
+    ]
+  },
+  "2BFF5285": {
+    "id": "2BFF5285",
+    "name": "吳通龍",
+    "abbr": "吳通龍",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/c0bdb5406af6d1cb27cacf31bfa4a5de.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=2BFF5285-201B-4C9D-BD59-2BE6785A28C0",
+    "districtId": "3rd",
+    "districtTitle": "第三選區",
+    "townList": [
+      "下營",
+      "六甲",
+      "麻豆",
+      "官田",
+      "大內"
+    ]
+  },
+  "E8CDE770": {
+    "id": "E8CDE770",
+    "name": "周奕齊",
+    "abbr": "周奕齊",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/66845d43f6c89dae6d6405eeccb259d9.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=E8CDE770-3C97-43B8-BB60-578D7B0EF51B",
+    "districtId": "4th",
+    "districtTitle": "第四選區",
+    "townList": [
+      "楠西",
+      "南化",
+      "玉井",
+      "左鎮"
+    ]
+  },
+  "515CF62D": {
+    "id": "515CF62D",
+    "name": "李文俊",
+    "abbr": "李文俊",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/003f45780ec472d15a219ded9ad52e85.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=515CF62D-E56F-4E3D-A58C-B810B625F603",
+    "districtId": "5th",
+    "districtTitle": "第五選區",
+    "townList": [
+      "善化",
+      "安定",
+      "新市",
+      "山上",
+      "新化"
+    ]
+  },
+  "DF5652F8": {
+    "id": "DF5652F8",
+    "name": "林志展",
+    "abbr": "林志展",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/8f38013af8fa98f6d4381246106075f1.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=DF5652F8-552C-4139-8437-084E442F5F7E",
+    "districtId": "5th",
+    "districtTitle": "第五選區",
+    "townList": [
+      "善化",
+      "安定",
+      "新市",
+      "山上",
+      "新化"
+    ]
+  },
+  "880414F4": {
+    "id": "880414F4",
+    "name": "余柷青",
+    "abbr": "余柷青",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/83090de8a0308639495eb622349699d4.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=880414F4-8F11-4D0C-AFEA-CBA8B9AA9373",
+    "districtId": "5th",
+    "districtTitle": "第五選區",
+    "townList": [
+      "善化",
+      "安定",
+      "新市",
+      "山上",
+      "新化"
+    ]
+  },
+  "648CDA1E": {
+    "id": "648CDA1E",
+    "name": "李偉智",
+    "abbr": "李偉智",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/290827927fc238dcd162cfb521333efc.png",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=648CDA1E-3081-4B40-830F-9B91CC427F0D",
+    "districtId": "5th",
+    "districtTitle": "第五選區",
+    "townList": [
+      "善化",
+      "安定",
+      "新市",
+      "山上",
+      "新化"
+    ]
+  },
+  "EED1C3A7": {
+    "id": "EED1C3A7",
+    "name": "陳碧玉",
+    "abbr": "陳碧玉",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/d1bc00bd225f06466151f8d01726c0c2.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=EED1C3A7-E6DA-40AF-B184-38ADCC794C74",
+    "districtId": "5th",
+    "districtTitle": "第五選區",
+    "townList": [
+      "善化",
+      "安定",
+      "新市",
+      "山上",
+      "新化"
+    ]
+  },
+  "7728ECF9": {
+    "id": "7728ECF9",
+    "name": "郭信良",
+    "abbr": "郭信良",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/675c48ce3b102c8afff9a3903f766a52.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=7728ECF9-1DF1-4654-80DA-5E9075DBAD8A",
+    "districtId": "6th",
+    "districtTitle": "第六選區",
+    "townList": [
+      "安南"
+    ]
+  },
+  "95486BD9": {
+    "id": "95486BD9",
+    "name": "郭清華",
+    "abbr": "郭清華",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/29045186e32d05025d799fc39932c0f0.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=95486BD9-E601-4E18-8229-B400B0A384FE",
+    "districtId": "6th",
+    "districtTitle": "第六選區",
+    "townList": [
+      "安南"
+    ]
+  },
+  "CEC4B2FB": {
+    "id": "CEC4B2FB",
+    "name": "李中岑",
+    "abbr": "李中岑",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/fbaa088a5a227d487f05a80d85f26d46.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=CEC4B2FB-CB76-4E15-ADFE-96E13827F485",
+    "districtId": "6th",
+    "districtTitle": "第六選區",
+    "townList": [
+      "安南"
+    ]
+  },
+  "E68032EF": {
+    "id": "E68032EF",
+    "name": "蔡麗青",
+    "abbr": "蔡麗青",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/16543d998c0958e4fed77e671e9d7286.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=E68032EF-2D7A-4FA2-A29F-94CBA717AC82",
+    "districtId": "6th",
+    "districtTitle": "第六選區",
+    "townList": [
+      "安南"
+    ]
+  },
+  "5B3D000B": {
+    "id": "5B3D000B",
+    "name": "邱昭勝",
+    "abbr": "邱昭勝",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/90d9d0fe3b100f91fc58eab615859fe0.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=5B3D000B-40D4-4C08-ABEB-31DB0F1D0710",
+    "districtId": "6th",
+    "districtTitle": "第六選區",
+    "townList": [
+      "安南"
+    ]
+  },
+  "8E4E4081": {
+    "id": "8E4E4081",
+    "name": "黃麗招",
+    "abbr": "黃麗招",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/211f2ac9177c936f2fd7730b5fb128f2.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=8E4E4081-E941-4DBE-AAED-B24ACA78DE76",
+    "districtId": "6th",
+    "districtTitle": "第六選區",
+    "townList": [
+      "安南"
+    ]
+  },
+  "51D511F9": {
+    "id": "51D511F9",
+    "name": "林燕祝",
+    "abbr": "林燕祝",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/81c1abf88b60ae734af365feeaea415f.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=51D511F9-46E4-4B13-8DCF-35DCE176976A",
+    "districtId": "7th",
+    "districtTitle": "第七選區",
+    "townList": [
+      "永康"
+    ]
+  },
+  "201C5B83": {
+    "id": "201C5B83",
+    "name": "朱正軒",
+    "abbr": "朱正軒",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/da5c77c990d2f9216b41fcb0255f551d.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=201C5B83-A1D0-4226-8FE3-78B01D957E4F",
+    "districtId": "7th",
+    "districtTitle": "第七選區",
+    "townList": [
+      "永康"
+    ]
+  },
+  "2D11ECEC": {
+    "id": "2D11ECEC",
+    "name": "李鎮國",
+    "abbr": "李鎮國",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/ad93375c56e11d46f1f400062dc5f677.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=2D11ECEC-6836-44E4-8CF8-C3D9B2C8EED4",
+    "districtId": "7th",
+    "districtTitle": "第七選區",
+    "townList": [
+      "永康"
+    ]
+  },
+  "D0001474": {
+    "id": "D0001474",
+    "name": "陳秋萍",
+    "abbr": "陳秋萍",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/dae6a79b4a2b8319fc848d8a0f999afb.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=D0001474-2C67-47CE-9D7F-98065BE41CE3",
+    "districtId": "7th",
+    "districtTitle": "第七選區",
+    "townList": [
+      "永康"
+    ]
+  },
+  "C5B62F03": {
+    "id": "C5B62F03",
+    "name": "黄肇輝",
+    "abbr": "黄肇輝",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/4cc02ddc5dcba8785a78421befc7bda9.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=C5B62F03-2580-4ED5-94F5-9A7BDF6218A8",
+    "districtId": "7th",
+    "districtTitle": "第七選區",
+    "townList": [
+      "永康"
+    ]
+  },
+  "B2274F7E": {
+    "id": "B2274F7E",
+    "name": "楊中成",
+    "abbr": "楊中成",
+    "party": "台灣團結聯盟",
+    "bgUrl": "/img/4th/4e5b7b51ee0a80d1c105d58e2722fe3f.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=B2274F7E-24A5-4019-84DD-BE0C79E0CA1C",
+    "districtId": "7th",
+    "districtTitle": "第七選區",
+    "townList": [
+      "永康"
+    ]
+  },
+  "4657ACF2": {
+    "id": "4657ACF2",
+    "name": "陳怡珍",
+    "abbr": "陳怡珍",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/c0895fc2e67bb875b08874601ebf6382.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=4657ACF2-93DD-43F2-8E89-BB8690AA9C51",
+    "districtId": "8th",
+    "districtTitle": "第八選區",
+    "townList": [
+      "北區",
+      "中西區"
+    ]
+  },
+  "CE899233": {
+    "id": "CE899233",
+    "name": "沈震東",
+    "abbr": "沈震東",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/8094cead1f93ea012e7f20b0b96c38d7.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=CE899233-9B53-4514-AF42-A61CFEEBCAEA",
+    "districtId": "8th",
+    "districtTitle": "第八選區",
+    "townList": [
+      "北區",
+      "中西區"
+    ]
+  },
+  "A6932093": {
+    "id": "A6932093",
+    "name": "蔡宗豪",
+    "abbr": "蔡宗豪",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/e18b85460b910f58be601858db5c9f14.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=A6932093-A9F1-4612-8385-70EEC3F735E8",
+    "districtId": "8th",
+    "districtTitle": "第八選區",
+    "townList": [
+      "北區",
+      "中西區"
+    ]
+  },
+  "666A962B": {
+    "id": "666A962B",
+    "name": "許至椿",
+    "abbr": "許至椿",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/b54eb1b03113feafe1546cad017149cf.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=666A962B-C6F6-4474-9BDB-6D7BAFDDA795",
+    "districtId": "8th",
+    "districtTitle": "第八選區",
+    "townList": [
+      "北區",
+      "中西區"
+    ]
+  },
+  "4A10A4A3": {
+    "id": "4A10A4A3",
+    "name": "邱莉莉",
+    "abbr": "邱莉莉",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/9eeaef4b6032879cb05b1bf3bd97105f.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=4A10A4A3-190C-47E8-9214-B75A23CBE882",
+    "districtId": "8th",
+    "districtTitle": "第八選區",
+    "townList": [
+      "北區",
+      "中西區"
+    ]
+  },
+  "3883BDD9": {
+    "id": "3883BDD9",
+    "name": "周嘉韋",
+    "abbr": "周嘉韋",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/9d76de202d60e7a1e55fd46220645249.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=3883BDD9-B3D8-4E32-92CE-45E27B7D56EB",
+    "districtId": "8th",
+    "districtTitle": "第八選區",
+    "townList": [
+      "北區",
+      "中西區"
+    ]
+  },
+  "11107E88": {
+    "id": "11107E88",
+    "name": "林美燕",
+    "abbr": "林美燕",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/1dc793797cbd4f9006ecf9fd64cd5897.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=11107E88-7E88-4ED0-890D-890FA9422C46",
+    "districtId": "9th",
+    "districtTitle": "第九選區",
+    "townList": [
+      "安平",
+      "南區"
+    ]
+  },
+  "A957A9D4": {
+    "id": "A957A9D4",
+    "name": "林依婷",
+    "abbr": "林依婷",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/ffec672e0156c8f5711dad8530e7d8d3.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=A957A9D4-0279-4969-879A-3CA0EC66FB0A",
+    "districtId": "9th",
+    "districtTitle": "第九選區",
+    "townList": [
+      "安平",
+      "南區"
+    ]
+  },
+  "EBB90AC7": {
+    "id": "EBB90AC7",
+    "name": "蔡淑惠",
+    "abbr": "蔡淑惠",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/ea639af6bc4cbc7cf1ef93d7780a1d03.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=EBB90AC7-C4DB-4CDE-8786-1E686D32B092",
+    "districtId": "9th",
+    "districtTitle": "第九選區",
+    "townList": [
+      "安平",
+      "南區"
+    ]
+  },
+  "FA8177B5": {
+    "id": "FA8177B5",
+    "name": "盧崑福",
+    "abbr": "盧崑福",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/2cbbd25f77ff5727d662242d5c571689.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=FA8177B5-299D-40EB-8103-E7BA2FADD1E8",
+    "districtId": "9th",
+    "districtTitle": "第九選區",
+    "townList": [
+      "安平",
+      "南區"
+    ]
+  },
+  "B219417D": {
+    "id": "B219417D",
+    "name": "李啟維",
+    "abbr": "李啟維",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/5da9c764a668e724e2a2338b28722c65.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=B219417D-B967-4AB9-978A-5ED2514A59C6",
+    "districtId": "9th",
+    "districtTitle": "第九選區",
+    "townList": [
+      "安平",
+      "南區"
+    ]
+  },
+  "5DB11A8A": {
+    "id": "5DB11A8A",
+    "name": "周麗津",
+    "abbr": "周麗津",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/fe74c670133677bc23c7162d632d537f.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=5DB11A8A-5F76-44F9-AFBC-6C8DC7B18E15",
+    "districtId": "9th",
+    "districtTitle": "第九選區",
+    "townList": [
+      "安平",
+      "南區"
+    ]
+  },
+  "9127249A": {
+    "id": "9127249A",
+    "name": "曾培雅",
+    "abbr": "曾培雅",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/e3a2367e6e73b4ec77af0c30cabfc5a5.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=9127249A-351D-4654-8667-BBEBDEDE227F",
+    "districtId": "10th",
+    "districtTitle": "第十選區",
+    "townList": [
+      "東區"
+    ]
+  },
+  "F2A51A9F": {
+    "id": "F2A51A9F",
+    "name": "王家貞",
+    "abbr": "王家貞",
+    "party": "中國國民黨",
+    "bgUrl": "/img/4th/ffe7cedb5541adb914963692d0ccc23b.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=F2A51A9F-964E-42B2-8326-32EB52318336",
+    "districtId": "10th",
+    "districtTitle": "第十選區",
+    "townList": [
+      "東區"
+    ]
+  },
+  "78191C86": {
+    "id": "78191C86",
+    "name": "蔡筱薇",
+    "abbr": "蔡筱薇",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/ead7f6476c8c200cf2538a9822e733a2.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=78191C86-FE9E-442F-84D9-47CF93743FE9",
+    "districtId": "10th",
+    "districtTitle": "第十選區",
+    "townList": [
+      "東區"
+    ]
+  },
+  "9BDA07A5": {
+    "id": "9BDA07A5",
+    "name": "李宗霖",
+    "abbr": "李宗霖",
+    "party": "台灣基進",
+    "bgUrl": "/img/4th/aec451561aca9b0f49fe6304bd65d1b0.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=9BDA07A5-DD62-4023-9CD6-C8A29540FF53",
+    "districtId": "10th",
+    "districtTitle": "第十選區",
+    "townList": [
+      "東區"
+    ]
+  },
+  "7F8FAD9A": {
+    "id": "7F8FAD9A",
+    "name": "杜素吟",
+    "abbr": "杜素吟",
+    "party": "無黨團結聯盟",
+    "bgUrl": "/img/4th/76753807f908e14fa410d3487abeb860.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=7F8FAD9A-E28A-4C30-9BD7-6BD134E7969D",
+    "districtId": "11th",
+    "districtTitle": "第十一選區",
+    "townList": [
+      "仁德",
+      "歸仁",
+      "關廟",
+      "龍崎"
+    ]
+  },
+  "5E6D61DA": {
+    "id": "5E6D61DA",
+    "name": "吳禹寰",
+    "abbr": "吳禹寰",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/27c4e6de74d8cd47d25a5dd24e75145f.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=5E6D61DA-570B-4205-A63E-5C7F4F8B4E32",
+    "districtId": "11th",
+    "districtTitle": "第十一選區",
+    "townList": [
+      "仁德",
+      "歸仁",
+      "關廟",
+      "龍崎"
+    ]
+  },
+  "D02F8D8F": {
+    "id": "D02F8D8F",
+    "name": "郭鴻儀",
+    "abbr": "郭鴻儀",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/5818143edebf5c4d09963312adeca49a.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=D02F8D8F-F1DF-4F8A-BA84-EE5B5FA5F147",
+    "districtId": "11th",
+    "districtTitle": "第十一選區",
+    "townList": [
+      "仁德",
+      "歸仁",
+      "關廟",
+      "龍崎"
+    ]
+  },
+  "0DB92A60": {
+    "id": "0DB92A60",
+    "name": "鄭佳欣",
+    "abbr": "鄭佳欣",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/31de7c0d0efc9d344a040514f46e8a25.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=0DB92A60-047F-4559-A8EE-03183D3CBFA0",
+    "districtId": "11th",
+    "districtTitle": "第十一選區",
+    "townList": [
+      "仁德",
+      "歸仁",
+      "關廟",
+      "龍崎"
+    ]
+  },
+  "CBAF0322": {
+    "id": "CBAF0322",
+    "name": "陳皇宇",
+    "abbr": "陳皇宇",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/88cdbfa4c680cd13ca9c793a961fbe02.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=CBAF0322-27BB-4242-BDFE-2BE6814FD6BD",
+    "districtId": "11th",
+    "districtTitle": "第十一選區",
+    "townList": [
+      "仁德",
+      "歸仁",
+      "關廟",
+      "龍崎"
+    ]
+  },
+  "1CFD1304": {
+    "id": "1CFD1304",
+    "name": "Ingay Tali 穎艾達利",
+    "abbr": "穎艾達利",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/182589b9e7bf79908da9f9f657c1393f.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=1CFD1304-E869-4B90-814B-3236249F7C29",
+    "districtId": "12th",
+    "districtTitle": "第十二選區",
+    "townList": [
+      "平地原住民"
+    ]
+  },
+  "1CEB4D19": {
+    "id": "1CEB4D19",
+    "name": "施余興望Tjakumay Tagaw",
+    "abbr": "施余興望",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/be5eac8679cae1b20a82c40a23896527.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=1CEB4D19-F20A-4C42-BCAB-1F1CC678D11E",
+    "districtId": "13th",
+    "districtTitle": "第十三選區",
+    "townList": [
+      "山地原住民"
+    ]
+  }
+}

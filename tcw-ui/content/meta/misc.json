@@ -26,5 +26,16 @@
     {
       "label": "700 台南市中西區成功路29號4樓"
     }
+  ],
+  "round-list": [
+    {
+      "label": "2018-22",
+      "key": "3rd",
+      "isDefault": true
+    },
+    {
+      "label": "2022-26",
+      "key": "4th"
+    }
   ]
 }

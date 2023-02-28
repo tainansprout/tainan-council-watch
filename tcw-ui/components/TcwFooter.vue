@@ -3,6 +3,10 @@
     img.tcwFooter__logo(src="~/assets/tnsprout.png" alt="台南新芽")
     .tcwFooter__main
       .flex.flex-column.items-start
+        .tcwFooter__subheader.fw4 歷屆議會
+        nuxt-link.tcwFooter__item(v-for="item in roundList" :key="item.key" :to="`/${item.key}`")
+          | {{item.label}}
+      .flex.flex-column.items-start
         .tcwFooter__subheader.fw4 關於我們
         template(v-for="item in about")
           a.tcwFooter__item(v-if="isExt(item)" :href="item.url" target="_blank")
@@ -32,6 +36,9 @@ export default {
     },
     contact () {
       return misc['footer-contact']
+    },
+    roundList () {
+      return misc['round-list']
     }
   },
   methods: {

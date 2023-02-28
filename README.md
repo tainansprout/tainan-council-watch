@@ -6,6 +6,7 @@
 
 1. Nuxt / Vue v2
 2. Netlify CMS
+3. node 16+
 
 ### 環境準備
 
@@ -39,12 +40,12 @@ npm run dev
 1. 議員基本資料
    ```
    cd tcw-ui
-   node tools/get-councilors.js 3rd
+   node tools/get-councilors.mjs -r 3rd
    ```
 2. 質詢編碼資料（僅限第三屆）
    ```
    cd tcw-ui
-   node tools/extract-interpellation.js
+   node tools/extract-interpellation.js -r 3rd
    ```
 3. 產生台南選區地圖 (geojson)
    ```

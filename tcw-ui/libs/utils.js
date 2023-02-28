@@ -24,7 +24,10 @@ export function normalizeParty (party) {
   }
   let theParty = PARTY_MAP[party]
   if (!theParty) {
-    theParty = PARTY_LIST.find(p => p.name === party)
+    theParty = PARTY_LIST.find((p) => {
+      const isInAlias = (p.alias || []).includes(party)
+      return p.name === party || isInAlias
+    })
   }
   if (!theParty) {
     throw new Error(`Undefined party: ${party}`)

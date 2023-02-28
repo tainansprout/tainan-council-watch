@@ -38,6 +38,7 @@
 </template>
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
+import { DEFAULT_ROUND } from '~/libs/defs'
 
 const PDFJS_BASE = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
 const PDF_SRC_BASE = 'https://tainansprout.github.io/tainan-council-data/interpellation/round'
@@ -58,7 +59,7 @@ export default {
     },
     councilorRound: {
       type: String,
-      default: '3rd'
+      default: DEFAULT_ROUND
     },
     meetingRound: {
       type: Number,
