@@ -59,10 +59,10 @@ export function friendlyHeader ({ title, description, coverUrl }) {
       }
     }
     // if we are in page, so have access to vue instance
-    if (this && (title || description || coverUrl)) {
-      const url = `${SITE_URL}${this.$route.path}`
-      head.meta.push(genMeta('og:url', url))
-    }
+    // if (this && (title || description || coverUrl)) {
+    //   const url = `${SITE_URL}${this.$route.path}/`
+    //   head.meta.push(genMeta('og:url', url))
+    // }
     return head
   }
 }
