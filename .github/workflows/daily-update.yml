@@ -29,7 +29,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16]
+        node: [24]
 
     steps:
       - name: Checkout 🛎
@@ -68,4 +68,4 @@ jobs:
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_branch: gh-pages
-          publish_dir: ./tcw-ui/dist
+          publish_dir: ./tcw-ui/.output/public

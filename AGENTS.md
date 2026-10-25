@@ -1,6 +1,6 @@
 # AGENTS.md
 
-台南市議會觀測站（https://tcco.tnsprout.org），台南新芽製作。Nuxt 2 靜態網站，資料以 JSON／Markdown 放在 repo 內，透過 @nuxt/content 讀取，部署到 GitHub Pages。
+台南市議會觀測站（https://tcco.tnsprout.org），台南新芽製作。Nuxt 4（Vue 3）靜態網站，資料以 JSON／Markdown 放在 repo 內，由 `server/api` 在 `nuxt generate` 時讀取，預先產生成靜態頁，部署到 GitHub Pages。
 
 詳細說明在 `notes/`：
 
@@ -14,12 +14,15 @@
 
 ```
 tcw-ui/                 網站與資料腳本（所有指令都在這裡執行）
-  pages/_round/         依屆次的頁面：district、councilor、interpellation
+  pages/[[round]]/      首頁（/ 與 /{屆}）
+  pages/[round]/        依屆次的頁面：district/[[district]]、councilor/[[councilor]]、interpellation
+  server/api/           讀 content/ 的 JSON、Markdown 給頁面用（只在 dev 和 generate 時執行）
   content/council/{屆}/ 議員、選區、質詢資料
   content/meta/         政黨、局處、同義詞、頁尾設定（CMS 可編）
   content/article/      分析文章（CMS 新增）
   tools/                資料腳本，round-defs.js 是每屆的資料來源設定
-  static/admin/         Netlify CMS 設定（config.yml）
+  static/               靜態檔（dir.public 指到這裡，不是 Nuxt 預設的 public/）
+  static/admin/         Decap CMS 設定（config.yml）
 .github/workflows/      PR lint、push 部署、每日更新
 ```
 
@@ -30,8 +33,8 @@ tcw-ui/                 網站與資料腳本（所有指令都在這裡執行�
 
 ## 環境
 
-- **Node 16**（CI 也是 16）。原本的 `node-sass ~6.0` 沒有 Apple 晶片版本，已換成 `sass`（dart-sass 1.32）。Nuxt 2 用 webpack 4，Node 17 以上建置會出錯。
-- 不要跑 `npm audit fix`：它會把 html-webpack-plugin 升到要 webpack 5 的版本，`npm run dev` 直接壞掉。剩下的漏洞多在建置工具鏈，要升級框架才能解。
+- **Node 24**（LTS，CI 也是 24）。`npm ci` 之後會自動跑 `nuxt prepare`，產生 `.nuxt/`（ESLint 設定也在裡面）。
+- npm 11 會警告 jpegtran-bin、pngquant-bin 等套件的 install script 沒有核准；網站建置用不到，只有 `get-councilors.mjs` 壓縮照片會用到這兩個執行檔。
 - `tcw-ui/.env`：`ALGOLIA_APP_ID`、`ALGOLIA_DATA_API_KEY`、`ALGOLIA_SEARCH_API_KEY`、`ALGOLIA_INDEX_NAME` 必填；`SENTRY_*`、`JANDI_HOOK` 選填。
 
 ## 常用指令
@@ -41,7 +44,7 @@ cd tcw-ui
 npm ci
 npm run dev                 # 開發
 npm run lint                # PR 會跑這個
-npm run generate            # 靜態輸出到 dist/
+npm run generate            # 靜態輸出到 .output/public/（generate:gh 會再刪掉 admin/）
 
 # 資料腳本（依序）
 node tools/get-councilors.mjs -r 4th          # 爬議會官網議員名單與照片
@@ -55,8 +58,10 @@ node tools/sync-search-index.js 3rd [取樣%]   # sayit → Algolia（會覆蓋�
 ## 寫程式的慣例
 
 - Vue 檔用 Pug 模板 + SCSS，樣式以 tachyons 工具類為主，元件庫用 Buefy。
-- ESLint 用 `@nuxtjs` 設定；`console` 只允許 `warn`、`error`、`info`。
-- 元件自動 import（`components: true`），不用手動註冊。
+- ESLint 用 `@nuxt/eslint`（`eslint.config.mjs`），風格照原本 standard：不加分號、單引號、函式名稱後面空一格；`console` 只允許 `warn`、`error`、`info`。Pug 模板 ESLint 讀不到，`<script setup>` 裡只在模板用到的變數會被當成沒用到，所以頁面多用 `defineNuxtComponent` 的 Options API。
+- 元件、composables 自動 import，不用手動註冊。
+- 頁面資料用 `useFetch('/api/...')` 取，邏輯寫在 `server/api/`。generate 時資料會存進每頁的 `_payload.json`，正式站沒有 API。
+- 從 CommonJS 套件取具名匯出（`import { x } from 'lodash'`）在 SSR 會失敗，lodash 要用 `lodash-es`。Vue 2 時代的元件庫要加進 `build.transpile`（buefy 已加）。
 - 屆次 key 用 `3rd`、`4th`；選區 id 用 `1st`～`13th`；議員 id 是官網 `mainid` 前 8 碼，**換屆後同一人 id 會變**。
 - 選區名稱對照在 `libs/defs.js` 和 `tools/utils.js` 各有一份，改一邊要同步另一邊。
 
@@ -81,7 +86,6 @@ node tools/sync-search-index.js 3rd [取樣%]   # sayit → Algolia（會覆蓋�
 - `extract-interpellation.js` 的 `getDistrictId()` 把函式 `districtName2Id` 當物件用，永遠回傳 undefined，議員比對全靠全市同名比對。
 - Algolia 上傳欄位叫 `councilorRound`，`attributesForFaceting` 寫成 `councilRound`；前端搜尋也沒依屆次過濾。
 - `InterpellationCard.vue` 沒傳 `meeting-type`，PDF 檢視器只支援定期會（`regular`）。
-- `glob`、`topojson-client` 沒列在 `package.json`，靠間接依賴。
 - 第四屆的 `meta-第N選區.md` 全是空檔。
 - 第四屆質詢還沒上 Google Sheet：`round-defs.js` 的 `4th` 用 `file` 直接讀 `../tncc-data/interpellation/output/sheet/` 的 CSV（`tncc-data` 的 `export_sheet.py` 產生），所以 `extract-interpellation.js -r 4th` 只能在本機兩個 repo 並排時跑，CI 上沒有這個路徑。
 - `static/admin/index.html` 的 Netlify Identity widget 沒有固定版本；`backend: github` 用不到它，但沒確認編輯的登入方式前先不拿掉。
@@ -89,6 +93,8 @@ node tools/sync-search-index.js 3rd [取樣%]   # sayit → Algolia（會覆蓋�
 ## 測試
 
 沒有測試套件。改完跑 `npm run lint`，再開 `npm run dev` 跑 `python3 tools/smoke_test.py http://localhost:<port>`（要裝 playwright），看主要頁面和 CMS 後台有沒有 JavaScript 錯誤。
+
+上線前另外要測 `npm run generate` 的輸出：`cd .output/public && python3 -m http.server 3931`，再對 `http://127.0.0.1:3931` 跑同一支腳本。dev 不會出現的問題（例如預先產生的 HTML 和瀏覽器端 hydration 不一致、SSR 載入 CommonJS 失敗）只有這樣才看得到。generate 版沒有 `/admin`，那一行 404 是正常的。
 
 ## 不要做的事
 
