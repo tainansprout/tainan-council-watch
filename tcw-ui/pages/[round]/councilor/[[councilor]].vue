@@ -34,7 +34,8 @@
 <script>
 import { get } from 'lodash-es'
 import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY } from '~/libs/defs'
-import { scrollTo, stringifyTownList } from '~/libs/utils'
+import { number2zh, scrollTo, stringifyTownList } from '~/libs/utils'
+import { breadcrumbLd, councilorLd } from '~/libs/structuredData'
 import { dropdownMenuMiixin } from '~/libs/mixins'
 
 export default defineNuxtComponent({
@@ -52,12 +53,28 @@ export default defineNuxtComponent({
     const councilor = computed(() => data.value?.councilor || null)
     useFriendlyHead(() => {
       const c = councilor.value
+      const roundLabel = `${number2zh(round)}屆`
       if (!c) {
-        return { title: '找議員' }
+        return {
+          title: `找議員（${roundLabel}）`,
+          description: `台南市議會${roundLabel}全部議員，依選區列出，點進去看每位議員的質詢紀錄。`
+        }
       }
+      const sayit = data.value?.sayit || { sayit: [] }
+      const topOrgs = (sayit.stats?.org || []).slice(0, 3).map(org => org.name)
+      const path = `/${round}/councilor/${councilorId}/`
       return {
-        title: `${c.name}議員`,
-        description: [c.districtTitle, stringifyTownList(c.townList), c.party].join('．')
+        title: `${c.name}議員（${roundLabel}）`,
+        description: [
+          `${c.name}，台南市議會${roundLabel}${c.districtTitle}（${stringifyTownList(c.townList)}）議員，${c.party}。`,
+          sayit.sayit.length ? `共 ${sayit.sayit.length} 筆質詢紀錄，最常質詢${topOrgs.join('、')}。` : ''
+        ].join(''),
+        coverUrl: c.bgUrl,
+        type: 'profile',
+        jsonLd: [
+          councilorLd(c, path, roundLabel),
+          breadcrumbLd([[`${roundLabel}`, `/${round}/`], ['找議員', `/${round}/councilor/`], [`${c.name}議員`, path]])
+        ]
       }
     })
     return {

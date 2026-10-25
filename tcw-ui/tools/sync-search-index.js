@@ -81,7 +81,7 @@ async function main () {
     ],
     attributesForFaceting: [
       'relatedOrgs',
-      'councilRound',
+      'councilorRound',
       'round',
       'type',
       'councilor.districtId',

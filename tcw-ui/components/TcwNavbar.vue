@@ -7,14 +7,14 @@
         :class="{'nav__top--sticky': isMobileSticky}"
       )
         nuxt-link.nav__home(:to="`/${round}`")
-          img(src="~/assets/site-logo.svg")
+          img(src="~/assets/site-logo.svg" alt="")
           | 台南市議會觀測站
         button.plainButton.f4.db.dn-l(@click="toggleMenu")
           .pa1
             tcw-icon(:icon="menuOpened ? 'cancel' : 'menu'")
     .nav__bottom.dn
       nuxt-link.nav__home(:to="`/${round}`")
-        img(src="~/assets/site-logo.svg")
+        img(src="~/assets/site-logo.svg" alt="")
         .nowrap 台南市議會觀測站
       .flex.items-center.justify-between
         nuxt-link.nav__item.ls4.flex-none(

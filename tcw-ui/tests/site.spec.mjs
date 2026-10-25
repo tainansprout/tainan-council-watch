@@ -48,7 +48,7 @@ test.describe('靜態檔', () => {
     expect(paths.length).toBeGreaterThanOrEqual(170)
     for (const round of ROUNDS) {
       for (const id of Object.keys(councilorMap(round))) {
-        expect(paths, `sitemap 少了 ${round} 議員 ${id}`).toContain(`/${round}/councilor/${id}`)
+        expect(paths, `sitemap 少了 ${round} 議員 ${id}`).toContain(`/${round}/councilor/${id}/`)
       }
     }
     const failed = []
@@ -66,6 +66,69 @@ test.describe('靜態檔', () => {
 
   test('找不到的網址回 404', async ({ request }) => {
     expect((await request.get('/4th/councilor/NOTEXIST/')).status()).toBe(404)
+  })
+})
+
+test.describe('SEO', () => {
+  test('sitemap 每頁：網址結尾有斜線、title 不重複、有 description、canonical 指向自己、JSON-LD 格式正確、圖片有 alt', async ({ request }) => {
+    const xml = await (await request.get('/sitemap.xml')).text()
+    const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1])
+    const titles = new Map()
+    const errors = []
+    for (const url of urls) {
+      const path = new URL(url).pathname
+      if (!path.endsWith('/')) {
+        errors.push(`sitemap 網址沒有結尾斜線：${path}`)
+      }
+      const html = await (await request.get(path)).text()
+      const head = html.split('</head>')[0]
+      const title = head.match(/<title>([^<]*)<\/title>/)?.[1]
+      if (!title) {
+        errors.push(`${path} 沒有 title`)
+      } else if (titles.has(title)) {
+        // 首頁和預設屆次首頁內容一樣，canonical 指向同一頁，title 相同沒關係
+        if (path !== '/' && titles.get(title) !== '/') {
+          errors.push(`${path} 和 ${titles.get(title)} 的 title 一樣：${title}`)
+        }
+      } else {
+        titles.set(title, path)
+      }
+      if (!/<meta name="description" content="[^"]{20,}"/.test(head)) {
+        errors.push(`${path} 沒有 description`)
+      }
+      const canonical = head.match(/<link rel="canonical" href="([^"]+)"/)?.[1]
+      if (path !== '/' && canonical !== url) {
+        errors.push(`${path} 的 canonical 是 ${canonical}`)
+      }
+      for (const m of head.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
+        try {
+          JSON.parse(m[1])
+        } catch {
+          errors.push(`${path} 的 JSON-LD 不是合法 JSON`)
+        }
+      }
+      // 空的 alt 會輸出成沒有等號的 alt，也算有
+      const noAlt = html.match(/<img(?![^>]*\salt[\s=>])[^>]*>/g)
+      if (noAlt) {
+        errors.push(`${path} 有 ${noAlt.length} 張圖沒有 alt`)
+      }
+    }
+    expect(errors).toEqual([])
+  })
+
+  test('首頁的 canonical 指向預設屆次，議員頁有 Person 結構化資料', async ({ request }) => {
+    const home = await (await request.get('/')).text()
+    expect(home).toMatch(/<link rel="canonical" href="https:\/\/tcco\.tnsprout\.org\/(3rd|4th)\/"/)
+    const html = await (await request.get('/4th/councilor/053E553A/')).text()
+    const ld = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].flatMap(m => [].concat(JSON.parse(m[1])))
+    const person = ld.find(item => item['@type'] === 'Person')
+    expect(person.name).toBe('蔡育輝')
+    expect(ld.some(item => item['@type'] === 'BreadcrumbList')).toBe(true)
+    expect(ld.some(item => item['@type'] === 'WebSite')).toBe(true)
+  })
+
+  test('robots.txt 有 sitemap', async ({ request }) => {
+    expect(await (await request.get('/robots.txt')).text()).toContain('Sitemap: https://tcco.tnsprout.org/sitemap.xml')
   })
 })
 
@@ -186,10 +249,22 @@ test.describe('瀏覽器', () => {
     expect(problems).toEqual([])
   })
 
+  test('第四屆質詢卡片標第四屆，還沒有 PDF 切片所以不開原文', async ({ page }) => {
+    const problems = watch(page)
+    await page.goto('/4th/councilor/053E553A/', { waitUntil: 'networkidle' })
+    const card = page.locator('.intCard').first()
+    await expect(card.locator('.intCard__round')).toContainText('第四屆')
+    await expect(page.locator('.intCard__more')).toHaveCount(0)
+    await card.click()
+    await expect(page.locator('.pdfViewer canvas')).toHaveCount(0)
+    expect(problems).toEqual([])
+  })
+
   test('第三屆質詢卡片打開議事錄原文', async ({ page }) => {
     const problems = watch(page)
     await page.goto('/3rd/councilor/63ECF425/', { waitUntil: 'networkidle' })
     await page.locator('.intCard').first().click()
+    await expect(page.locator('.intCard__round').first()).toContainText('第三屆')
     await expect(page.locator('.pdfViewer canvas, .pdfViewer .page').first()).toBeVisible({ timeout: 60000 })
     expect(problems).toEqual([])
   })

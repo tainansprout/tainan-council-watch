@@ -31,7 +31,10 @@ export default defineNuxtComponent({
     if (error.value) {
       await navigateTo(`/${DEFAULT_ROUND}`)
     }
-    useFriendlyHead(() => ({ title: `${number2zh(round)}屆` }))
+    useFriendlyHead(() => ({
+      title: `${number2zh(round)}屆`,
+      description: `台南市議會${number2zh(round)}屆議員的質詢紀錄：依選區、議員、局處查詢每位議員在議會問了什麼，附議事錄原文出處。`
+    }))
     return {
       round,
       consMap: computed(() => data.value?.consMap || {}),

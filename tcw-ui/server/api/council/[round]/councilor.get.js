@@ -9,7 +9,12 @@ export default defineEventHandler((event) => {
   if (councilor) {
     const found = readSayit(round, councilorId)
     if (found) {
-      sayit = { ...found, sayit: [...found.sayit].sort((a, b) => b.date.localeCompare(a.date)) }
+      sayit = {
+        ...found,
+        sayit: found.sayit
+          .map(say => ({ ...say, councilorRound: round }))
+          .sort((a, b) => b.date.localeCompare(a.date))
+      }
     }
     const cms = readDistrictMeta(round, councilor.districtTitle)
     if (cms) {

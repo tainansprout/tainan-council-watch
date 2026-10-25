@@ -77,8 +77,11 @@ export default defineNuxtConfig({
     }
   },
 
+  // sitemap 的網址照 GitHub Pages 實際的網址，結尾有斜線（沒有斜線會被 301），和 canonical 一致
   site: {
-    url: 'https://tcco.tnsprout.org'
+    url: 'https://tcco.tnsprout.org',
+    name: '台南市議會觀測站',
+    trailingSlash: true
   },
 
   runtimeConfig: {

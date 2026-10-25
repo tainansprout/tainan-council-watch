@@ -18,6 +18,7 @@
 </template>
 <script>
 import { SITE_URL } from '~/libs/crawlerFriendly'
+import { articleLd } from '~/libs/structuredData'
 
 export default defineNuxtComponent({
   async setup () {
@@ -30,7 +31,9 @@ export default defineNuxtComponent({
     useFriendlyHead(() => ({
       title: article.value.title,
       description: article.value.summary,
-      coverUrl: article.value.coverImage
+      coverUrl: article.value.coverImage,
+      type: 'article',
+      jsonLd: article.value.title ? articleLd(article.value, route.path) : undefined
     }))
     return { article }
   },

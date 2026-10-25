@@ -6,7 +6,7 @@
         .int__algolia.mt1.tr
           a.f7.inline-flex.items-center.underline(href="https://www.algolia.com" target="_blank")
             | 搜尋服務使用
-            img.ml1(src="~/assets/algolia.svg")
+            img.ml1(src="~/assets/algolia.svg" alt="Algolia")
       .int__districtListWrapper.bg-white.db.dn-ns
         b-dropdown.int__districtList.w-100(aria-role="menu")
           template(#trigger)
@@ -44,6 +44,7 @@ import algoliasearch from 'algoliasearch'
 import { debounce } from 'lodash-es'
 import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY as DEFAULT_CATEGORY } from '~/libs/defs'
 import { dropdownMenuMiixin } from '~/libs/mixins'
+import { number2zh } from '~/libs/utils'
 
 const N_PER_ALGOLIA_REQUEST = 30
 const SEARCH_SLOWLY = 300
@@ -58,7 +59,10 @@ export default defineNuxtComponent({
     if (error.value) {
       await navigateTo(`/${DEFAULT_ROUND}/interpellation`)
     }
-    useFriendlyHead(() => ({ title: '搜質詢' }))
+    useFriendlyHead(() => ({
+      title: `搜質詢（${number2zh(round)}屆）`,
+      description: `搜尋台南市議會${number2zh(round)}屆議員的質詢，可以依局處、選區篩選。`
+    }))
     return {
       round,
       districtMap: computed(() => data.value?.districtMap || {}),
@@ -241,10 +245,11 @@ export default defineNuxtComponent({
     async updateSayitStats () {
       const params = {
         hitsPerPage: 0,
-        facets: ['relatedOrgs']
+        facets: ['relatedOrgs'],
+        facetFilters: [`councilorRound:${this.round}`]
       }
       if (this.district) {
-        params.facetFilters = [`councilor.districtId:${this.district.districtId}`]
+        params.facetFilters.push(`councilor.districtId:${this.district.districtId}`)
       }
       const { facets } = await this.algoliaIndex.search(this.query, params)
       this.orgFacets = facets.relatedOrgs
@@ -279,7 +284,7 @@ export default defineNuxtComponent({
         page: Math.floor(this.algoliaResult.length / N_PER_ALGOLIA_REQUEST),
 
         facets: ['relatedOrgs'],
-        facetFilters: []
+        facetFilters: [`councilorRound:${this.round}`]
       }
       if (this.category && this.category.type === 'org') {
         params.facetFilters.push(`relatedOrgs:${this.category.value}`)
@@ -297,7 +302,7 @@ export default defineNuxtComponent({
         this.algoliaResult.push({
           ...hit,
           councilorId: hit.councilor.id,
-          councilorRound: this.round
+          councilorRound: hit.councilorRound
         })
       })
 

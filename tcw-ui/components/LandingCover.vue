@@ -1,8 +1,8 @@
 <template lang="pug">
   .landingCover.relative
     .landingCover__cover
-      img.aspect-ratio--object.db.dn-ns(src="~/assets/cover.svg")
-      img.aspect-ratio--object.dn.db-ns(src="~/assets/cover-ns.svg")
+      img.aspect-ratio--object.db.dn-ns(src="~/assets/cover.svg" alt="")
+      img.aspect-ratio--object.dn.db-ns(src="~/assets/cover-ns.svg" alt="")
     .landingCover__header.absolute
       h1.landingCover__title.fw5 台南市議會觀測站
       .landingCover__subtitle(role="doc-subtitle") {{roundLabel}}

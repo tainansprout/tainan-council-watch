@@ -13,6 +13,7 @@
         )
 </template>
 <script>
+import { breadcrumbLd } from '~/libs/structuredData'
 import { DEFAULT_ROUND } from '~/libs/defs'
 import { number2zh, scrollTo, stringifyTownList } from '~/libs/utils'
 
@@ -31,10 +32,24 @@ export default defineNuxtComponent({
     }
     const meta = computed(() => data.value?.meta || null)
     useFriendlyHead(() => {
+      const roundLabel = `${number2zh(round)}屆`
       if (meta.value) {
-        return { title: `${number2zh(meta.value.districtId)}選區 - ${stringifyTownList(meta.value.townList)}` }
+        const m = meta.value
+        const path = `/${round}/district/${m.districtId}/`
+        const topOrgs = (data.value?.stats?.total?.org || []).slice(0, 3).map(org => org.name)
+        return {
+          title: `${m.districtTitle} - ${stringifyTownList(m.townList)}（${roundLabel}）`,
+          description: [
+            `台南市議會${roundLabel}${m.districtTitle}（${stringifyTownList(m.townList)}）共 ${m.councilors.length} 位議員：${m.councilors.map(c => c.name).join('、')}。`,
+            topOrgs.length ? `質詢最多的局處是${topOrgs.join('、')}。` : ''
+          ].join(''),
+          jsonLd: breadcrumbLd([[roundLabel, `/${round}/`], ['看選區', `/${round}/district/`], [m.districtTitle, path]])
+        }
       }
-      return { title: '看選區' }
+      return {
+        title: `看選區（${roundLabel}）`,
+        description: `台南市議會${roundLabel}的 13 個選區，看各選區的議員和質詢最多的局處。`
+      }
     })
     return {
       round,

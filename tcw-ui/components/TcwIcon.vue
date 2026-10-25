@@ -1,5 +1,5 @@
 <template lang="pug">
-  img.tcwIcon(:class="[`tcwIcon--${size}`]" :src="src")
+  img.tcwIcon(:class="[`tcwIcon--${size}`]" :src="src" alt="")
 </template>
 <script>
 export default {
