@@ -1,3 +1,5 @@
+const TNCC_SHEET_DIR = '../../tncc-data/interpellation/output/sheet'
+
 const interpellationData = {
   '3rd': {
     councilorPageId: '09243431-6616-4608-989D-6A156949F929',
@@ -14,7 +16,12 @@ const interpellationData = {
     ]
   },
   '4th': {
-    councilorPageId: 'C56635AE-3C35-4233-8561-7B2CAA2DF01F'
+    councilorPageId: 'C56635AE-3C35-4233-8561-7B2CAA2DF01F',
+    // ../tncc-data 的 interpellation/export_sheet.py 產生，還沒上 Google Sheet
+    sheetList: [1, 2, 3, 4, 5, 6].flatMap(round => [
+      { file: `${TNCC_SHEET_DIR}/第${round}次定期會_市政總質詢.csv`, type: '定期會', round },
+      { file: `${TNCC_SHEET_DIR}/第${round}次定期會_業務報告.csv`, type: '定期會', round, postfix: '業務' }
+    ])
   }
 }
 

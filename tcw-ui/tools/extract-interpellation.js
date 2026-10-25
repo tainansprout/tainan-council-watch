@@ -112,9 +112,12 @@ function getErrorCategory (sheetMeta) {
 
 function parseOneLog (sheetMeta, districtMap, councilorMap) {
   return new Promise((resolve, reject) => {
-    const endpoint = `${sheetMeta.sheetUri}&gid=${sheetMeta.sheetId}`
+    // file：本機 CSV（路徑相對於 tcw-ui/），沒有就讀 Google Sheet
+    const source = sheetMeta.file
+      ? fs.createReadStream(path.join(__dirname, '..', sheetMeta.file))
+      : got.stream(`${sheetMeta.sheetUri}&gid=${sheetMeta.sheetId}`)
     let lastValidDate = null
-    got.stream(endpoint)
+    source
       .pipe(new AutoDetectDecoderStream())
       .pipe(new CsvReadableStream({ asObject: true }))
       .on('data', (data) => {
@@ -179,7 +182,7 @@ async function parseLogs (nth) {
     throw new Error(`Cannot find round-defs[${nth}]`)
   }
 
-  if (!roundMeta.sheetList || !roundMeta.sheetUri) {
+  if (!roundMeta.sheetList) {
     console.warn(`Missing sheetUri / sheetList in round-defs[${nth}], create empty stats only.`)
   }
 
