@@ -28,7 +28,7 @@
 </template>
 <script>
 import { DEFAULT_ROUND } from '~/libs/defs'
-import { number2zh } from '~/libs/utils'
+import { number2zh, stringifyTownList } from '~/libs/utils'
 export default {
   props: {
     councilorMap: {
@@ -45,7 +45,7 @@ export default {
       return this.councilorMap[this.sayit.councilorId]
     },
     district () {
-      return `${this.councilor.districtTitle} | ${this.councilor.townList.join('.')}`
+      return `${this.councilor.districtTitle} | ${stringifyTownList(this.councilor.townList)}`
     },
     roundLabel () {
       const councilorRound = number2zh(this.sayit.councilorRound || DEFAULT_ROUND)

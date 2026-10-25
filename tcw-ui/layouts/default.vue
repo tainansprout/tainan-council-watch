@@ -2,7 +2,7 @@
   .tcw.mb5
     tcw-navbar
     main
-      nuxt
+      slot
     tcw-footer
 </template>
 <script>
@@ -12,7 +12,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 main {
-  ::v-deep article .nuxt-content {
+  :deep(article .nuxt-content) {
     line-height: normal;
     h1, h2, h3 {
       margin: 2rem 0 1rem;

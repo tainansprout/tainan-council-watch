@@ -11,14 +11,14 @@
       .f4.mb2.ls3.fw5 質詢相關局處
       .flex.flex-wrap
         span(v-if="!relatedOrgStats.length") 尚無質詢
-        org-stats-tag(
-          v-else
-          v-for="stats in relatedOrgStats"
-          :key="stats.name"
-          :stats="stats"
-          :plain-text="true"
-          :to="interpellationLink('org', stats.name)"
-        )
+        template(v-else)
+          org-stats-tag(
+            v-for="stats in relatedOrgStats"
+            :key="stats.name"
+            :stats="stats"
+            :plain-text="true"
+            :to="interpellationLink('org', stats.name)"
+          )
 </template>
 <script>
 export default {

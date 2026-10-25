@@ -4,8 +4,8 @@
       div
         h2.f4.f3-ns.nowrap 選區情報
       .districtSum__article
-        .o-50(v-if="!intro.body") 待撰寫
-        nuxt-content(v-else :document="intro")
+        .o-50(v-if="intro.html === null") 待撰寫
+        .nuxt-content(v-else v-html="intro.html")
       div
         h2.f4.f3-ns.nowrap 質詢相關局處
       .districtSum__statsList.relative.mt3.mt0-ns(:class="{'districtSum__statsList--all': isShowingAllStats}")

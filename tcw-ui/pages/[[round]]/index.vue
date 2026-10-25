@@ -3,13 +3,11 @@
     .landing__entry.mt5
       landing-cover(:round="round")
       .landing__navLinks.flex.justify-between.center
-        nuxt-link(
-          v-for="link in navLinks"
-          :key="link.label"
-          :to="genNavLink(link)"
-          @click.native="handleNavClick"
-        )
-          | {{link.label}}
+        template(v-for="link in navLinks" :key="link.label")
+          nuxt-link(v-if="link.label === '搜質詢'" :to="link.route(round)")
+            | {{link.label}}
+          a(v-else :href="`#${link.label}`" @click="handleNavClick")
+            | {{link.label}}
     tcw-title(level="h2" id="看選區" ref="看選區") 看選區
     .landing__section
       district-landing(:map="consMap" :round="round")
@@ -24,62 +22,28 @@
 import { get } from 'lodash'
 import { number2zh, scrollTo } from '~/libs/utils'
 import { NAV_LINKS, DEFAULT_ROUND } from '~/libs/defs'
-import { friendlyHeader } from '~/libs/crawlerFriendly'
 
-export default {
-  async asyncData ({ $content, params, redirect }) {
-    const round = params.round || DEFAULT_ROUND
-    let consMap = {}
-
-    try {
-      consMap = await $content('council', round, 'district-map').fetch()
-    } catch {
-      redirect(`/${DEFAULT_ROUND}`)
+export default defineNuxtComponent({
+  async setup () {
+    const route = useRoute()
+    const round = route.params.round || DEFAULT_ROUND
+    const { data, error } = await useFetch(`/api/council/${round}/landing`)
+    if (error.value) {
+      await navigateTo(`/${DEFAULT_ROUND}`)
     }
-
-    let articleCategories = await $content('setting')
-      .where({ type: 'articleCategory' })
-      .sortBy('order')
-      .fetch()
-
-    let articlePerCategory = await Promise.all(articleCategories.map((category) => {
-      return $content('article')
-        .where({ category: category.slug })
-        .only(['coverImage', 'category'])
-        .sortBy('createdAt', 'desc')
-        .limit(1)
-        .fetch()
-    }))
-    articlePerCategory = articlePerCategory.flatMap(articles => articles)
-
-    articleCategories.forEach((category) => {
-      const article = articlePerCategory.find(article => category.slug === article.category)
-      if (article) {
-        category.coverImage = article.coverImage
-      }
-    })
-
-    articleCategories = articleCategories.filter(category => category.coverImage)
-
-    return { consMap, round, articleCategories }
+    useFriendlyHead(() => ({ title: `${number2zh(round)}屆` }))
+    return {
+      round,
+      consMap: computed(() => data.value?.consMap || {}),
+      articleCategories: computed(() => data.value?.articleCategories || [])
+    }
   },
-  head: friendlyHeader({
-    title () {
-      return `${number2zh(this.round)}屆`
-    }
-  }),
   computed: {
     navLinks () {
       return NAV_LINKS
     }
   },
   methods: {
-    genNavLink (link) {
-      if (link.label !== '搜質詢') {
-        return `#${link.label}`
-      }
-      return link.route(this.round)
-    },
     handleNavClick (e) {
       const href = get(e, 'target.attributes.href.value', '').split('#')
       if (href.length <= 1) {
@@ -95,7 +59,7 @@ export default {
       e.preventDefault()
     }
   }
-}
+})
 </script>
 <style lang="scss" scoped>
 .landing {

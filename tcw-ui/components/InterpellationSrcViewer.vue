@@ -6,38 +6,38 @@
         button.plainButton.f4.cursor(@click="hide")
           i.fas.fa-times-circle
       client-only
-        infinite-loading(v-if="mainPage" @infinite="loadMore(false, $event)" :distance="0" direction="top")
-          div(slot="no-more")
-          div(slot="no-results")
+        infinite-loading(v-if="mainPage" @infinite="loadMore(false, $event)" :distance="0" :top="true")
+          template(#complete)
       .h3
       single-interpellation-pdf(
         v-for="page in headPages"
         :key="page.id"
         v-bind="page.pdf"
         @loaded="markLoadingDone(false)"
-        @click.native.stop="handlePageClick"
+        @click.stop="handlePageClick"
       )
       single-interpellation-pdf(
         v-bind="mainPage"
         :no-scroll="false"
-        @click.native.stop="handlePageClick"
+        @click.stop="handlePageClick"
       )
       single-interpellation-pdf(
         v-for="page in tailPages"
         :key="page.id"
         v-bind="page.pdf"
         @loaded="markLoadingDone(true)"
-        @click.native.stop="handlePageClick"
+        @click.stop="handlePageClick"
       )
       .h3
       client-only
         infinite-loading(v-if="mainPage" @infinite="loadMore(true, $event)" :distance="0")
-          div(slot="no-more")
-          div(slot="no-results")
+          template(#complete)
       .h3
 </template>
 <script>
-import InfiniteLoading from 'vue-infinite-loading'
+import { markRaw } from 'vue'
+import InfiniteLoading from 'v3-infinite-loading'
+import 'v3-infinite-loading/lib/style.css'
 import { DEFAULT_ROUND } from '~/libs/defs'
 
 const PDFJS_BASE = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
@@ -93,11 +93,6 @@ export default {
       tailLoadingState: null
     }
   },
-  head () {
-    return {
-      link: [{ rel: 'stylesheet', href: `${PDFJS_BASE}/web/pdf_viewer.css` }]
-    }
-  },
   computed: {
     isMainReady () {
       return this.mainPage && this.isOpened
@@ -129,7 +124,7 @@ export default {
     this.isLibLoaded = this.checkPdfLibReadiness()
     this.isPageMounted = true
   },
-  beforeDestroy () {
+  beforeUnmount () {
     clearTimeout(this.pdfLibTimer)
   },
   methods: {
@@ -176,18 +171,18 @@ export default {
       const chunkIndex = this.getPageChunkIndex(pageIndex)
 
       if (!this.pageChunk[chunkIndex]) {
-        this.pageChunk[chunkIndex] = pdfjsLib.getDocument({
+        this.pageChunk[chunkIndex] = markRaw(pdfjsLib.getDocument({
           url: `${this.pdfLinkBase}/${chunkIndex}.pdf`,
           cMapUrl: CMAP_URL,
           cMapPacked: true,
           enableXfa: true
-        })
+        }))
       }
 
       const pdfDocument = await this.pageChunk[chunkIndex].promise
 
       return {
-        document: pdfDocument,
+        document: markRaw(pdfDocument),
         page: pageOffset
       }
     },

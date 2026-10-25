@@ -28,74 +28,46 @@
             :councilor-map="counsMap"
             :say-list="sayList"
             :stats="sayitStats"
-            :category.sync="interpellationCategory"
+            v-model:category="interpellationCategory"
           )
 </template>
 <script>
 import { get } from 'lodash'
 import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY } from '~/libs/defs'
 import { scrollTo, stringifyTownList } from '~/libs/utils'
-import { friendlyHeader } from '~/libs/crawlerFriendly'
 import { dropdownMenuMiixin } from '~/libs/mixins'
 
-export default {
+export default defineNuxtComponent({
   mixins: [dropdownMenuMiixin],
-  async asyncData ({ $content, params, redirect }) {
-    const round = params.round || DEFAULT_ROUND
-    let districtMap = {}
-    let counsMap = {}
-    try {
-      districtMap = await $content('council', round, 'district-map').fetch()
-      counsMap = await $content('council', round, 'councilor-map').fetch()
-    } catch {
-      redirect(`/${DEFAULT_ROUND}/councilor`)
+  async setup () {
+    const route = useRoute()
+    const round = route.params.round || DEFAULT_ROUND
+    const councilorId = route.params.councilor
+    const { data, error } = await useFetch(`/api/council/${round}/councilor`, {
+      query: councilorId ? { councilor: councilorId } : {}
+    })
+    if (error.value) {
+      await navigateTo(`/${DEFAULT_ROUND}/councilor`)
     }
-    const councilorId = params.councilor
-    let councilor = counsMap[councilorId]
-    let sayit = { sayit: [] }
-
-    if (councilorId) {
-      try {
-        sayit = await $content('council', round, 'sayit', councilorId).fetch()
-      } catch {
-        // noop
+    const councilor = computed(() => data.value?.councilor || null)
+    useFriendlyHead(() => {
+      const c = councilor.value
+      if (!c) {
+        return { title: '找議員' }
       }
-
-      sayit.sayit.sort((a, b) => {
-        return b.date.localeCompare(a.date)
-      })
-    }
-
-    try {
-      const cmsContent = await $content('council', round, `meta-${councilor.districtTitle}`).fetch()
-      councilor = {
-        ...councilor,
-        ...cmsContent[`councilor-${councilorId}`]
+      return {
+        title: `${c.name}議員`,
+        description: [c.districtTitle, stringifyTownList(c.townList), c.party].join('．')
       }
-    } catch {
-      // noop
+    })
+    return {
+      round,
+      councilor,
+      districtMap: computed(() => data.value?.districtMap || null),
+      counsMap: computed(() => data.value?.counsMap || {}),
+      sayit: computed(() => data.value?.sayit || { sayit: [] })
     }
-
-    return { districtMap, round, councilor, counsMap, sayit }
   },
-  head: friendlyHeader({
-    title () {
-      if (this.councilor) {
-        return `${this.councilor.name}議員`
-      }
-      return '找議員'
-    },
-    description () {
-      if (!this.councilor) {
-        return ''
-      }
-      return [
-        this.councilor.districtTitle,
-        stringifyTownList(this.councilor.townList),
-        this.councilor.party
-      ].join('．')
-    }
-  }),
   computed: {
     interpellationCategory: {
       get () {
@@ -126,7 +98,7 @@ export default {
       if (!this.councilor) {
         return ''
       }
-      const list = this.councilor.townList
+      const list = [...this.councilor.townList]
       const lastTown = list[list.length - 1]
       if (!lastTown.endsWith('區')) {
         list[list.length - 1] = `${lastTown}區`
@@ -174,7 +146,7 @@ export default {
       scrollTo(this.$refs.head)
     }
   }
-}
+})
 </script>
 <style lang="scss" scoped>
 .councilor {

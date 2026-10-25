@@ -21,6 +21,7 @@
           v-for="link in navLinks"
           :key="link.label"
           :to="link.route(round)"
+          :class="{'nuxt-link-active': isActive(link)}"
         )
           | {{link.label}}
       .nav__search.flex.items-center.justify-center(
@@ -60,19 +61,16 @@
         v-for="link in navLinks"
         :key="link.label"
         :to="link.route(round)"
+        :class="{'nuxt-link-active': isActive(link)}"
       )
         | {{link.label}}
 </template>
 <script>
-import VueIntersect from 'vue-intersect'
 import { NAV_LINKS, DEFAULT_ROUND } from '~/libs/defs'
 
 const WAIT_UI_REFRESH = 50
 
 export default {
-  components: {
-    VueIntersect
-  },
   data () {
     return {
       menuOpened: false,
@@ -97,6 +95,11 @@ export default {
     }
   },
   methods: {
+    // Vue Router 4 的 active class 不再比對網址開頭，/article/xxx 時「讀分析」要自己標
+    isActive (link) {
+      const path = link.route(this.round)
+      return this.$route.path === path || this.$route.path.startsWith(`${path}/`)
+    },
     toggleMenu () {
       this.menuOpened = !this.menuOpened
 

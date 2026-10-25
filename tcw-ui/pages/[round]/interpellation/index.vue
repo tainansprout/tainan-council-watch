@@ -9,7 +9,7 @@
             img.ml1(src="~/assets/algolia.svg")
       .int__districtListWrapper.bg-white.db.dn-ns
         b-dropdown.int__districtList.w-100(aria-role="menu")
-          template(slot="trigger")
+          template(#trigger)
             button.int__districtTrigger.w-100.flex.justify-between.items-center
               span(v-if="activeDistrict.id === 'all'") 查看全部選區
               district-text(v-else :district="district")
@@ -34,7 +34,7 @@
         :councilor-map="councilorMap"
         :say-list="sayList"
         :stats="sayitStats"
-        :category.sync="category"
+        v-model:category="category"
         :is-static="false"
         @infinite="loadMore"
       )
@@ -43,7 +43,6 @@
 import algoliasearch from 'algoliasearch'
 import { debounce } from 'lodash'
 import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY as DEFAULT_CATEGORY } from '~/libs/defs'
-import { friendlyHeader } from '~/libs/crawlerFriendly'
 import { dropdownMenuMiixin } from '~/libs/mixins'
 
 const N_PER_CAT = 4
@@ -51,65 +50,28 @@ const N_PER_ALGOLIA_REQUEST = 30
 const SEARCH_SLOWLY = 300
 const AGGREGATE_URL_UPDATE_SLOWLY = 50
 
-export default {
+export default defineNuxtComponent({
   mixins: [dropdownMenuMiixin],
-  async asyncData ({ $content, params }) {
-    const round = params.round || DEFAULT_ROUND
-    const districtMap = await $content('council', round, 'district-map').fetch()
-    const councilorMap = await $content('council', round, 'councilor-map').fetch()
-    const allSayit = await $content('council', round, 'sayit').fetch()
-    const allSayitStats = await $content('council', round, 'sayit/stats').fetch()
-
-    const nSayitPerCat = { org: {} }
-
-    const sayList = allSayit
-      .flatMap((person) => {
-        if (!person.sayit) {
-          return []
-        }
-        return person.sayit
-          .filter(sayit => !sayit.date.startsWith('Invalid'))
-          .map((sayit) => {
-            return {
-              ...sayit,
-              councilorId: person.id,
-              councilorRound: round
-            }
-          })
-      })
-      .sort((a, b) => {
-        return b.date.localeCompare(a.date)
-      })
-      .filter((sayit) => {
-        let shouldExisted = false
-        sayit.relatedOrgs.forEach((org) => {
-          if (!nSayitPerCat.org[org]) {
-            nSayitPerCat.org[org] = 0
-          }
-          if (nSayitPerCat.org[org] < N_PER_CAT) {
-            nSayitPerCat.org[org] += 1
-            shouldExisted = true
-          }
-        })
-        return shouldExisted
-      })
-
-    const sayitStats = allSayitStats.all
-
+  async setup () {
+    const route = useRoute()
+    const round = route.params.round || DEFAULT_ROUND
+    const { data, error } = await useFetch(`/api/council/${round}/interpellation`)
+    if (error.value) {
+      await navigateTo(`/${DEFAULT_ROUND}/interpellation`)
+    }
+    useFriendlyHead(() => ({ title: '搜質詢' }))
     return {
       round,
-      districtMap,
-      councilorMap,
-      defaultSayList: sayList,
-      defaultSayitStats: sayitStats
+      districtMap: computed(() => data.value?.districtMap || {}),
+      councilorMap: computed(() => data.value?.councilorMap || {}),
+      defaultSayList: computed(() => data.value?.defaultSayList || []),
+      defaultSayitStats: computed(() => data.value?.defaultSayitStats || { org: [] })
     }
   },
   data () {
-    const algoliaClient = algoliasearch(
-      process.env.algoliaApp,
-      process.env.algoliaKey
-    )
-    const algoliaIndex = algoliaClient.initIndex(process.env.algoliaIndex)
+    const config = useRuntimeConfig().public
+    const algoliaClient = algoliasearch(config.algoliaApp, config.algoliaKey)
+    const algoliaIndex = algoliaClient.initIndex(config.algoliaIndex)
 
     return {
       algoliaResult: [],
@@ -119,9 +81,6 @@ export default {
       orgFacets: null
     }
   },
-  head: friendlyHeader({
-    title: '搜質詢'
-  }),
   computed: {
     query: {
       get () {
@@ -359,7 +318,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 <style lang="scss" scoped>
 .int {
@@ -373,16 +332,16 @@ export default {
     z-index: 1000;
   }
   &__districtList {
-    &.dropdown ::v-deep {
-      .dropdown-trigger {
+    &.dropdown {
+      :deep(.dropdown-trigger) {
         width: 100%;
       }
-      .dropdown-content {
+      :deep(.dropdown-content) {
         padding: 0;
         border-radius: 0;
         border: 1px solid $gray-d;
       }
-      .dropdown-item {
+      :deep(.dropdown-item) {
         padding: 1rem;
         &.is-active {
           background: none;
@@ -452,10 +411,8 @@ export default {
       row-gap: 0.5rem;
       justify-content: center;
       border-bottom: 1px solid $gray-d;
-      ::v-deep {
-        .districtText {
-          letter-spacing: 1px;
-        }
+      :deep(.districtText) {
+        letter-spacing: 1px;
       }
     }
   }
