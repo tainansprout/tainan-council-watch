@@ -27,11 +27,11 @@ councilor-666A962B:
 councilor-4A10A4A3:
   job-history: |-
     台南市議會第1、2、3、4屆議員。
+    台南市議會第4屆議長。
     台南市議會（改制前）第14至第16屆議員。
   job-period: "完整"
   misc-title: "政治關係｜黨職"
   misc-content: |-
-    台南市議會第4屆議長 2022/12/25-
     曾任民主進步黨台南市黨部主任委員
     曾任民主進步黨中央黨部發言人
 councilor-3883BDD9:
