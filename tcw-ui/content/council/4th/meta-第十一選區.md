@@ -18,7 +18,7 @@ councilor-D02F8D8F:
     台南市仁德區區長
   job-period: "完整"
   misc-title: "政治關係｜黨職"
-  misc-content: "台南市議會民進黨團總召（2023年2月起）"
+  misc-content: "民主進步黨台南市議會黨團總召集人 2023/2/9-2024/2/15"
 councilor-0DB92A60:
   job-history: "台南市議會第3、4屆議員"
   job-period: "完整"
