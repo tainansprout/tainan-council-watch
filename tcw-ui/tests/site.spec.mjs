@@ -252,14 +252,21 @@ test.describe('瀏覽器', () => {
     expect(problems).toEqual([])
   })
 
-  test('第四屆質詢卡片標第四屆，還沒有 PDF 切片所以不開原文', async ({ page }) => {
+  test('第四屆質詢卡片打開議事錄原文', async ({ page }) => {
     const problems = watch(page)
+    // 本機有 tainan-council-data 時用本機的切片，還沒 push 也能測；沒有就連線上
+    const localPdf = join(import.meta.dirname, '../../../tainan-council-data/interpellation/round')
+    await page.route('https://tainansprout.github.io/tainan-council-data/interpellation/round/4th/**', (route) => {
+      const file = join(localPdf, new URL(route.request().url()).pathname.split('/interpellation/round/')[1])
+      return existsSync(file)
+        ? route.fulfill({ body: readFileSync(file), contentType: 'application/pdf' })
+        : route.continue()
+    })
     await page.goto('/4th/councilor/053E553A/', { waitUntil: 'networkidle' })
     const card = page.locator('.intCard').first()
     await expect(card.locator('.intCard__round')).toContainText('第四屆')
-    await expect(page.locator('.intCard__more')).toHaveCount(0)
     await card.click()
-    await expect(page.locator('.pdfViewer canvas')).toHaveCount(0)
+    await expect(page.locator('.pdfViewer canvas, .pdfViewer .page').first()).toBeVisible({ timeout: 60000 })
     expect(problems).toEqual([])
   })
 
