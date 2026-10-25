@@ -5,7 +5,7 @@ councilor-9CBCB90A:
   misc-title: "政治關係｜黨職"
   misc-content: |-
     父親為前台南市議員陳文賢
-    台南市議員陳文賢服務處主任
+    曾任台南市議員陳文賢服務處主任
     民主進步黨5屆全國黨代表
 councilor-D673DBCE:
   job-history: |-

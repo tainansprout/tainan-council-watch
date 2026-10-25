@@ -13,6 +13,7 @@ councilor-15677049:
   misc-content: |-
     父親為前台南市議會副議長曾順良
     胞弟為前台南市議員曾信凱
+    姑姑為台南市議員曾培雅
     曾任台南市議員曾信凱服務處執行長
 councilor-F2A51A9F:
   job-history: |-

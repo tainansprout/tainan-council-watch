@@ -21,7 +21,7 @@ councilor-0986A206:
   misc-title: "政治關係｜黨職"
   misc-content: |-
     父親為前台南市議員、前學甲鎮長謝財旺
-    台南市議員謝財旺專任秘書
+    曾任台南市議員謝財旺專任秘書
     民主進步黨第19屆全國黨代表
 councilor-8E537876:
   job-history: |-
