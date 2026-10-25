@@ -90,3 +90,7 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# Playwright 測試產出
+/test-results
+/playwright-report

@@ -53,6 +53,12 @@ jobs:
       - name: Build UI
         run: npm run generate:gh
       
+      - name: Install test browser 🧪
+        run: npx playwright install --with-deps chromium
+
+      - name: Run e2e tests 🧪
+        run: npm test
+
       - name: Sync search index
         run: node ./tools/sync-search-index.js
 

@@ -42,11 +42,13 @@ npm run dev
    cd tcw-ui
    node tools/get-councilors.mjs -r 3rd
    ```
-2. 質詢編碼資料（僅限第三屆）
+2. 質詢編碼資料
    ```
    cd tcw-ui
    node tools/extract-interpellation.js -r 3rd
+   node tools/extract-interpellation.js -r 4th
    ```
+   - 第三屆讀 Google Sheet；第四屆目前讀 `../tncc-data/interpellation/output/sheet/` 的 CSV（由 tncc-data 的 `export_sheet.py` 產生），兩個 repo 要放在同一層
 3. 產生台南選區地圖 (geojson)
    ```
    cd tcw-ui
@@ -63,9 +65,11 @@ npm run dev
 
 ```sh
 cd tcw-ui
-npm i
-npm run generate
-npm run start
+npm ci
+npm run generate            # 輸出到 .output/public/
+npx playwright install chromium   # 第一次才要
+npm test                    # 對 .output/public/ 跑端對端測試
+npm run preview             # 本機預覽
 ```
 
 ## 設計與資訊架構

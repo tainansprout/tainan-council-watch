@@ -45,6 +45,7 @@ npm ci
 npm run dev                 # 開發
 npm run lint                # PR 會跑這個
 npm run generate            # 靜態輸出到 .output/public/（generate:gh 會再刪掉 admin/）
+npm test                    # 對 .output/public/ 跑端對端測試（要先 generate；第一次先 npx playwright install chromium）
 
 # 資料腳本（依序）
 node tools/get-councilors.mjs -r 4th          # 爬議會官網議員名單與照片
@@ -92,9 +93,16 @@ node tools/sync-search-index.js 3rd [取樣%]   # sayit → Algolia（會覆蓋�
 
 ## 測試
 
-沒有測試套件。改完跑 `npm run lint`，再開 `npm run dev` 跑 `python3 tools/smoke_test.py http://localhost:<port>`（要裝 playwright），看主要頁面和 CMS 後台有沒有 JavaScript 錯誤。
+`tests/site.spec.mjs`（Playwright）對 `npm run generate` 的輸出跑，因為部署到 GitHub Pages 的就是這份靜態檔，沒有 `/api`。`tests/serve-static.mjs` 照 GitHub Pages 的規則提供檔案（資料夾回 `index.html`、找不到回 `404.html`）。測的是：
 
-上線前另外要測 `npm run generate` 的輸出：`cd .output/public && python3 -m http.server 3931`，再對 `http://127.0.0.1:3931` 跑同一支腳本。dev 不會出現的問題（例如預先產生的 HTML 和瀏覽器端 hydration 不一致、SSR 載入 CommonJS 失敗）只有這樣才看得到。generate 版沒有 `/admin`，那一行 404 是正常的。
+- sitemap 的每個網址和它的 `_payload.json` 都在（站內換頁靠 `_payload.json`，少了就壞）；找不到的網址回 404。
+- 第三、四屆每位議員頁有名字、「所有局處」總數、最新一筆質詢；每個選區頁有議員和最多的局處。預期值直接讀 `content/` 的 JSON。
+- 主要頁面沒有 JavaScript 錯誤、沒有站內請求失敗、沒有打到 `/api`。
+- 互動：導覽列和選區頁點進議員頁（不重新載入）、議員頁點局處篩選和捲到底載入更多、選區頁「顯示所有局處」、第三屆質詢卡片打開議事錄原文、頁尾切換屆次。
+
+改完跑 `npm run lint`、`npm run generate`、`npm test`。本機已經有 Chromium 時可以用 `CHROMIUM_PATH=<執行檔路徑> npm test`。CI 在 PR、部署、每日更新都會跑，測不過就不部署（部署流程在更新搜尋索引之前測）。
+
+CMS 後台不在 generate 的輸出裡（`generate:gh` 會刪掉 `admin/`），改了 `static/admin/` 要另外用 `npm run dev` 開 `/admin/index.html` 看。
 
 ## 不要做的事
 

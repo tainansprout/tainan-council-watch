@@ -39,3 +39,12 @@ jobs:
       - name: Run linter 👀
         run: npm run lint
 
+      - name: Build UI
+        run: npm run generate
+
+      - name: Install test browser 🧪
+        run: npx playwright install --with-deps chromium
+
+      - name: Run e2e tests 🧪
+        run: npm test
+
