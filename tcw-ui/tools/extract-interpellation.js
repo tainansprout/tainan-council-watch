@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const got = require('got')
+const { Readable } = require('stream')
 const dayjs = require('dayjs')
 const parseArgs = require('command-line-args')
 const CsvReadableStream = require('csv-reader')
@@ -110,12 +110,21 @@ function getErrorCategory (sheetMeta) {
   return category
 }
 
+// Google Sheet 發布的 CSV，用 Node 內建的 fetch 讀成串流
+async function* fetchCsv (url) {
+  const res = await fetch(url)
+  if (!res.ok) {
+    throw new Error(`Fail to fetch ${url}: ${res.status}`)
+  }
+  yield* res.body
+}
+
 function parseOneLog (sheetMeta, districtMap, councilorMap) {
   return new Promise((resolve, reject) => {
     // file：本機 CSV（路徑相對於 tcw-ui/），沒有就讀 Google Sheet
     const source = sheetMeta.file
       ? fs.createReadStream(path.join(__dirname, '..', sheetMeta.file))
-      : got.stream(`${sheetMeta.sheetUri}&gid=${sheetMeta.sheetId}`)
+      : Readable.from(fetchCsv(`${sheetMeta.sheetUri}&gid=${sheetMeta.sheetId}`), { objectMode: false })
     let lastValidDate = null
     source
       .pipe(new AutoDetectDecoderStream())
