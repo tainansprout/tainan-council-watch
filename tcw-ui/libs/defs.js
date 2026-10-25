@@ -32,7 +32,7 @@ export const DISTRICT_KEY_LIST = Object.values(DISTRICT_MAP)
 
 export const DISTRICT_LIST = Object.keys(DISTRICT_MAP)
 
-export const DEFAULT_ROUND = '3rd'
+export const DEFAULT_ROUND = '4th'
 
 // tainan-council-data 已經有議事錄 PDF 切片的屆次，其他屆的質詢卡片不開原文
 // 第四屆切片在 tainan-council-data 的 interpellation/round/4th/regular/01～06（tools/split-pdf.py）

@@ -116,9 +116,10 @@ test.describe('SEO', () => {
     expect(errors).toEqual([])
   })
 
-  test('首頁的 canonical 指向預設屆次，議員頁有 Person 結構化資料', async ({ request }) => {
+  test('首頁是第四屆，canonical 指向 /4th/，議員頁有 Person 結構化資料', async ({ request }) => {
     const home = await (await request.get('/')).text()
-    expect(home).toMatch(/<link rel="canonical" href="https:\/\/tcco\.tnsprout\.org\/(3rd|4th)\/"/)
+    expect(home).toMatch(/<link rel="canonical" href="https:\/\/tcco\.tnsprout\.org\/4th\/"/)
+    expect(home).toContain('<title>第四屆')
     const html = await (await request.get('/4th/councilor/053E553A/')).text()
     const ld = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].flatMap(m => [].concat(JSON.parse(m[1])))
     const person = ld.find(item => item['@type'] === 'Person')
