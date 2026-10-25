@@ -30,7 +30,8 @@ tcw-ui/                 網站與資料腳本（所有指令都在這裡執行�
 
 ## 環境
 
-- **Node 16**。`node-sass ~6.0` 在更新的 Node 裝不起來（README 寫 16+ 不正確）。
+- **Node 16**（CI 也是 16）。原本的 `node-sass ~6.0` 沒有 Apple 晶片版本，已換成 `sass`（dart-sass 1.32）。Nuxt 2 用 webpack 4，Node 17 以上建置會出錯。
+- 不要跑 `npm audit fix`：它會把 html-webpack-plugin 升到要 webpack 5 的版本，`npm run dev` 直接壞掉。剩下的漏洞多在建置工具鏈，要升級框架才能解。
 - `tcw-ui/.env`：`ALGOLIA_APP_ID`、`ALGOLIA_DATA_API_KEY`、`ALGOLIA_SEARCH_API_KEY`、`ALGOLIA_INDEX_NAME` 必填；`SENTRY_*`、`JANDI_HOOK` 選填。
 
 ## 常用指令
@@ -81,7 +82,13 @@ node tools/sync-search-index.js 3rd [取樣%]   # sayit → Algolia（會覆蓋�
 - Algolia 上傳欄位叫 `councilorRound`，`attributesForFaceting` 寫成 `councilRound`；前端搜尋也沒依屆次過濾。
 - `InterpellationCard.vue` 沒傳 `meeting-type`，PDF 檢視器只支援定期會（`regular`）。
 - `glob`、`topojson-client` 沒列在 `package.json`，靠間接依賴。
-- 第四屆的 `meta-第N選區.md` 全是空檔，`sayit/` 沒有資料。
+- 第四屆的 `meta-第N選區.md` 全是空檔。
+- 第四屆質詢還沒上 Google Sheet：`round-defs.js` 的 `4th` 用 `file` 直接讀 `../tncc-data/interpellation/output/sheet/` 的 CSV（`tncc-data` 的 `export_sheet.py` 產生），所以 `extract-interpellation.js -r 4th` 只能在本機兩個 repo 並排時跑，CI 上沒有這個路徑。
+- `static/admin/index.html` 的 Netlify Identity widget 沒有固定版本；`backend: github` 用不到它，但沒確認編輯的登入方式前先不拿掉。
+
+## 測試
+
+沒有測試套件。改完跑 `npm run lint`，再開 `npm run dev` 跑 `python3 tools/smoke_test.py http://localhost:<port>`（要裝 playwright），看主要頁面和 CMS 後台有沒有 JavaScript 錯誤。
 
 ## 不要做的事
 

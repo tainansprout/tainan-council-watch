@@ -164,6 +164,7 @@ function parseOneLog (sheetMeta, districtMap, councilorMap) {
       .on('end', () => {
         resolve()
       })
+      .on('error', reject)
   })
 }
 
