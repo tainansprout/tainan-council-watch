@@ -1,7 +1,6 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import glob from 'glob'
 import axios from 'axios'
 import md5 from 'md5'
 import sharp from 'sharp'
@@ -74,7 +73,10 @@ async function hostImage (originalUrl, round, maxWidth = MAX_IMG_WIDTH) {
   const imgDest = path.join(IMG_CACHE_BASE.path, round, imgHash)
   const imgUrl = `${IMG_CACHE_BASE.url}${round}/${imgHash}`
 
-  const matchedImage = glob.sync(`${imgDest}.*`)
+  const imgDir = path.dirname(imgDest)
+  const matchedImage = fs.existsSync(imgDir)
+    ? fs.readdirSync(imgDir).filter(name => name.startsWith(`${imgHash}.`)).map(name => path.join(imgDir, name))
+    : []
   if (matchedImage.length) {
     const ext = path.extname(matchedImage[0])
     return `${imgUrl}${ext}`
@@ -101,9 +103,8 @@ async function hostImage (originalUrl, round, maxWidth = MAX_IMG_WIDTH) {
 
   const origImg = await sharp(img.data)
   const imgMeta = await origImg.metadata()
-  let normalizedBuffer = null
+  let normalizedBuffer
   if (imgMeta.width > maxWidth) {
-    // eslint-disable-next-line no-console
     console.info(`Image ${originalUrl} too large, will resize it to ${maxWidth}px width.`)
     normalizedBuffer = await origImg.resize(maxWidth).toBuffer()
   } else {
@@ -119,7 +120,6 @@ async function hostImage (originalUrl, round, maxWidth = MAX_IMG_WIDTH) {
     ]
   })
 
-  // eslint-disable-next-line no-console
   console.info(`Host image ${originalUrl} in ${imgHash}.${type.ext}`)
 
   fs.writeFileSync(path.join(`${imgDest}.${type.ext}`), miniImg)
@@ -179,7 +179,7 @@ function dumpDistrictInfo (quota, nth) {
         id,
         name,
         abbr,
-        // eslint-disable-next-line import/no-named-as-default-member
+
         party: normalizeParty(party).name,
         bgUrl: localBgUrl,
         pageLink

@@ -54,7 +54,7 @@
  *   - update:category (newCategory)
  *   - infinite ($state) - same usage as vue-infinite-loading
  */
-import { debounce } from 'lodash'
+import { debounce } from 'lodash-es'
 import InfiniteLoading from 'v3-infinite-loading'
 import 'v3-infinite-loading/lib/style.css'
 import { NAV_HEIGHT } from '~/libs/defs'
@@ -108,6 +108,7 @@ export default {
       default: true
     }
   },
+  emits: ['update:category', 'infinite'],
   data () {
     return {
       cursor: N_ITEM_PER_PAGE,

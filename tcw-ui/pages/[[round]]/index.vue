@@ -19,7 +19,7 @@
       article-gallery(:categories="articleCategories")
 </template>
 <script>
-import { get } from 'lodash'
+import { get } from 'lodash-es'
 import { number2zh, scrollTo } from '~/libs/utils'
 import { NAV_LINKS, DEFAULT_ROUND } from '~/libs/defs'
 

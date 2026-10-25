@@ -239,7 +239,6 @@ async function parseLogs (nth) {
 
   const errors = Object.keys(mappingErrors)
   if (errors.length) {
-    // eslint-disable-next-line no-console
     let msg = [`==== 發現 ${errors.length} 類錯誤 | 議事錄試算表 ====`]
     errors.forEach((error) => {
       msg.push(`${error}，共 ${mappingErrors[error]} 次`)

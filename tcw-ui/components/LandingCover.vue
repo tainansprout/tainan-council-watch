@@ -6,7 +6,6 @@
     .landingCover__header.absolute
       h1.landingCover__title.fw5 台南市議會觀測站
       .landingCover__subtitle(role="doc-subtitle") {{roundLabel}}
-
 </template>
 <script>
 import { number2zh } from '~/libs/utils'

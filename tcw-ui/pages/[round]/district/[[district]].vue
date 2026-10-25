@@ -43,9 +43,6 @@ export default defineNuxtComponent({
       stats: computed(() => data.value?.stats || {})
     }
   },
-  methods: {
-    stringifyTownList
-  },
   computed: {
     target () {
       return this.meta ? this.meta.districtTitle : ''
@@ -64,6 +61,9 @@ export default defineNuxtComponent({
     } else {
       scrollTo(landing.querySelector(targetDistrictId))
     }
+  },
+  methods: {
+    stringifyTownList
   }
 })
 </script>

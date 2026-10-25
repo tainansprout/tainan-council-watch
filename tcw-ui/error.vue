@@ -8,24 +8,27 @@ NuxtLayout
     .flex.justify-center
       b-button(size="is-large" type="is-black" @click="reload") 更新議會觀測站！
 </template>
-<script setup>
+<script>
 import { SITE_URL } from '~/libs/crawlerFriendly'
 
-const props = defineProps({
-  error: {
-    type: Object,
-    default: () => ({})
+export default {
+  props: {
+    error: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  setup () {
+    useFriendlyHead(() => ({ title: '出了一點點問題' }))
+  },
+  mounted () {
+    console.error('error', this.error.statusCode, this.error)
+  },
+  methods: {
+    reload () {
+      window.location.href = SITE_URL
+    }
   }
-})
-
-useFriendlyHead(() => ({ title: '出了一點點問題' }))
-
-onMounted(() => {
-  console.error('error', props.error.statusCode, props.error)
-})
-
-function reload () {
-  window.location.href = SITE_URL
 }
 </script>
 <style lang="scss" scoped>

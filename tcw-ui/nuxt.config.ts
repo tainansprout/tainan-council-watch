@@ -10,14 +10,18 @@ const defaultHeader = friendlyHeader({
 })
 
 export default defineNuxtConfig({
-  compatibilityDate: '2026-10-01',
-  devtools: { enabled: false },
 
-  // 沿用原本的目錄結構（pages/、components/ 在 tcw-ui/ 底下），靜態檔仍放 static/，Decap CMS 設定不用改
-  srcDir: '.',
-  dir: {
-    public: 'static'
+  // buefy 不打包進 server 端時，預先產生的 HTML 裡元件沒有展開（留下 <b-tooltip> 原樣）
+  build: {
+    transpile: ['buefy']
   },
+
+  modules: [
+    '@nuxt/eslint',
+    '@nuxtjs/plausible',
+    '@nuxtjs/sitemap'
+  ],
+  devtools: { enabled: false },
 
   app: {
     head: {
@@ -64,6 +68,13 @@ export default defineNuxtConfig({
     }
   },
 
+  css: [
+    'buefy/dist/css/buefy.css',
+    'tachyons/css/tachyons.css',
+    '@fortawesome/fontawesome-free/css/all.css',
+    '~/assets/global.scss'
+  ],
+
   // 樣式用的是 Nuxt 2 的 class 名稱
   router: {
     options: {
@@ -72,35 +83,8 @@ export default defineNuxtConfig({
     }
   },
 
-  css: [
-    'buefy/dist/css/buefy.css',
-    'tachyons/css/tachyons.css',
-    '@fortawesome/fontawesome-free/css/all.css',
-    '~/assets/global.scss'
-  ],
-
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: '@use "~/assets/variables.scss" as *;\n'
-        }
-      }
-    }
-  },
-
-  modules: [
-    '@nuxt/eslint',
-    '@nuxtjs/plausible',
-    '@nuxtjs/sitemap'
-  ],
-
   site: {
     url: 'https://tcco.tnsprout.org'
-  },
-
-  plausible: {
-    domain: 'tcco.tnsprout.org'
   },
 
   runtimeConfig: {
@@ -112,6 +96,18 @@ export default defineNuxtConfig({
       release: process.env.GITHUB_SHA || 'dev'
     }
   },
+  dir: {
+    public: 'static'
+  },
+
+  // 沿用原本的目錄結構（pages/、components/ 在 tcw-ui/ 底下），靜態檔仍放 static/，Decap CMS 設定不用改
+  srcDir: '.',
+
+  devServer: {
+    port: Number(process.env.SERVER_PORT) || 3000,
+    host: process.env.SERVER_HOST || 'localhost'
+  },
+  compatibilityDate: '2026-10-01',
 
   nitro: {
     prerender: {
@@ -120,8 +116,34 @@ export default defineNuxtConfig({
     }
   },
 
-  devServer: {
-    port: Number(process.env.SERVER_PORT) || 3000,
-    host: process.env.SERVER_HOST || 'localhost'
+  vite: {
+    css: {
+      // tachyons 裡有舊 IE 的 *zoom 寫法，lightningcss 壓縮時直接略過
+      lightningcss: {
+        errorRecovery: true
+      },
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "~/assets/variables.scss" as *;\n'
+        }
+      }
+    }
+  },
+
+  // 照原本 @nuxtjs/eslint-config（standard）的寫法：不加分號、單引號、函式名稱後面空一格
+  eslint: {
+    config: {
+      stylistic: {
+        indent: 2,
+        quotes: 'single',
+        semi: false,
+        commaDangle: 'never',
+        braceStyle: '1tbs'
+      }
+    }
+  },
+
+  plausible: {
+    domain: 'tcco.tnsprout.org'
   }
 })

@@ -66,6 +66,7 @@ export default {
       required: true
     }
   },
+  emits: ['hover-district', 'out-district', 'hover-town', 'out-town'],
   data () {
     return {
       mapD3: null

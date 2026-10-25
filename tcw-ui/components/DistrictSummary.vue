@@ -28,7 +28,8 @@
         )
 </template>
 <script>
-import { get } from 'lodash'
+import { get } from 'lodash-es'
+
 export default {
   props: {
     meta: {

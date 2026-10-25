@@ -41,11 +41,10 @@
 </template>
 <script>
 import algoliasearch from 'algoliasearch'
-import { debounce } from 'lodash'
+import { debounce } from 'lodash-es'
 import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY as DEFAULT_CATEGORY } from '~/libs/defs'
 import { dropdownMenuMiixin } from '~/libs/mixins'
 
-const N_PER_CAT = 4
 const N_PER_ALGOLIA_REQUEST = 30
 const SEARCH_SLOWLY = 300
 const AGGREGATE_URL_UPDATE_SLOWLY = 50
@@ -163,7 +162,7 @@ export default defineNuxtComponent({
     }
   },
   watch: {
-    category (newCat, oldCat) {
+    category (newCat) {
       if (newCat) {
         // if category is not set, facet will be updated during search
         this.updateSayitStats()

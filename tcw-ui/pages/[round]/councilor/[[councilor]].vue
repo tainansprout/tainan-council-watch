@@ -32,7 +32,7 @@
           )
 </template>
 <script>
-import { get } from 'lodash'
+import { get } from 'lodash-es'
 import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY } from '~/libs/defs'
 import { scrollTo, stringifyTownList } from '~/libs/utils'
 import { dropdownMenuMiixin } from '~/libs/mixins'

@@ -23,6 +23,7 @@ export default {
       default: true
     }
   },
+  emits: ['loaded'],
   mounted () {
     this.renderPdf()
   },

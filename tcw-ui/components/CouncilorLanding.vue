@@ -33,6 +33,7 @@
 </template>
 <script>
 import { DISTRICT_KEY_LIST } from '~/libs/defs'
+
 export default {
   props: {
     map: {

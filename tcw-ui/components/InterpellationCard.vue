@@ -29,6 +29,7 @@
 <script>
 import { DEFAULT_ROUND } from '~/libs/defs'
 import { number2zh, stringifyTownList } from '~/libs/utils'
+
 export default {
   props: {
     councilorMap: {

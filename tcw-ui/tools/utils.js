@@ -2,10 +2,6 @@ require('dotenv').config()
 
 const Sentry = require('@sentry/node')
 const axios = require('axios')
-// Importing @sentry/tracing patches the global hub for tracing to work.
-require('@sentry/tracing')
-
-const { CaptureConsole: CaptureConsoleIntegration } = require('@sentry/integrations')
 
 function notifyJandi (msg) {
   if (!process.env.JANDI_HOOK) {
@@ -27,7 +23,7 @@ function enableSentry () {
       dsn: process.env.SENTRY_DSN,
       tracesSampleRate: 1.0,
       integrations: [
-        new CaptureConsoleIntegration({
+        Sentry.captureConsoleIntegration({
           levels: ['error', 'warn']
         })
       ]

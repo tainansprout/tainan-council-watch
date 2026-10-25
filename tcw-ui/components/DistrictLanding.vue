@@ -28,7 +28,7 @@
       )
 </template>
 <script>
-import { debounce } from 'lodash'
+import { debounce } from 'lodash-es'
 import { DISTRICT_LIST, districtName2Id } from '~/libs/defs'
 
 const A_LITTLE = 100

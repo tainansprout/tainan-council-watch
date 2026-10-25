@@ -36,6 +36,7 @@ export default {
       default: false
     }
   },
+  emits: ['more'],
   methods: {
     showMore () {
       this.$emit('more')
