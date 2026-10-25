@@ -10,12 +10,6 @@ const defaultHeader = friendlyHeader({
 })
 
 export default defineNuxtConfig({
-
-  // buefy 不打包進 server 端時，預先產生的 HTML 裡元件沒有展開（留下 <b-tooltip> 原樣）
-  build: {
-    transpile: ['buefy']
-  },
-
   modules: [
     '@nuxt/eslint',
     '@nuxtjs/plausible',
@@ -96,12 +90,16 @@ export default defineNuxtConfig({
       release: process.env.GITHUB_SHA || 'dev'
     }
   },
+  // 沿用原本的目錄結構（pages/、components/ 在 tcw-ui/ 底下），靜態檔仍放 static/，Decap CMS 設定不用改
   dir: {
     public: 'static'
   },
-
-  // 沿用原本的目錄結構（pages/、components/ 在 tcw-ui/ 底下），靜態檔仍放 static/，Decap CMS 設定不用改
   srcDir: '.',
+
+  // buefy 不打包進 server 端時，預先產生的 HTML 裡元件沒有展開（留下 <b-tooltip> 原樣）
+  build: {
+    transpile: ['buefy']
+  },
 
   devServer: {
     port: Number(process.env.SERVER_PORT) || 3000,
