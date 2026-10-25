@@ -141,6 +141,9 @@ test.describe('頁面內容和資料一致', () => {
         if (!text.includes(person.name)) {
           errors.push(`${id} 沒有名字 ${person.name}`)
         }
+        if (text.includes('待撰寫')) {
+          errors.push(`${id} 公職經歷是「待撰寫」`)
+        }
         const sayit = sayitOf(round, id)
         if (!sayit || !sayit.sayit.length) {
           continue

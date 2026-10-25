@@ -87,9 +87,18 @@ node tools/sync-search-index.js 3rd [取樣%]   # sayit → Algolia（會覆蓋�
 - `extract-interpellation.js` 的 `getDistrictId()` 把函式 `districtName2Id` 當物件用，永遠回傳 undefined，議員比對全靠全市同名比對。
 - Algolia 上傳欄位叫 `councilorRound`，`attributesForFaceting` 寫成 `councilRound`；前端搜尋也沒依屆次過濾。
 - `InterpellationCard.vue` 沒傳 `meeting-type`，PDF 檢視器只支援定期會（`regular`）。
-- 第四屆的 `meta-第N選區.md` 全是空檔。
+- 第四屆質詢卡片不開議事錄原文：`libs/defs.js` 的 `PDF_ROUNDS` 只有 `3rd`，`tainan-council-data` 放好第四屆切片後加上 `4th`。
+- 搜質詢用 `councilorRound` 篩選屆次，Algolia 索引要用新版 `sync-search-index.js` 重新上傳一次，設定裡的 facet 才會有這個欄位（舊版寫成 `councilRound`）。在那之前搜尋會沒有結果。
 - 第四屆質詢還沒上 Google Sheet：`round-defs.js` 的 `4th` 用 `file` 直接讀 `../tncc-data/interpellation/output/sheet/` 的 CSV（`tncc-data` 的 `export_sheet.py` 產生），所以 `extract-interpellation.js -r 4th` 只能在本機兩個 repo 並排時跑，CI 上沒有這個路徑。
 - `static/admin/index.html` 的 Netlify Identity widget 沒有固定版本；`backend: github` 用不到它，但沒確認編輯的登入方式前先不拿掉。
+
+## SEO
+
+`composables/useFriendlyHead.js` 統一產生每頁的 title、description、canonical、og:*、JSON-LD（結構化資料的產生在 `libs/structuredData.js`）。新頁面用它，不要自己寫 `useHead`。
+- canonical 和 sitemap 的網址都是結尾有斜線（GitHub Pages 會把沒有斜線的資料夾 301 過去），不帶查詢參數；首頁指向預設屆次的首頁。
+- 議員頁、選區頁、搜質詢頁的 title 帶屆次，兩屆不會重複。
+- JSON-LD 只放頁面上看得到的資訊：全站 WebSite、議員頁 Person＋BreadcrumbList、選區頁 BreadcrumbList、文章頁 Article。
+- 測試會檢查 sitemap 每頁的 title 不重複、有 description、canonical 指向自己、JSON-LD 合法、圖片有 alt。
 
 ## 測試
 
