@@ -30,12 +30,12 @@
   "round-list": [
     {
       "label": "2018-22",
-      "key": "3rd",
-      "isDefault": true
+      "key": "3rd"
     },
     {
       "label": "2022-26",
-      "key": "4th"
+      "key": "4th",
+      "isDefault": true
     }
   ]
 }
