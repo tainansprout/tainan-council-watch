@@ -1,0 +1,7 @@
+name = "tcco-mcp"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+# 網站 nuxt generate 輸出的 /data/；本機測試用 wrangler dev --var DATA_BASE:http://127.0.0.1:4180/data
+DATA_BASE = "https://tcco.tnsprout.org/data"

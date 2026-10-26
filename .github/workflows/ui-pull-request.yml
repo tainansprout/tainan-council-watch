@@ -48,3 +48,7 @@ jobs:
       - name: Run e2e tests 🧪
         run: npm test
 
+      # MCP 伺服器讀上面 generate 出來的 .output/public/data
+      - name: Test MCP server 🧪
+        working-directory: tcw-mcp
+        run: npm ci --prefer-offline --no-audit && npm test
