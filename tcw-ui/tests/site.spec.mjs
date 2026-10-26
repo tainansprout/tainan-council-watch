@@ -64,6 +64,20 @@ test.describe('靜態檔', () => {
     expect(failed).toEqual([])
   })
 
+  test('/data/ 給 MCP 讀的 JSON：議員清單、搜尋索引、每位議員的質詢原始檔', async ({ request }) => {
+    for (const round of ROUNDS) {
+      const ids = Object.keys(councilorMap(round))
+      const { councilors } = await (await request.get(`/data/${round}/councilors.json`)).json()
+      expect(councilors.map(c => c.id).sort()).toEqual([...ids].sort())
+      const withSayit = ids.filter(id => sayitOf(round, id))
+      const { fields, rows } = await (await request.get(`/data/${round}/search.json`)).json()
+      expect(fields[0]).toBe('councilorId')
+      expect(rows.length).toBe(withSayit.reduce((sum, id) => sum + sayitOf(round, id).sayit.length, 0))
+      const id = withSayit[0]
+      expect(await (await request.get(`/data/${round}/sayit/${id}.json`)).json()).toEqual(sayitOf(round, id))
+    }
+  })
+
   test('找不到的網址回 404', async ({ request }) => {
     expect((await request.get('/4th/councilor/NOTEXIST/')).status()).toBe(404)
   })

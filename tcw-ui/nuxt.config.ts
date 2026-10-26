@@ -1,7 +1,9 @@
+import { fileURLToPath } from 'node:url'
 import { friendlyHeader } from './libs/crawlerFriendly'
 
 const PDFJS_BASE = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305'
 const GA_ID = 'G-XPXZLJKLJ9'
+const ROUNDS = ['3rd', '4th']
 
 const defaultHeader = friendlyHeader({
   title: '台南市議會觀測站',
@@ -110,11 +112,13 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2026-10-01',
 
+  // /data/{屆}/ 給 MCP 和其他程式讀：議員清單、全站搜尋索引，以及每位議員的質詢原始檔（sayit/{id}.json）
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/3rd', '/4th', '/about', '/article']
-    }
+      routes: ['/', ...ROUNDS.map(r => `/${r}`), '/about', '/article', ...ROUNDS.flatMap(r => [`/data/${r}/councilors.json`, `/data/${r}/search.json`])]
+    },
+    publicAssets: ROUNDS.map(r => ({ dir: fileURLToPath(new URL(`content/council/${r}/sayit`, import.meta.url)), baseURL: `/data/${r}/sayit` }))
   },
 
   vite: {
