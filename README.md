@@ -57,7 +57,7 @@ npm run dev
 4. 產生搜尋索引
    ```
    cd tcw-ui
-   node tools/sync-search-index.js 3rd <取樣機率>
+   node tools/sync-search-index.js <取樣機率>
    ```
    - `取樣機率` 預設為 100 ，表示 100% 的質詢會被放進索引中。測試時，可使用 < 100 的取樣機率，方便開發
 

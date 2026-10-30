@@ -51,10 +51,10 @@ npm test                    # 對 .output/public/ 跑端對端測試（要先 ge
 node tools/get-councilors.mjs -r 4th          # 爬議會官網議員名單與照片
 node tools/gen-district-map.js 4th            # 選區地圖（兩屆選區相同，通常不用跑）
 node tools/extract-interpellation.js -r 3rd   # Google Sheet → sayit/*.json
-node tools/sync-search-index.js 3rd [取樣%]   # sayit → Algolia（會覆蓋整個索引）
+node tools/sync-search-index.js [取樣%]       # 所有屆次的 sayit → Algolia（會覆蓋整個索引）
 ```
 
-前兩支用 `-r`，後兩支用位置參數。
+前兩支用 `-r`，`gen-district-map.js` 用位置參數，`sync-search-index.js` 一次寫入所有屆次、不用指定。
 
 ## 寫程式的慣例
 
@@ -88,7 +88,7 @@ node tools/sync-search-index.js 3rd [取樣%]   # sayit → Algolia（會覆蓋�
 - Algolia 上傳欄位叫 `councilorRound`，`attributesForFaceting` 寫成 `councilRound`；前端搜尋也沒依屆次過濾。
 - `InterpellationCard.vue` 沒傳 `meeting-type`，PDF 檢視器只支援定期會（`regular`）。
 - 第四屆質詢卡片不開議事錄原文：`libs/defs.js` 的 `PDF_ROUNDS` 只有 `3rd`，`tainan-council-data` 放好第四屆切片後加上 `4th`。
-- 搜質詢用 `councilorRound` 篩選屆次，Algolia 索引要用新版 `sync-search-index.js` 重新上傳一次，設定裡的 facet 才會有這個欄位（舊版寫成 `councilRound`）。在那之前搜尋會沒有結果。
+- 搜質詢用 `councilorRound` 篩選屆次，Algolia 索引要用新版 `sync-search-index.js`（所有屆次寫進同一個索引）重新上傳一次，設定裡的 facet 才會有這個欄位（舊版寫成 `councilRound`）。在那之前搜尋會沒有結果。
 - 第四屆質詢還沒上 Google Sheet：`round-defs.js` 的 `4th` 用 `file` 直接讀 `../tncc-data/interpellation/output/sheet/` 的 CSV（`tncc-data` 的 `export_sheet.py` 產生），所以 `extract-interpellation.js -r 4th` 只能在本機兩個 repo 並排時跑，CI 上沒有這個路徑。
 - `static/admin/index.html` 的 Netlify Identity widget 沒有固定版本；`backend: github` 用不到它，但沒確認編輯的登入方式前先不拿掉。
 
