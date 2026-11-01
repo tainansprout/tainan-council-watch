@@ -1,0 +1,1 @@
+import{An as e,Bn as t,Nr as n,Qn as r,Qr as i,t as a}from"./DVSZ8tM-.js";import{t as o}from"./BMhqN4r6.js";n(),t();function s(t,n,a,o,s,c){return r(),e(`span`,null,i(c.value),1)}var c=Object.assign(a({props:{date:{type:String,required:!0}},computed:{value(){return o(this.date)}}},[[`render`,s]]),{__name:`TcwDate`});export{c as t};

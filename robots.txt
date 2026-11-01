@@ -1,5 +1,4 @@
-User-agent: Googlebot
-Disallow: /whatever-you-can/
-
 User-agent: *
 Allow: /
+
+Sitemap: https://tcco.tnsprout.org/sitemap.xml
