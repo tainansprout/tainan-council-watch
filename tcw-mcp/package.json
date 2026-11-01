@@ -1,0 +1,23 @@
+{
+  "name": "tcw-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "台南市議會觀測站 MCP 伺服器（Cloudflare Workers）",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.4.0",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "^2.4.0",
+    "wrangler": "^4.152.0"
+  },
+  "overrides": {
+    "undici": "^7.30.1"
+  }
+}

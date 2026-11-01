@@ -1,6 +1,15 @@
 ---
 councilor-DA67440D:
-  job-history: ""
+  job-history: |-
+    台南市議會第3屆議員。
+    台南縣議會第16屆議員。
+  job-period: 完整
+  misc-title: 政治關係
+  misc-content: 父親為前台南縣議員方隆盛
+councilor-D77070E0:
+  job-history: |-
+    台南市議會第3屆議員。
+    任務型國民大會代表（2005年）。
   job-period: 完整
 councilor-7F271C1B:
   job-period: 完整

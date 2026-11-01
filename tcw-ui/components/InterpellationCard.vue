@@ -27,8 +27,9 @@
     )
 </template>
 <script>
-import { DEFAULT_ROUND } from '~/libs/defs'
-import { number2zh } from '~/libs/utils'
+import { DEFAULT_ROUND, PDF_ROUNDS } from '~/libs/defs'
+import { number2zh, stringifyTownList } from '~/libs/utils'
+
 export default {
   props: {
     councilorMap: {
@@ -45,7 +46,7 @@ export default {
       return this.councilorMap[this.sayit.councilorId]
     },
     district () {
-      return `${this.councilor.districtTitle} | ${this.councilor.townList.join('.')}`
+      return `${this.councilor.districtTitle} | ${stringifyTownList(this.councilor.townList)}`
     },
     roundLabel () {
       const councilorRound = number2zh(this.sayit.councilorRound || DEFAULT_ROUND)
@@ -53,7 +54,7 @@ export default {
       return `${councilorRound}屆第${meetingRound}次${this.sayit.type}`
     },
     canViewPdf () {
-      return !!this.sayit.src[0]
+      return !!this.sayit.src[0] && PDF_ROUNDS.includes(this.sayit.councilorRound || DEFAULT_ROUND)
     }
   },
   methods: {

@@ -3,6 +3,7 @@
 </template>
 <script>
 import { date } from '~/libs/utils'
+
 export default {
   props: {
     date: {

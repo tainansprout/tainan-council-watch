@@ -8,7 +8,7 @@
           | {{item.label}}
       .flex.flex-column.items-start
         .tcwFooter__subheader.fw4 關於我們
-        template(v-for="item in about")
+        template(v-for="item in about" :key="item.label")
           a.tcwFooter__item(v-if="isExt(item)" :href="item.url" target="_blank")
             | {{item.label}}
           nuxt-link.tcwFooter__item(v-else :to="item.url")

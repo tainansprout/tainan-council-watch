@@ -187,13 +187,13 @@
       "西港"
     ]
   },
-  "69EC5C76": {
-    "id": "69EC5C76",
-    "name": "陳昆和",
-    "abbr": "陳昆和",
-    "party": "無黨籍",
-    "bgUrl": "/img/4th/f1c147cc23986b0fe54ebddea5f8bf5e.jpg",
-    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=69EC5C76-C1C1-4EE4-B464-C45B381D64F6",
+  "8E537876": {
+    "id": "8E537876",
+    "name": "蔡秋蘭",
+    "abbr": "蔡秋蘭",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/7a3df7f2866485d6c91e09f3316f970e.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=8E537876-DF09-4EA3-9325-60896B1E86F1",
     "districtId": "2nd",
     "districtTitle": "第二選區",
     "townList": [
@@ -205,13 +205,13 @@
       "西港"
     ]
   },
-  "8E537876": {
-    "id": "8E537876",
-    "name": "蔡秋蘭",
-    "abbr": "蔡秋蘭",
-    "party": "民主進步黨",
-    "bgUrl": "/img/4th/7a3df7f2866485d6c91e09f3316f970e.jpg",
-    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=8E537876-DF09-4EA3-9325-60896B1E86F1",
+  "69EC5C76": {
+    "id": "69EC5C76",
+    "name": "陳昆和",
+    "abbr": "陳昆和",
+    "party": "無黨籍",
+    "bgUrl": "/img/4th/88fd09e397b1cb2557b1842083a674f0.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=69EC5C76-C1C1-4EE4-B464-C45B381D64F6",
     "districtId": "2nd",
     "districtTitle": "第二選區",
     "townList": [
@@ -278,7 +278,7 @@
     "id": "E8CDE770",
     "name": "周奕齊",
     "abbr": "周奕齊",
-    "party": "無黨籍",
+    "party": "無黨團結聯盟",
     "bgUrl": "/img/4th/66845d43f6c89dae6d6405eeccb259d9.jpg",
     "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=E8CDE770-3C97-43B8-BB60-578D7B0EF51B",
     "districtId": "4th",
@@ -629,20 +629,6 @@
       "南區"
     ]
   },
-  "A957A9D4": {
-    "id": "A957A9D4",
-    "name": "林依婷",
-    "abbr": "林依婷",
-    "party": "民主進步黨",
-    "bgUrl": "/img/4th/ffec672e0156c8f5711dad8530e7d8d3.jpg",
-    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=A957A9D4-0279-4969-879A-3CA0EC66FB0A",
-    "districtId": "9th",
-    "districtTitle": "第九選區",
-    "townList": [
-      "安平",
-      "南區"
-    ]
-  },
   "EBB90AC7": {
     "id": "EBB90AC7",
     "name": "蔡淑惠",
@@ -699,6 +685,20 @@
       "南區"
     ]
   },
+  "A957A9D4": {
+    "id": "A957A9D4",
+    "name": "林依婷",
+    "abbr": "林依婷",
+    "party": "民主進步黨",
+    "bgUrl": "/img/4th/43feb6729f7edd718dd90c23dda1a1d6.jpg",
+    "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=A957A9D4-0279-4969-879A-3CA0EC66FB0A",
+    "districtId": "9th",
+    "districtTitle": "第九選區",
+    "townList": [
+      "安平",
+      "南區"
+    ]
+  },
   "9127249A": {
     "id": "9127249A",
     "name": "曾培雅",
@@ -742,7 +742,7 @@
     "id": "9BDA07A5",
     "name": "李宗霖",
     "abbr": "李宗霖",
-    "party": "台灣基進",
+    "party": "無黨籍",
     "bgUrl": "/img/4th/aec451561aca9b0f49fe6304bd65d1b0.jpg",
     "pageLink": "https://www.tncc.gov.tw/councilorpage.asp?mainid=9BDA07A5-DD62-4023-9CD6-C8A29540FF53",
     "districtId": "10th",

@@ -8,8 +8,9 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
-    <!-- Include the script that builds the page and powers Netlify CMS -->
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <!-- Include the script that builds the page and powers the CMS -->
+    <!-- Netlify CMS 已停止維護，改用後繼的 Decap CMS。固定版本並加 integrity，換版本時要重算 hash -->
+    <script src="https://unpkg.com/decap-cms@3.17.1/dist/decap-cms.js" integrity="sha384-d2pbrhjc5asvSK35gKkrgRIk0Wq+2CQynWnXtSsYWQawXCgBXhcAK737jBAKXT4T" crossorigin="anonymous"></script>
     <script>CMS.registerPreviewStyle("/admin/admin.css");</script>
   </body>
 </html>

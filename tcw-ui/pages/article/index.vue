@@ -2,7 +2,7 @@
   .articleList.pageContainer
     page-title 讀分析
     .articleList__desp.ls-1
-      p(v-for="paragraph in desp") {{paragraph}}
+      p(v-for="(paragraph, index) in desp" :key="index") {{paragraph}}
     .articleList__main.relative.flex-l
       long-menu.articleList__catList.flex-none
         button.categoryList__item(
@@ -26,50 +26,30 @@
         )
 </template>
 <script>
-import { friendlyHeader } from '~/libs/crawlerFriendly'
-export default {
-  async asyncData ({ $content, params, redirect }) {
-    const misc = await $content('meta/misc').fetch()
-
-    const articles = await $content('article')
-      .only(['createdAt', 'title', 'slug', 'category', 'summary'])
-      .sortBy('createdAt', 'desc')
-      .fetch()
-
-    const categories = await $content('setting')
-      .where({ type: 'articleCategory' })
-      .sortBy('order')
-      .fetch()
-
-    categories.sort((a, b) => a.order - b.order)
-
+export default defineNuxtComponent({
+  async setup () {
+    const { data } = await useFetch('/api/articles')
+    const route = useRoute()
+    const categories = computed(() => data.value?.categories || [])
+    const desp = computed(() => data.value?.desp || [])
+    const activeCategory = computed(() => categories.value.find(cat => cat.slug === route.params.category))
+    useFriendlyHead(() => ({
+      title: activeCategory.value ? activeCategory.value.name : '讀分析',
+      description: desp.value.join('')
+    }))
     return {
-      desp: misc['article-desp'].split('\n'),
-      articles,
-      categories
+      desp,
+      articles: computed(() => data.value?.articles || []),
+      categories,
+      activeCategory
     }
   },
-  head: friendlyHeader({
-    title () {
-      if (this.activeCategory) {
-        return this.activeCategory.name
-      }
-      return '讀分析'
-    },
-    description () {
-      return this.desp.join('')
-    }
-  }),
   computed: {
     visibleArticles () {
       if (this.activeCategory) {
         return this.articles.filter(article => article.category === this.activeCategory.slug)
       }
       return this.articles
-    },
-    activeCategory () {
-      const slug = this.$route.params.category
-      return this.categories.find(cat => cat.slug === slug)
     }
   },
   methods: {
@@ -91,7 +71,7 @@ export default {
       this.$router.push({ name: 'article' })
     }
   }
-}
+})
 </script>
 <style lang="scss" scoped>
 .articleList {

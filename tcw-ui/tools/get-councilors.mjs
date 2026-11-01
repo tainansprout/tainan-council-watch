@@ -1,16 +1,11 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import glob from 'glob'
 import axios from 'axios'
 import md5 from 'md5'
 import sharp from 'sharp'
-import imageType from 'image-type'
-import imagemin from 'imagemin'
-import imageminJpegtran from 'imagemin-jpegtran'
-import imageminPngquant from 'imagemin-pngquant'
 import parseArgs from 'command-line-args'
-import NodeCrawler from 'crawler'
+import * as cheerio from 'cheerio'
 import { districtName2Id } from './utils.js'
 import roundDefs from './round-defs.js'
 
@@ -21,7 +16,8 @@ const IMG_CACHE_BASE = {
   path: path.join(__dirname, '../static/img')
 }
 const MAX_IMG_WIDTH = 640
-const ACCEPTED_IMAGE_TYPE = ['png', 'jpg', 'webp', 'gif']
+// sharp metadata 的 format 對應副檔名
+const ACCEPTED_IMAGE_TYPE = { png: 'png', jpeg: 'jpg', webp: 'webp', gif: 'gif' }
 
 const PARTY_LIST = JSON.parse(
   fs.readFileSync(path.join(__dirname, '../content/meta/partyList.json'))
@@ -74,7 +70,10 @@ async function hostImage (originalUrl, round, maxWidth = MAX_IMG_WIDTH) {
   const imgDest = path.join(IMG_CACHE_BASE.path, round, imgHash)
   const imgUrl = `${IMG_CACHE_BASE.url}${round}/${imgHash}`
 
-  const matchedImage = glob.sync(`${imgDest}.*`)
+  const imgDir = path.dirname(imgDest)
+  const matchedImage = fs.existsSync(imgDir)
+    ? fs.readdirSync(imgDir).filter(name => name.startsWith(`${imgHash}.`)).map(name => path.join(imgDir, name))
+    : []
   if (matchedImage.length) {
     const ext = path.extname(matchedImage[0])
     return `${imgUrl}${ext}`
@@ -92,104 +91,105 @@ async function hostImage (originalUrl, round, maxWidth = MAX_IMG_WIDTH) {
     console.error(`Failed to download image ${safeUrl}`)
     return originalUrl
   }
-  const type = await imageType(img.data)
-
-  if (!type || !ACCEPTED_IMAGE_TYPE.includes(type.ext)) {
-    console.error(`Invalid image url: ${safeUrl}, ${type}`)
+  let imgMeta
+  try {
+    imgMeta = await sharp(img.data).metadata()
+  } catch (err) {
+    console.error(`Invalid image url: ${safeUrl}, ${err}`)
+    return originalUrl
+  }
+  const ext = ACCEPTED_IMAGE_TYPE[imgMeta.format]
+  if (!ext) {
+    console.error(`Invalid image url: ${safeUrl}, ${imgMeta.format}`)
     return originalUrl
   }
 
-  const origImg = await sharp(img.data)
-  const imgMeta = await origImg.metadata()
-  let normalizedBuffer = null
+  let image = sharp(img.data, { animated: imgMeta.format === 'gif' })
   if (imgMeta.width > maxWidth) {
-    // eslint-disable-next-line no-console
     console.info(`Image ${originalUrl} too large, will resize it to ${maxWidth}px width.`)
-    normalizedBuffer = await origImg.resize(maxWidth).toBuffer()
-  } else {
-    normalizedBuffer = img.data
+    image = image.resize(maxWidth)
   }
+  // 原本用 imagemin（jpegtran、pngquant 0.6～0.8），改用 sharp 內建的 mozjpeg 和調色盤 PNG
+  if (ext === 'jpg') {
+    image = image.jpeg({ mozjpeg: true })
+  } else if (ext === 'png') {
+    image = image.png({ palette: true, quality: 80 })
+  }
+  const miniImg = await image.toBuffer()
 
-  const miniImg = await imagemin.buffer(normalizedBuffer, {
-    plugins: [
-      imageminJpegtran(),
-      imageminPngquant({
-        quality: [0.6, 0.8]
-      })
-    ]
-  })
+  console.info(`Host image ${originalUrl} in ${imgHash}.${ext}`)
 
-  // eslint-disable-next-line no-console
-  console.info(`Host image ${originalUrl} in ${imgHash}.${type.ext}`)
-
-  fs.writeFileSync(path.join(`${imgDest}.${type.ext}`), miniImg)
-  return `${imgUrl}.${type.ext}`
+  fs.writeFileSync(path.join(`${imgDest}.${ext}`), miniImg)
+  return `${imgUrl}.${ext}`
 }
 
-function dumpDistrictInfo (quota, nth) {
-  return async (error, res, done) => {
-    if (error) {
-      console.error('Fail on get district', error)
-      done()
-      return
-    }
-    const $ = res.$
-    // get district info
-    // 第五選區(善化.安定.新市.山上.新化區)
-    const header = $('h3').text().split('(')
-    const districtTitle = header[0]
-    const districtId = districtName2Id(districtTitle)
-    const townList = header[1]
-      .slice(0, -1)
-      .replace(/區/g, '')
-      .split('.')
-      .map((town) => {
-        if (town.length < 2 || town === '中西') {
-          return `${town}區`
-        }
-        return town
-      })
+async function fetchPage (uri) {
+  const res = await axios.get(uri, { responseType: 'text' })
+  return cheerio.load(res.data)
+}
 
-    councilorsInDistrict[districtId] = {
-      districtTitle,
-      townList,
-      districtId,
-      districtQuota: quota,
-      councilors: []
-    }
+async function dumpDistrictInfo (uri, quota, nth) {
+  let $
+  try {
+    $ = await fetchPage(uri)
+  } catch (error) {
+    console.error('Fail on get district', error)
+    return
+  }
+  // get district info
+  // 第五選區(善化.安定.新市.山上.新化區)
+  const header = $('h3').text().split('(')
+  const districtTitle = header[0]
+  const districtId = districtName2Id(districtTitle)
+  const townList = header[1]
+    .slice(0, -1)
+    .replace(/區/g, '')
+    .split('.')
+    .map((town) => {
+      if (town.length < 2 || town === '中西') {
+        return `${town}區`
+      }
+      return town
+    })
 
-    // councilor list
-    await Promise.all($('.col-lg-3 .image-box').map(async function () {
-      const ele = $(this)
-      const pageUri = ele.find('a').attr('href')
-      const pageLink = `${SITE_BASE}/${pageUri}`
-      const id = pageUri.replace(/.*mainid=([a-zA-Z0-9]+)-.*/, '$1')
-      // 林宜瑾 (109年2月1日辭職)
-      const name = prettyName(ele.find('.title').text())
-      const abbr = name.replace(/[a-zA-Z‧． ]/g, '')
-      const party = ele.find('p.mb-10').text()
+  councilorsInDistrict[districtId] = {
+    districtTitle,
+    townList,
+    districtId,
+    districtQuota: quota,
+    councilors: []
+  }
 
-      // url(warehouse/56CC6C3B-1814-482B-92C8-D21AD0106264/153F6768-2BCB-467A-AAFF-A935010DC2F7.jpg)
-      const bgImg = ele.find('a div').css('background-image')
-      const bgUrl = bgImg.slice('url('.length, -1)
+  // councilor list，照順序一張一張抓圖，避免灌爆議會網站
+  for (const box of $('.col-lg-3 .image-box').toArray()) {
+    const ele = $(box)
+    const pageUri = ele.find('a').attr('href')
+    const pageLink = `${SITE_BASE}/${pageUri}`
+    const id = pageUri.replace(/.*mainid=([a-zA-Z0-9]+)-.*/, '$1')
+    // 林宜瑾 (109年2月1日辭職)
+    const name = prettyName(ele.find('.title').text())
+    const abbr = name.replace(/[a-zA-Z‧． ]/g, '')
+    const party = ele.find('p.mb-10').text()
 
-      const localBgUrl = await hostImage(bgUrl, nth)
+    // url(warehouse/56CC6C3B-1814-482B-92C8-D21AD0106264/153F6768-2BCB-467A-AAFF-A935010DC2F7.jpg)
+    const bgImg = ele.find('a div').css('background-image')
+    const bgUrl = bgImg.slice('url('.length, -1)
 
-      councilorsInDistrict[districtId].councilors.push({
-        id,
-        name,
-        abbr,
-        // eslint-disable-next-line import/no-named-as-default-member
-        party: normalizeParty(party).name,
-        bgUrl: localBgUrl,
-        pageLink
-      })
-    }).get())
-    done()
+    const localBgUrl = await hostImage(bgUrl, nth)
+
+    councilorsInDistrict[districtId].councilors.push({
+      id,
+      name,
+      abbr,
+
+      party: normalizeParty(party).name,
+      bgUrl: localBgUrl,
+      pageLink
+    })
   }
 }
 
-function startCrawling (nth, orcaId) {
+async function startCrawling (nth, orcaId) {
   const pathBase = path.join(__dirname, '../content/council/', `${nth}`)
   if (!fs.existsSync(pathBase)) {
     fs.mkdirSync(pathBase)
@@ -206,62 +206,52 @@ function startCrawling (nth, orcaId) {
     fs.mkdirSync(imgDir)
   }
 
-  const crawler = new NodeCrawler({
-    maxConnections: 1
+  let $
+  try {
+    $ = await fetchPage(`${SITE_BASE}/subhome.asp?orcaid=${orcaId}`)
+  } catch (error) {
+    console.error('Fail during init get-councilors', error)
+    return
+  }
+  const districts = $('.main.col-lg-12 .nav-link').toArray().map((ele) => {
+    const districtUrl = $(ele).attr('href')
+    const quota = $(ele).siblings().text().replace(/[^\d]/g, '')
+    return { uri: `${SITE_BASE}/${districtUrl}`, quota }
+  })
+  // 一次抓一個選區，和原本 crawler 的 maxConnections: 1 一樣
+  for (const { uri, quota } of districts) {
+    await dumpDistrictInfo(uri, quota, nth)
+  }
+
+  // merge missing councilor list
+  Object.values(missingCouncilorList).forEach((councilor) => {
+    const districtId = councilor.districtId
+    councilor.townList = councilorsInDistrict[districtId].townList
+    councilorsInDistrict[districtId].councilors.push(councilor)
   })
 
-  crawler.on('drain', () => {
-    // merge missing councilor list
-    Object.values(missingCouncilorList).forEach((councilor) => {
-      const districtId = councilor.districtId
-      councilor.townList = councilorsInDistrict[districtId].townList
-      councilorsInDistrict[districtId].councilors.push(councilor)
-    })
+  // dump file
+  fs.writeFileSync(
+    path.join(pathBase, 'district-map.json'),
+    JSON.stringify(councilorsInDistrict, null, '  ')
+  )
 
-    // dump file
-    fs.writeFileSync(
-      path.join(pathBase, 'district-map.json'),
-      JSON.stringify(councilorsInDistrict, null, '  ')
-    )
-
-    const councilors = Object.values(councilorsInDistrict).reduce((sum, district) => {
-      district.councilors.forEach((councilor) => {
-        sum[councilor.id] = {
-          ...councilor,
-          districtId: district.districtId,
-          districtTitle: district.districtTitle,
-          townList: district.townList
-        }
-      })
-      return sum
-    }, {})
-
-    fs.writeFileSync(
-      path.join(pathBase, 'councilor-map.json'),
-      JSON.stringify(councilors, null, '  ')
-    )
-  })
-
-  crawler.queue({
-    uri: `${SITE_BASE}/subhome.asp?orcaid=${orcaId}`,
-    callback (error, res, done) {
-      if (error) {
-        console.error('Fail during init get-councilors', error)
-        done()
-        return
+  const councilors = Object.values(councilorsInDistrict).reduce((sum, district) => {
+    district.councilors.forEach((councilor) => {
+      sum[councilor.id] = {
+        ...councilor,
+        districtId: district.districtId,
+        districtTitle: district.districtTitle,
+        townList: district.townList
       }
-      const $ = res.$
-      $('.main.col-lg-12 .nav-link').each(function () {
-        const districtUrl = $(this).attr('href')
-        const quota = $(this).siblings().text().replace(/[^\d]/g, '')
-        crawler.queue({
-          uri: `${SITE_BASE}/${districtUrl}`,
-          callback: dumpDistrictInfo(quota, nth)
-        })
-      })
-      done()
-    }
-  })
+    })
+    return sum
+  }, {})
+
+  fs.writeFileSync(
+    path.join(pathBase, 'councilor-map.json'),
+    JSON.stringify(councilors, null, '  ')
+  )
 }
 
 function main () {

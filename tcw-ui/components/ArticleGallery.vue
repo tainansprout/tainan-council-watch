@@ -8,7 +8,6 @@
     )
       h3.articleGallery__title.flex.items-center.justify-center.f3.ls4.absolute.bottom-0
         | {{category.name}}
-
 </template>
 <script>
 export default {

@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const got = require('got')
+const { Readable } = require('stream')
 const dayjs = require('dayjs')
 const parseArgs = require('command-line-args')
 const CsvReadableStream = require('csv-reader')
@@ -110,11 +110,23 @@ function getErrorCategory (sheetMeta) {
   return category
 }
 
+// Google Sheet 發布的 CSV，用 Node 內建的 fetch 讀成串流
+async function* fetchCsv (url) {
+  const res = await fetch(url)
+  if (!res.ok) {
+    throw new Error(`Fail to fetch ${url}: ${res.status}`)
+  }
+  yield* res.body
+}
+
 function parseOneLog (sheetMeta, districtMap, councilorMap) {
   return new Promise((resolve, reject) => {
-    const endpoint = `${sheetMeta.sheetUri}&gid=${sheetMeta.sheetId}`
+    // file：本機 CSV（路徑相對於 tcw-ui/），沒有就讀 Google Sheet
+    const source = sheetMeta.file
+      ? fs.createReadStream(path.join(__dirname, '..', sheetMeta.file))
+      : Readable.from(fetchCsv(`${sheetMeta.sheetUri}&gid=${sheetMeta.sheetId}`), { objectMode: false })
     let lastValidDate = null
-    got.stream(endpoint)
+    source
       .pipe(new AutoDetectDecoderStream())
       .pipe(new CsvReadableStream({ asObject: true }))
       .on('data', (data) => {
@@ -161,6 +173,7 @@ function parseOneLog (sheetMeta, districtMap, councilorMap) {
       .on('end', () => {
         resolve()
       })
+      .on('error', reject)
   })
 }
 
@@ -179,7 +192,7 @@ async function parseLogs (nth) {
     throw new Error(`Cannot find round-defs[${nth}]`)
   }
 
-  if (!roundMeta.sheetList || !roundMeta.sheetUri) {
+  if (!roundMeta.sheetList) {
     console.warn(`Missing sheetUri / sheetList in round-defs[${nth}], create empty stats only.`)
   }
 
@@ -235,7 +248,6 @@ async function parseLogs (nth) {
 
   const errors = Object.keys(mappingErrors)
   if (errors.length) {
-    // eslint-disable-next-line no-console
     let msg = [`==== 發現 ${errors.length} 類錯誤 | 議事錄試算表 ====`]
     errors.forEach((error) => {
       msg.push(`${error}，共 ${mappingErrors[error]} 次`)

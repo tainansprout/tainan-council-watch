@@ -10,6 +10,9 @@ on:
       - main
       - master
 
+permissions:
+  contents: read
+
 jobs:
   ci:
     runs-on: ${{ matrix.os }}
@@ -17,25 +20,18 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [14]
+        node: [24]
 
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@master
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup node env 🏗
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: ${{ matrix.node }}
-          check-latest: true
-
-      - name: Cache node_modules 📦
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          cache: npm
+          cache-dependency-path: tcw-ui/package-lock.json
 
       - name: Install dependencies 👨🏻‍💻
         run: npm ci --prefer-offline --no-audit
@@ -43,3 +39,16 @@ jobs:
       - name: Run linter 👀
         run: npm run lint
 
+      - name: Build UI
+        run: npm run generate
+
+      - name: Install test browser 🧪
+        run: npx playwright install --with-deps chromium
+
+      - name: Run e2e tests 🧪
+        run: npm test
+
+      # MCP 伺服器讀上面 generate 出來的 .output/public/data
+      - name: Test MCP server 🧪
+        working-directory: tcw-mcp
+        run: npm ci --prefer-offline --no-audit && npm test

@@ -1,11 +1,11 @@
 <template lang="pug">
   .districtLanding
     .districtLanding__list
-      .district(v-for="district in districtList")
+      .district(v-for="district in districtList" :key="district")
         nuxt-link.district__card.db.dn-ns.pa3.relative(:to="districtLink(district)" :id="districtId(district)")
           district-text(
             :district="districtMeta(district)"
-            :active-area.sync="focusedArea"
+            v-model:activeArea="focusedArea"
             :is-single-element="true"
             :is-quota-visible="true"
           )
@@ -13,7 +13,7 @@
         nuxt-link.district__interact.dn.db-ns(:to="districtLink(district)" :id="districtId(district)")
           district-text(
             :district="districtMeta(district)"
-            :active-area.sync="focusedArea"
+            v-model:activeArea="focusedArea"
           )
         .db.dn-ns(v-if="target && target === district")
           slot
@@ -28,7 +28,7 @@
       )
 </template>
 <script>
-import { debounce } from 'lodash'
+import { debounce } from 'lodash-es'
 import { DISTRICT_LIST, districtName2Id } from '~/libs/defs'
 
 const A_LITTLE = 100

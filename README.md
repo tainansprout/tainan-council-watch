@@ -4,9 +4,9 @@
 
 ### 技術需求
 
-1. Nuxt / Vue v2
-2. Netlify CMS
-3. node 16+
+1. Nuxt 4 / Vue 3
+2. Decap CMS（原 Netlify CMS）
+3. node 24（LTS）
 
 ### 環境準備
 
@@ -22,7 +22,7 @@
 選填設定：
 
 - SENTRY_DSN: [Sentry](sentry.io/) 的 DSN ，會用在前後端的所有錯誤回報中
-- source map 相關：
+- source map 相關（升級到 Nuxt 4 後還沒設定 source map 上傳，下面三個目前沒用到）：
   - SENTRY_AUTH_TOKEN
   - SENTRY_ORG
   - SENTRY_PROJECT
@@ -42,11 +42,13 @@ npm run dev
    cd tcw-ui
    node tools/get-councilors.mjs -r 3rd
    ```
-2. 質詢編碼資料（僅限第三屆）
+2. 質詢編碼資料
    ```
    cd tcw-ui
    node tools/extract-interpellation.js -r 3rd
+   node tools/extract-interpellation.js -r 4th
    ```
+   - 第三屆讀 Google Sheet；第四屆目前讀 `../tncc-data/interpellation/output/sheet/` 的 CSV（由 tncc-data 的 `export_sheet.py` 產生），兩個 repo 要放在同一層
 3. 產生台南選區地圖 (geojson)
    ```
    cd tcw-ui
@@ -55,7 +57,7 @@ npm run dev
 4. 產生搜尋索引
    ```
    cd tcw-ui
-   node tools/sync-search-index.js 3rd <取樣機率>
+   node tools/sync-search-index.js <取樣機率>
    ```
    - `取樣機率` 預設為 100 ，表示 100% 的質詢會被放進索引中。測試時，可使用 < 100 的取樣機率，方便開發
 
@@ -63,9 +65,11 @@ npm run dev
 
 ```sh
 cd tcw-ui
-npm i
-npm run generate
-npm run start
+npm ci
+npm run generate            # 輸出到 .output/public/
+npx playwright install chromium   # 第一次才要
+npm test                    # 對 .output/public/ 跑端對端測試
+npm run preview             # 本機預覽
 ```
 
 ## 設計與資訊架構

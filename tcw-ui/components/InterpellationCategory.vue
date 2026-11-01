@@ -2,7 +2,7 @@
   .intCat
     .intCat__title.flex.justify-between.items-center
       .f3.fw5.flex.items-center
-        img.intCat__slash.mt1.mr3(src="~/assets/slash.svg")
+        img.intCat__slash.mt1.mr3(src="~/assets/slash.svg" alt="")
         .ml2 {{name}}
       button.intCat__more.pv2.ls3.plainButton.underline.pointer.flex.items-center(v-if="hasMore" @click="showMore")
         | 閱讀所有質詢局處
@@ -36,6 +36,7 @@ export default {
       default: false
     }
   },
+  emits: ['more'],
   methods: {
     showMore () {
       this.$emit('more')

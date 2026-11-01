@@ -38,14 +38,15 @@
           :sayit="sayit"
         )
         client-only
-          infinite-loading(@infinite="loadMoreSayList" :identifier="infiniteId")
-            .f6.gray(slot="no-more") 已顯示所有搜尋結果
-            .f6.gray(slot="no-results")
-              span(v-if="isShowingAllCategory")
-                | 找不到任何結果，或許換個關鍵字試試？
-              .pointer(v-else @click="filterCategory('org', 'all')")
-                | 找不到任何結果，或許看看
-                .di.underline 所有局處？
+          infinite-loading(@infinite="loadMoreSayList" :identifier="infiniteId" :distance="100")
+            template(#complete)
+              .f6.gray.tc.pv3(v-if="visibleSayList.length") 已顯示所有搜尋結果
+              .f6.gray.tc.pv3(v-else)
+                span(v-if="isShowingAllCategory")
+                  | 找不到任何結果，或許換個關鍵字試試？
+                .pointer(v-else @click="filterCategory('org', 'all')")
+                  | 找不到任何結果，或許看看
+                  .di.underline 所有局處？
 </template>
 <script>
 /**
@@ -53,8 +54,9 @@
  *   - update:category (newCategory)
  *   - infinite ($state) - same usage as vue-infinite-loading
  */
-import { debounce } from 'lodash'
-import InfiniteLoading from 'vue-infinite-loading'
+import { debounce } from 'lodash-es'
+import InfiniteLoading from 'v3-infinite-loading'
+import 'v3-infinite-loading/lib/style.css'
 import { NAV_HEIGHT } from '~/libs/defs'
 import { scrollTo } from '~/libs/utils'
 
@@ -86,7 +88,7 @@ export default {
         return stats.org
       }
     },
-    // support :category.sync
+    // support v-model:category
     category: {
       default: undefined,
       validator (val) {
@@ -106,6 +108,7 @@ export default {
       default: true
     }
   },
+  emits: ['update:category', 'infinite'],
   data () {
     return {
       cursor: N_ITEM_PER_PAGE,

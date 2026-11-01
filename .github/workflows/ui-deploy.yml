@@ -10,6 +10,9 @@ on:
       - main
       - master
 
+permissions:
+  contents: write
+
 env:
   ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
   ALGOLIA_DATA_API_KEY: ${{ secrets.ALGOLIA_DATA_API_KEY }}
@@ -28,25 +31,18 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16]
+        node: [24]
 
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@master
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup node env 🏗
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: ${{ matrix.node }}
-          check-latest: true
-
-      - name: Cache node_modules 📦
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          cache: npm
+          cache-dependency-path: tcw-ui/package-lock.json
 
       - name: Install dependencies 👨🏻‍💻
         run: npm ci --prefer-offline --no-audit
@@ -57,12 +53,18 @@ jobs:
       - name: Build UI
         run: npm run generate:gh
       
+      - name: Install test browser 🧪
+        run: npx playwright install --with-deps chromium
+
+      - name: Run e2e tests 🧪
+        run: npm test
+
       - name: Sync search index
         run: node ./tools/sync-search-index.js
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3.8.0
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
-          DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./tcw-ui/dist
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./tcw-ui/.output/public

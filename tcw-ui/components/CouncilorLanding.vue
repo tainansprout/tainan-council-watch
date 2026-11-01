@@ -1,7 +1,7 @@
 <template lang="pug">
   .cl(:class="{'cl--minified': minified}")
     b-dropdown.dn-ns.w-100(aria-role="menu" v-if="minified")
-      template(slot="trigger")
+      template(#trigger)
         button.cl__toggle.pointer.flex.items-center.justify-between.w-100
           .ls2 查看選區議員
           tcw-icon(icon="chevron-down-gray")
@@ -33,6 +33,7 @@
 </template>
 <script>
 import { DISTRICT_KEY_LIST } from '~/libs/defs'
+
 export default {
   props: {
     map: {

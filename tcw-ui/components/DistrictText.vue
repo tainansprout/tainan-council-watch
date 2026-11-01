@@ -40,6 +40,7 @@ export default {
       default: false
     }
   },
+  emits: ['update:activeArea'],
   data () {
     return {
       localActiveArea: this.activeArea
@@ -51,7 +52,7 @@ export default {
       return fa && fa.type === 'district' && fa.id === this.district.districtId
     },
     townLabelList () {
-      const list = this.district.townList
+      const list = [...this.district.townList]
       if (!list.length) {
         return []
       }

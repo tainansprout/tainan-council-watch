@@ -1,0 +1,255 @@
+<template lang="pug">
+  .pageContainer
+    .councilor
+      councilor-landing(v-if="districtMap" :map="districtMap" :round="round" :minified="!!councilor")
+      template(v-if="councilor")
+        .councilor__head.bt.b--gray-d(ref="head")
+          .councilor__district.fw5.flex.flex-column.flex-row-ns
+            span {{councilor.districtTitle}}
+            span {{townLabel}}
+        .councilor__person.bb.bt-ns.b--gray-d.b--gray-9-ns(:class="{'councilor__person--misc': miscColumn}")
+          .councilor__basic.br-ns.b--gray-9
+            .aspect-ratio.aspect-ratio--1x1
+              .aspect-ratio--object.br-100.overflow-hidden
+                img(:src="councilor.bgUrl" :alt="councilor.name")
+            div
+              h1.f3.fw5.ls3.mv0 {{councilor.name}}
+              .councilor__jobPeriod.f5.mt2(v-if="jobPeriod") {{jobPeriod}}
+              .f5.mt3
+                party-label(:party="councilor.party")
+          .councilor__personMeta
+            h2.f3 公職經歷
+            p.ls2(v-for="line in jobHistory" :key="line") {{line}}
+          .councilor__personMeta(v-if="miscColumn")
+            h2.f3 {{miscColumn.title}}
+            p.ls2(v-for="(line, index) in miscColumn.content" :key="index") {{line}}
+        .councilor__sayit
+          interpellation-landing(
+            :councilor-map="counsMap"
+            :say-list="sayList"
+            :stats="sayitStats"
+            v-model:category="interpellationCategory"
+          )
+</template>
+<script>
+import { get } from 'lodash-es'
+import { DEFAULT_ROUND, DEFAULT_INTERPELLATION_CATEGORY } from '~/libs/defs'
+import { number2zh, scrollTo, stringifyTownList } from '~/libs/utils'
+import { breadcrumbLd, councilorLd } from '~/libs/structuredData'
+import { dropdownMenuMiixin } from '~/libs/mixins'
+
+export default defineNuxtComponent({
+  mixins: [dropdownMenuMiixin],
+  async setup () {
+    const route = useRoute()
+    const round = route.params.round || DEFAULT_ROUND
+    const councilorId = route.params.councilor
+    const { data, error } = await useFetch(`/api/council/${round}/councilor`, {
+      query: councilorId ? { councilor: councilorId } : {}
+    })
+    if (error.value) {
+      await navigateTo(`/${DEFAULT_ROUND}/councilor`)
+    }
+    const councilor = computed(() => data.value?.councilor || null)
+    useFriendlyHead(() => {
+      const c = councilor.value
+      const roundLabel = `${number2zh(round)}屆`
+      if (!c) {
+        return {
+          title: `找議員（${roundLabel}）`,
+          description: `台南市議會${roundLabel}全部議員，依選區列出，點進去看每位議員的質詢紀錄。`
+        }
+      }
+      const sayit = data.value?.sayit || { sayit: [] }
+      const topOrgs = (sayit.stats?.org || []).slice(0, 3).map(org => org.name)
+      const path = `/${round}/councilor/${councilorId}/`
+      return {
+        title: `${c.name}議員（${roundLabel}）`,
+        description: [
+          `${c.name}，台南市議會${roundLabel}${c.districtTitle}（${stringifyTownList(c.townList)}）議員，${c.party}。`,
+          sayit.sayit.length ? `共 ${sayit.sayit.length} 筆質詢紀錄，最常質詢${topOrgs.join('、')}。` : ''
+        ].join(''),
+        coverUrl: c.bgUrl,
+        type: 'profile',
+        jsonLd: [
+          councilorLd(c, path, roundLabel),
+          breadcrumbLd([[`${roundLabel}`, `/${round}/`], ['找議員', `/${round}/councilor/`], [`${c.name}議員`, path]])
+        ]
+      }
+    })
+    return {
+      round,
+      councilor,
+      districtMap: computed(() => data.value?.districtMap || null),
+      counsMap: computed(() => data.value?.counsMap || {}),
+      sayit: computed(() => data.value?.sayit || { sayit: [] })
+    }
+  },
+  computed: {
+    interpellationCategory: {
+      get () {
+        const type = this.$route.query.catType
+        const value = this.$route.query.catValue
+
+        if (!type || !value || !this.sayitStats[type]) {
+          return { ...DEFAULT_INTERPELLATION_CATEGORY }
+        }
+
+        if (this.sayitStats[type].find(stat => stat.name === value)) {
+          return { type, value }
+        }
+        return { ...DEFAULT_INTERPELLATION_CATEGORY }
+      },
+      set (category) {
+        this.$router.push({
+          name: this.$route.name,
+          params: this.$route.params,
+          query: {
+            catType: category.type,
+            catValue: category.value
+          }
+        })
+      }
+    },
+    townLabel () {
+      if (!this.councilor) {
+        return ''
+      }
+      const list = [...this.councilor.townList]
+      const lastTown = list[list.length - 1]
+      if (!lastTown.endsWith('區')) {
+        list[list.length - 1] = `${lastTown}區`
+      }
+      return list.join('.')
+    },
+    sayitStats () {
+      return get(this, 'sayit.stats', { org: [] })
+    },
+    sayList () {
+      const sayit = get(this, 'sayit.sayit', [])
+      return sayit.map((it) => {
+        return {
+          ...it,
+          councilorId: this.sayit.id,
+          councilRound: this.round
+        }
+      })
+    },
+    jobHistory () {
+      const history = this.councilor['job-history'] || '待撰寫'
+      return history.split('\n')
+    },
+    miscColumn () {
+      const title = this.councilor['misc-title']
+      const content = this.councilor['misc-content']
+      if (title && content) {
+        return {
+          title,
+          content: content.split('\n')
+        }
+      }
+      return undefined
+    },
+    jobPeriod () {
+      const period = this.councilor['job-period']
+      if (period === '完整') {
+        return ''
+      }
+      return period
+    }
+  },
+  mounted () {
+    if (this.councilor) {
+      scrollTo(this.$refs.head)
+    }
+  }
+})
+</script>
+<style lang="scss" scoped>
+.councilor {
+  padding: 1.75rem 0;
+
+  &__head {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+  }
+
+  &__district {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    line-height: normal;
+
+    span:first-child {
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  &__person {
+    margin: 1.5rem 0 2.25rem;
+    padding-bottom: 1.75rem;
+  }
+
+  &__basic {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    column-gap: 2.25rem;
+    align-items: center;
+    line-height: normal;
+  }
+
+  &__personMeta {
+    margin-top: 1.25rem;
+    line-height: normal;
+    h2 {
+      margin: 0 0 0.5rem;
+    }
+    p + p {
+      margin-top: 0.25rem;
+    }
+  }
+
+  &__jobPeriod {
+    color: $gray-9;
+  }
+  @include not-small-screen {
+    padding: 3.5rem 0;
+
+    &__head {
+      margin-top: 3.5rem;
+      padding-top: 3.5rem;
+    }
+
+    &__district {
+      font-size: 1.75rem;
+      letter-spacing: 2.33px;
+
+      span:first-child {
+        margin: 0 3rem 0 0;
+      }
+    }
+
+    &__person {
+      margin: 3.5rem 1rem 8.5rem;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 22rem 1fr;
+    }
+    &__basic {
+      grid-template-columns: 8.5rem 1fr;
+      column-gap: 1.75rem;
+      padding: 1.5rem 1rem 1.5rem 0;
+    }
+    &__personMeta {
+      margin-top: 0;
+      padding: 1.5rem 2.25rem;
+    }
+    &__person--misc {
+      grid-template-columns: 19.5rem 1fr 1fr;
+
+      .councilor__personMeta {
+        padding: 1.5rem 1.75rem;
+      }
+    }
+  }
+}
+</style>
