@@ -22,10 +22,6 @@
 選填設定：
 
 - SENTRY_DSN: [Sentry](sentry.io/) 的 DSN ，會用在前後端的所有錯誤回報中
-- source map 相關（升級到 Nuxt 4 後還沒設定 source map 上傳，下面三個目前沒用到）：
-  - SENTRY_AUTH_TOKEN
-  - SENTRY_ORG
-  - SENTRY_PROJECT
 
 ### 開發步驟
 
